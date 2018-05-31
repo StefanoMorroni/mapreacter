@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="/mapreacter/manifest.json">
-    <link rel="shortcut icon" href="/mapreacter/favicon.ico">
-    <title>mapreacter</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>.isprafooter{position:absolute;right:0;bottom:0;left:0;padding:10px;background-color:#fff;text-align:right}</style>
-  <script>
-    var config=
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="/mapreacter/manifest.json">
+<link rel="shortcut icon" href="/mapreacter/favicon.ico">
+<title>mapreacter</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<style>.isprafooter{position:absolute;right:0;bottom:0;left:0;padding:10px;background-color:#fff;text-align:right}</style>
+<script>
+var config=
 {
    "basemaps": [
       "mapbox",
@@ -52,15 +52,21 @@
    "regprovconf": [
       {
          "url": "http://193.206.192.107/geoserver/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=nnb:Reg_2016_WGS84",
+         "cql_filter": "",
          "wpsserviceurl": "http://193.206.192.107/geoserver/ows?strict:true",
-         "propertyname": "REGIONE",
-         "label": "reglabel"
+         "propertyname": "REGIONE"
       },
       {
          "url": "http://193.206.192.107/geoserver/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=nnb:CMprov2016_WGS84",
+         "cql_filter": "&CQL_FILTER=FLAG_CMPRO=2",
          "wpsserviceurl": "http://193.206.192.107/geoserver/ows?strict:true",
-         "propertyname": "PROVINCIA",
-         "label": "provlabel"
+         "propertyname": "PROVINCIA"
+      },
+      {
+         "url": "http://193.206.192.107/geoserver/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=nnb:CMprov2016_WGS84",
+         "cql_filter": "&CQL_FILTER=FLAG_CMPRO=1",
+         "wpsserviceurl": "http://193.206.192.107/geoserver/ows?strict:true",
+         "propertyname": "DEN_CMPRO"
       }
    ],
    "routing": [
@@ -121,8 +127,9 @@
          "legend": "Legenda",
          "toc": "TOC: elenco dei layer presenti in mappa",
          "regprovlabel": "Filtra per regione / provincia",
-         "REGIONE": "REGIONE",
-         "PROVINCIA": "PROVINCIA",
+         "REGIONE": "Regione",
+         "PROVINCIA": "Provincia",
+         "DEN_CMPRO": "Città Metropolitana",
          "addressautocompletelabel": "Cerca località ..."
       },
       "en": {
@@ -143,8 +150,9 @@
          "legend": "Legend",
          "toc": "TOC: layers list",
          "regprovlabel": "Filter by region / province",
-         "REGIONE": "REGION",
-         "PROVINCIA": "PROVINCE",
+         "REGIONE": "Region",
+         "PROVINCIA": "Province",
+         "DEN_CMPRO": "Metropolitan City",
          "addressautocompletelabel": "Search places ..."
       }
    },
@@ -159,18 +167,25 @@
          }
       }
    }
-}   
+}
+</script>
+<link href="/mapreacter/static/css/main.90c7265a.css" rel="stylesheet"></head>
+<body style="display:block;margin:0;overflow:hidden">
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="ispraheader" style="padding:10px;background-color:#fff;text-align:left;position:absolute;left:0;top:0;height:60px;width:100%">
+  <img src="/mapreacter/logo_MATTM.jpg" alt="logo_MATTM.jpg" height="60px"/>
+  <img src="/mapreacter/logoNaturaitalia.png" alt="logoNaturaitalia.png" height="60px" style="padding-left:20px"/>
+  <img src="/mapreacter/logo.png" alt="logo.png" height="60px" style="padding-left:20px"/>
+  </div>
+  <div id="root" style="position:absolute;left:0;top:80px;width:100%;height:calc(100% - 80px)"></div>
+  <script>
+    if (screen.width <= 480) {
+      document.getElementById("ispraheader").innerHTML =
+        "<img src='%PUBLIC_URL%/logo_MATTM.jpg'       alt='logo_MATTM.jpg'       style='height: 40px; padding: 10px;' />" +
+        "<img src='%PUBLIC_URL%/logoNaturaitalia.png' alt='logoNaturaitalia.png' style='height: 40px; padding: 10px;' />" +
+        "<img src='%PUBLIC_URL%/logo.png'             alt='logo.png'             style='height: 40px; padding: 10px;' />";
+    }
   </script>
-  <link href="/mapreacter/static/css/main.90c7265a.css" rel="stylesheet"></head>
-  <body style="display:block;margin:0;overflow:hidden">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="ispraheader" style="padding:10px;background-color:#fff;text-align:left;position:absolute;left:0;top:0;height:60px;width:100%">
-      <img src="/mapreacter/logo_MATTM.jpg" alt="logo_MATTM.jpg" height="60px"/>
-      <img src="/mapreacter/logoNaturaitalia.png" alt="logoNaturaitalia.png" height="60px" style="padding-left:20px"/>
-      <img src="/mapreacter/logo.png" alt="logo.png" height="60px" style="padding-left:20px"/>
-    </div>
-    <div id="root" style="position:absolute;left:0;top:80px;width:100%;height:calc(100% - 80px)"></div>
-  <script>screen.width<=480&&(document.getElementById("ispraheader").innerHTML="<img src='/mapreacter/logo_MATTM.jpg'       alt='logo_MATTM.jpg'       style='height: 40px; padding: 10px;' /><img src='/mapreacter/logoNaturaitalia.png' alt='logoNaturaitalia.png' style='height: 40px; padding: 10px;' /><img src='/mapreacter/logo.png'             alt='logo.png'             style='height: 40px; padding: 10px;' />")</script>
-  <script type="text/javascript" src="/mapreacter/static/js/main.e89c9c81.js"></script>
-  </body>
+  <script type="text/javascript" src="/mapreacter/static/js/main.c7e73766.js"></script>
+</body>
 </html>
