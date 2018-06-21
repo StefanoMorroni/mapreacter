@@ -543,12 +543,7 @@
 		</div>
 		<div id="root" style="position:absolute;left:0;top:80px;width:100%;height:calc(100% - 80px)"></div>
 		<script>
-			if (screen.width <= 480) {
-				document.getElementById("ispraheader").innerHTML =
-				"<img src='/mapreacter/logo_MATTM.jpg' alt='' style='height: 40px; padding: 10px;' />" +
-				"<img src='/mapreacter/logoNaturaitalia.png' alt='' style='height: 40px; padding: 10px;' />" +
-				"<img src='/mapreacter/logo.png' alt='' style='height: 40px; padding: 10px;' />";
-			}
+			screen.width<=480&&(document.getElementById("ispraheader").innerHTML="<img src='/mapreacter/logo_MATTM.jpg' alt='' style='height: 40px; padding: 10px;' /><img src='/mapreacter/logoNaturaitalia.png' alt='' style='height: 40px; padding: 10px;' /><img src='/mapreacter/logo.png' alt='' style='height: 40px; padding: 10px;' />")
 		</script>
 		<script type="text/javascript" src="/mapreacter/static/js/main.feaca6ea.js"></script>
 	</body>
