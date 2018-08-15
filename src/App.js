@@ -24,6 +24,7 @@ import TassonomiaAutoComplete from './components/TassonomiaAutoComplete';
 import RefreshIndicatorComponent from './components/RefreshIndicatorComponent';
 import MeasureComponent from './components/MeasureComponent';
 import TocComponent from './components/TocComponent';
+import HistoryComponent from './components/HistoryComponent';
 import LangComponent from './components/LangComponent';
 import ConfComponent from './components/ConfComponent';
 import RegProvAutocomplete from './components/RegProvAutocomplete';
@@ -314,6 +315,8 @@ class App extends Component {
                       <ConfComponent />
 
                       <TocComponent />
+
+                      <HistoryComponent />
 
                       <TassonomiaAutoComplete />
 

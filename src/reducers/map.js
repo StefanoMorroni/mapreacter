@@ -3,7 +3,8 @@ let defaultState = {
   viewparams: '',
   refreshIndicator: { status: 'hide' },
   measureComponent: { open: false },
-  regProvComponent: {}
+  regProvAutocomplete: { selectedItem: [] },
+  tassonomiaAutoComplete: { selectedItem: [] }
 };
 
 export default function MapReducer(state = defaultState, action) {
@@ -38,11 +39,17 @@ export default function MapReducer(state = defaultState, action) {
       });
       return state;
 
-    case 'LOCAL.CHANGEREGPROVCOMPONENT':
+    case 'LOCAL.CHANGEREGPROVAUTOCOMPLETE':
       state = Object.assign({}, state, {
-        regProvComponent: action.payload['regProvComponent']
+        regProvAutocomplete: action.payload['regProvAutocomplete']
       });
       return state;
+
+    case 'LOCAL.CHANGETASSONOMIAAUTOCOMPLETE':
+      state = Object.assign({}, state, {
+        tassonomiaAutoComplete: action.payload['tassonomiaAutoComplete']
+      });
+      return state;      
 
     default:
       return state;

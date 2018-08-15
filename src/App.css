@@ -374,3 +374,43 @@ li.sdk-layer-group {
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text; }
+
+.history-supercontainer {
+  color: #fff;
+  font-family: Roboto, Courier, monospace;
+  font-size: 16px;
+  -webkit-padding-start: 0;
+  max-height: 240px;
+  overflow-y: auto; }
+
+.history-container {
+  display: grid;
+  grid-template-columns: auto 140px;
+  grid-template-rows: auto;
+  padding-bottom: 10px; }
+
+.history-container .div1 {
+  text-align: left;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 5px;
+  padding-right: 0; }
+
+.history-container .div2 {
+  text-align: right; }
+
+.history-container .title {
+  font-size: 16px;
+  font-style: bold;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0; }
+
+.history-container .button {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 0;
+  min-width: 0;
+  min-height: 0; }

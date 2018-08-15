@@ -54,8 +54,8 @@ export const updateLayersWithViewparams = (params) => {
     }
 
     let filter='';
-    if (local.regProvComponent['filter']) {
-      filter=local.regProvComponent['filter'];
+    if (local.regProvAutocomplete['filter']) {
+      filter=local.regProvAutocomplete['filter'];
       console.log("map.updateLayersWithViewparams()", filter);
     }    
     local.mapConfig.layers.forEach((rec, i) => {
@@ -117,11 +117,20 @@ export const changeMeasureComponent = (measureComponent) => {
   };
 }
 
-export const changeRegProvComponent = (regProvComponent) => {
+export const changeRegProvComponent = (regProvAutocomplete) => {
   return {
-    type: 'LOCAL.CHANGEREGPROVCOMPONENT',
+    type: 'LOCAL.CHANGEREGPROVAUTOCOMPLETE',
     payload: {
-      regProvComponent: regProvComponent
+      regProvAutocomplete: regProvAutocomplete
+    }
+  };
+}
+
+export const changeTassonomiaAutoComplete = (tassonomiaAutoComplete) => {
+  return {
+    type: 'LOCAL.CHANGETASSONOMIAAUTOCOMPLETE',
+    payload: {
+      tassonomiaAutoComplete: tassonomiaAutoComplete
     }
   };
 }

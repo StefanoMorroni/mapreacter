@@ -16,6 +16,7 @@ import WKT from 'ol/format/wkt';
 import { mylocalizedstrings } from '../services/localizedstring';
 import * as actions from '../actions/map';
 import * as mapActions from '@boundlessgeo/sdk/actions/map';
+import { historydb } from './HistoryComponent'
 
 
 var axios = require('axios');
@@ -51,7 +52,7 @@ const styles = theme => ({
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
-  console.log("RegProvAutocomplete.renderInput()");
+  //console.log("RegProvAutocomplete.renderInput()");
   return (
     <TextField
       InputProps={{
@@ -166,7 +167,18 @@ class RegProvAutocomplete extends React.Component {
     });
   }
 
-
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //console.log("RegProvAutocomplete.componentDidUpdate()",JSON.stringify(prevProps.local.regProvAutocomplete.selectedItem),JSON.stringify(this.props.local.regProvAutocomplete.selectedItem));
+    if (this.props.local.regProvAutocomplete.selectedItem) {
+      //console.log("RegProvAutocomplete.componentDidUpdate() step 2");
+      if (this.props.local.regProvAutocomplete.selectedItem !== prevProps.local.regProvAutocomplete.selectedItem) {
+        //console.log("RegProvAutocomplete.componentDidUpdate() step 2.2");
+        this.setState({ selectedItem: this.props.local.regProvAutocomplete.selectedItem });
+        console.log("RegProvAutocomplete.componentDidUpdate() this.state.selectedItem ->", JSON.stringify(this.props.local.regProvAutocomplete.selectedItem));
+      }
+    }
+  }
+  
   handleKeyDown = event => {
     console.log("RegProvAutocomplete.handleKeyDown()");
     const { inputValue, selectedItem } = this.state;
@@ -268,15 +280,55 @@ class RegProvAutocomplete extends React.Component {
         let filter = '&cql_filter=INTERSECTS(geom,' + feature_wkt + ')';
 
         console.log("RegProvAutocomplete.handleChange() filter -->", filter);
-        this.props.changeRegProvComponent({ filter: filter });
+        this.props.changeRegProvComponent({ 
+          selectedItem: [item],
+          features: response.data, 
+          filter: filter 
+        });
         this.handlePermalinkMask(selectedRecord);
-        this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
-
+        let viewparams = decodeURIComponent(window.location.hash).replace(/^#\//, '');
+        this.props.updateLayersWithViewparams(viewparams.split("/"));
         this.props.addFeatures("regioni_province", response.data);
+        this.handleHistory({
+          selectedItem: [item],
+          features: response.data,
+          filter: filter
+        });                
       })
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  handleHistory = (regProvAutocomplete) => {
+    let viewparams = decodeURIComponent(window.location.hash).replace(/^#\//, '');
+    let doc = {
+      _id: viewparams,
+      regProvAutocomplete: regProvAutocomplete,
+      tassonomiaAutoComplete: {
+        selectedItem: this.props.local.tassonomiaAutoComplete.selectedItem,
+        selectedRecord: this.props.local.tassonomiaAutoComplete.selectedRecord,
+      }
+    }
+    historydb.put(doc).then( () => {
+      console.log('RegProvAutocomplete.handleHistory(), insert ->', JSON.stringify(doc));
+    }).catch( err => {
+      if (err.name === 'conflict') {
+        historydb.get(viewparams).then( doc => {
+          console.log('RegProvAutocomplete.handleHistory(), get ->', JSON.stringify(doc));
+          doc.regProvAutocomplete.selectedItem = regProvAutocomplete.selectedItem;
+          doc.regProvAutocomplete.features = regProvAutocomplete.features;
+          doc.regProvAutocomplete.filter = regProvAutocomplete.filter;
+          historydb.put(doc).then( () => {
+            console.log('RegProvAutocomplete.handleHistory(), update ->', JSON.stringify(doc));
+          }).catch( err => {
+            console.error('RegProvAutocomplete.handleHistory()', err);
+          });
+        });
+      } else {
+        console.error('RegProvAutocomplete.handleHistory()', err);
+      }
+    });  
   }
 
   handleDelete = item => () => {
@@ -284,9 +336,10 @@ class RegProvAutocomplete extends React.Component {
     selectedItem.splice(selectedItem.indexOf(item), 1);
     this.setState({ selectedItem });
     console.log("RegProvAutocomplete.handleDelete()", item);
-    this.props.changeRegProvComponent({});
+    this.props.changeRegProvComponent({ selectedItem: [] });
     this.handlePermalinkMask();
     this.props.removeFeatures("regioni_province");
+    this.handleHistory({ selectedItem: [] });
   };
 
   handlePermalinkMask(selectedRecord = {}) {
@@ -346,7 +399,7 @@ class RegProvAutocomplete extends React.Component {
   }
 
   render() {
-    console.log("RegProvAutocomplete.render()");
+    //console.log("RegProvAutocomplete.render()");
     const { classes } = this.props;
     const { inputValue, selectedItem } = this.state;
 
