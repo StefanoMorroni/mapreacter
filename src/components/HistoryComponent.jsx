@@ -64,9 +64,9 @@ class HistoryComponent extends Component {
         this.props.removeFeatures("regioni_province");
         historydb.get(id).then(doc => {
             console.log('HistoryComponent.goTo(), get ->', JSON.stringify(doc));
-            this.props.changeTassonomiaAutoComplete({
-                selectedItem: doc.tassonomiaAutoComplete['selectedItem'],
-                selectedRecord: doc.tassonomiaAutoComplete['selectedRecord'],
+            this.props.changeSearchAutocomplete({
+                selectedItem: doc.searchAutocomplete['selectedItem'],
+                selectedRecord: doc.searchAutocomplete['selectedRecord'],
             });
             this.props.changeRegProvComponent({
                 selectedItem: doc.regProvAutocomplete['selectedItem'],
@@ -173,8 +173,8 @@ const mapDispatchToProps = (dispatch) => {
         removeFeatures: (sourceName, filter) => {
             dispatch(mapActions.removeFeatures(sourceName, filter));
         },
-        changeTassonomiaAutoComplete: (params) => {
-            dispatch(actions.changeTassonomiaAutoComplete(params));
+        changeSearchAutocomplete: (params) => {
+            dispatch(actions.changeSearchAutocomplete(params));
         },                
     };
 };

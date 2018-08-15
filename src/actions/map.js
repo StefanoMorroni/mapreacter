@@ -117,20 +117,11 @@ export const changeMeasureComponent = (measureComponent) => {
   };
 }
 
-export const changeRegProvComponent = (regProvAutocomplete) => {
+export const changeSearchAutocomplete = (searchAutocomplete) => {
   return {
-    type: 'LOCAL.CHANGEREGPROVAUTOCOMPLETE',
+    type: 'LOCAL.CHANGESEARCHAUTOCOMPLETE',
     payload: {
-      regProvAutocomplete: regProvAutocomplete
-    }
-  };
-}
-
-export const changeTassonomiaAutoComplete = (tassonomiaAutoComplete) => {
-  return {
-    type: 'LOCAL.CHANGETASSONOMIAAUTOCOMPLETE',
-    payload: {
-      tassonomiaAutoComplete: tassonomiaAutoComplete
+      searchAutocomplete: searchAutocomplete
     }
   };
 }

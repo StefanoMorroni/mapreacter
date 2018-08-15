@@ -19,7 +19,6 @@ import { createVectorSourceFromStyle, createRasterSourceFromStyle } from './serv
 import MapReducer from './reducers/map';
 import * as configActions from './actions/map';
 import Map from './components/Map';
-import TassonomiaAutoComplete from './components/TassonomiaAutoComplete';
 //import { mylocalizedstrings } from './services/localizedstring';
 import RefreshIndicatorComponent from './components/RefreshIndicatorComponent';
 import MeasureComponent from './components/MeasureComponent';
@@ -27,10 +26,10 @@ import TocComponent from './components/TocComponent';
 import HistoryComponent from './components/HistoryComponent';
 import LangComponent from './components/LangComponent';
 import ConfComponent from './components/ConfComponent';
-import RegProvAutocomplete from './components/RegProvAutocomplete';
 import GeocodingAutoComplete from './components/GeocodingAutoComplete';
 import BrowserVerComponent from './components/BrowserVerComponent';
 import ErrorBoundary from './ErrorBoundary';
+import SearchAutocomplete from './components/SearchAutocomplete';
 
 
 import './App.css';
@@ -318,9 +317,7 @@ class App extends Component {
 
                       <HistoryComponent />
 
-                      <TassonomiaAutoComplete />
-
-                      <RegProvAutocomplete />
+                      <SearchAutocomplete />
 
                       <GeocodingAutoComplete />
 
