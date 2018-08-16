@@ -54,8 +54,8 @@ export const updateLayersWithViewparams = (params) => {
     }
 
     let filter='';
-    if (local.regProvAutocomplete['filter']) {
-      filter=local.regProvAutocomplete['filter'];
+    if (local.searchAutocomplete['filter']) {
+      filter=local.searchAutocomplete['filter'];
       console.log("map.updateLayersWithViewparams()", filter);
     }    
     local.mapConfig.layers.forEach((rec, i) => {

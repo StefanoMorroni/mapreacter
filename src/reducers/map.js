@@ -3,7 +3,6 @@ let defaultState = {
   viewparams: '',
   refreshIndicator: { status: 'hide' },
   measureComponent: { open: false },
-  regProvAutocomplete: { selectedItem: [] },
   searchAutocomplete: { selectedItem: [] }
 };
 

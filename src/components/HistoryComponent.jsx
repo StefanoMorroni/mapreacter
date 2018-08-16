@@ -66,15 +66,12 @@ class HistoryComponent extends Component {
             console.log('HistoryComponent.goTo(), get ->', JSON.stringify(doc));
             this.props.changeSearchAutocomplete({
                 selectedItem: doc.searchAutocomplete['selectedItem'],
-                selectedRecord: doc.searchAutocomplete['selectedRecord'],
+                //selectedRecord: doc.searchAutocomplete['selectedRecord'],
+                features: doc.searchAutocomplete['features'],
+                filter: doc.searchAutocomplete['filter']
             });
-            this.props.changeRegProvComponent({
-                selectedItem: doc.regProvAutocomplete['selectedItem'],
-                features: doc.regProvAutocomplete['features'],
-                filter: doc.regProvAutocomplete['filter']
-            });
-            if (doc.regProvAutocomplete.features) {
-                this.props.addFeatures("regioni_province", doc.regProvAutocomplete.features);
+            if (doc.searchAutocomplete.features) {
+                this.props.addFeatures("regioni_province", doc.searchAutocomplete.features);
             }
             this.props.setViewParams(doc._id);
             this.props.updateLayersWithViewparams(doc._id.split("/"));

@@ -130,16 +130,16 @@ class ConfComponent extends Component {
                     </MenuItem>
 
                     <MenuItem onClick={(event) => {
-                        downloadFile(this.props.local.mapConfig.downloadCSVUrl, this.getActiveLayers(), '.csv', this.props.local.regProvAutocomplete['filter']);
+                        downloadFile(this.props.local.mapConfig.downloadCSVUrl, this.getActiveLayers(), '.csv', this.props.local.searchAutocomplete['filter']);
                         this.handleCloseMenu();
                     }}>
                         <i className="material-icons">file_download</i><span style={{ padding: '10px' }}>CSV</span>
                     </MenuItem>
 
                     <MenuItem
-                        disabled={navigator.userAgent.indexOf("Edge")>-1 && this.props.local.regProvAutocomplete['filter'] && this.props.local.regProvAutocomplete.filter.length>2000}
+                        disabled={navigator.userAgent.indexOf("Edge")>-1 && this.props.local.searchAutocomplete['filter'] && this.props.local.searchAutocomplete.filter.length>2000}
                         onClick={(event) => {
-                            downloadFile(this.props.local.mapConfig.downloadShapefileUrl, this.getActiveLayers(), '.zip', this.props.local.regProvAutocomplete['filter']);
+                            downloadFile(this.props.local.mapConfig.downloadShapefileUrl, this.getActiveLayers(), '.zip', this.props.local.searchAutocomplete['filter']);
                             this.handleCloseMenu();
                         }}>
                         <i className="material-icons">file_download</i><span style={{ padding: '10px' }}>Shapefile</span>
