@@ -182,19 +182,7 @@ class SearchAutocomplete extends React.Component {
         });
     });
   }
-
-  /*componentDidUpdate(prevProps, prevState, snapshot) {
-    //console.log("SearchAutocomplete.componentDidUpdate()",JSON.stringify(prevProps.local.searchAutocomplete.selectedItem),JSON.stringify(this.props.local.searchAutocomplete.selectedItem));
-    if (this.props.local.searchAutocomplete.selectedItem) {
-      //console.log("SearchAutocomplete.componentDidUpdate() step 2");
-      if (this.props.local.searchAutocomplete.selectedItem !== prevProps.local.searchAutocomplete.selectedItem) {
-        //console.log("SearchAutocomplete.componentDidUpdate() step 2.2");
-        this.setState({ selectedItem: this.props.local.searchAutocomplete.selectedItem });
-        console.log("SearchAutocomplete.componentDidUpdate() this.state.selectedItem ->", JSON.stringify(this.props.local.searchAutocomplete.selectedItem));
-      }
-    }
-  }*/
-  
+ 
   handleKeyDown = event => {
     console.log("SearchAutocomplete.handleKeyDown()");
     const { inputValue, selectedItem } = this.state;
