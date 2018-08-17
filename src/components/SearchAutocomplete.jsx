@@ -182,7 +182,23 @@ class SearchAutocomplete extends React.Component {
         });
     });
   }
- 
+
+  componentWillReceiveProps(nextProps) {
+    const { selectedItem } = this.state;
+    if (nextProps.local.searchAutocomplete.selectedItem !== selectedItem) {
+      console.log("SearchAutocomplete.componentWillReceiveProps()", 
+        "selectedItem ->", JSON.stringify(nextProps.local.searchAutocomplete.selectedItem), 
+        "selectedItemRegProv ->", JSON.stringify(nextProps.local.searchAutocomplete.selectedItemRegProv),
+        "selectedItemTassonomia ->", JSON.stringify(nextProps.local.searchAutocomplete.selectedItemTassonomia));
+      
+      this.setState({
+        selectedItem: nextProps.local.searchAutocomplete.selectedItem,
+        selectedItemRegProv: nextProps.local.searchAutocomplete.selectedItemRegProv,
+        selectedItemTassonomia: nextProps.local.searchAutocomplete.selectedItemTassonomia,
+      });
+    }
+  }
+
   handleKeyDown = event => {
     console.log("SearchAutocomplete.handleKeyDown()");
     const { inputValue, selectedItem } = this.state;
