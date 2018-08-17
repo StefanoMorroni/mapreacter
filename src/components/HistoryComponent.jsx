@@ -64,12 +64,7 @@ class HistoryComponent extends Component {
         this.props.removeFeatures("regioni_province");
         historydb.get(id).then(doc => {
             console.log('HistoryComponent.goTo(), get ->', JSON.stringify(doc));
-            this.props.changeSearchAutocomplete({
-                selectedItem: doc.searchAutocomplete['selectedItem'],
-                //selectedRecord: doc.searchAutocomplete['selectedRecord'],
-                features: doc.searchAutocomplete['features'],
-                filter: doc.searchAutocomplete['filter']
-            });
+            this.props.changeSearchAutocomplete(doc.searchAutocomplete);
             if (doc.searchAutocomplete.features) {
                 this.props.addFeatures("regioni_province", doc.searchAutocomplete.features);
             }
