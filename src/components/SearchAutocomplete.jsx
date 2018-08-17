@@ -276,16 +276,26 @@ class SearchAutocomplete extends React.Component {
       return this.getSuggestions(_item)[0];
     });
     console.log("SearchAutocomplete.handleChange() suggestions ->", JSON.stringify(suggestions));
-
+    this.handlePermalinkMask(suggestions);
+    
     if (record.mask === '<REGPROV>') {
       this.handleChangeRegProv(item, record);
-    }    
-    this.handlePermalinkMask(suggestions);
-
-    /*this.handleHistory({ 
-      selectedItem,
-      suggestions
-    });*/
+    } else {
+      this.props.changeSearchAutocomplete({ 
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,
+        features: this.props.local.searchAutocomplete.features,
+        filter: this.props.local.searchAutocomplete.filter
+      });
+      this.handleHistory({
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,
+        features: this.props.local.searchAutocomplete.features,
+        filter: this.props.local.searchAutocomplete.filter
+      });      
+    }
   };  
 
 
@@ -367,18 +377,23 @@ class SearchAutocomplete extends React.Component {
         let filter = '&cql_filter=INTERSECTS(geom,' + feature_wkt + ')';
 
         console.log("SearchAutocomplete.handleChange() filter -->", filter);
-        this.props.changeSearchAutocomplete({ 
-          features: response.data, 
-          filter: filter 
-        });
         let viewparams = decodeURIComponent(window.location.hash).replace(/^#\//, '');
         this.props.updateLayersWithViewparams(viewparams.split("/"));
         this.props.addFeatures("regioni_province", response.data);
-        /*this.handleHistory({
-          selectedItem: [item],
+        this.props.changeSearchAutocomplete({ 
+          selectedItem: this.state.selectedItem,
+          selectedItemRegProv: this.state.selectedItemRegProv,
+          selectedItemTassonomia: this.state.selectedItemTassonomia,
+          features: response.data, 
+          filter: filter 
+        });
+        this.handleHistory({
+          selectedItem: this.state.selectedItem,
+          selectedItemRegProv: this.state.selectedItemRegProv,
+          selectedItemTassonomia: this.state.selectedItemTassonomia,
           features: response.data,
           filter: filter
-        }); */      
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -397,9 +412,7 @@ class SearchAutocomplete extends React.Component {
       if (err.name === 'conflict') {
         historydb.get(viewparams).then( doc => {
           console.log('SearchAutocomplete.handleHistory(), get ->', JSON.stringify(doc));
-          doc.searchAutocomplete.selectedItem = searchAutocomplete.selectedItem;
-          doc.searchAutocomplete.features = searchAutocomplete.features;
-          doc.searchAutocomplete.filter = searchAutocomplete.filter;
+          doc.searchAutocomplete = searchAutocomplete;
           historydb.put(doc).then( () => {
             console.log('SearchAutocomplete.handleHistory(), update ->', JSON.stringify(doc));
           }).catch( err => {
@@ -444,14 +457,36 @@ class SearchAutocomplete extends React.Component {
       return this.getSuggestions(_item)[0];
     });
     console.log("SearchAutocomplete.handleDelete() suggestions ->", JSON.stringify(suggestions));
-
+    this.handlePermalinkMask(suggestions);   
+    
     if (record.mask === '<REGPROV>') {
       this.props.removeFeatures("regioni_province");
-      this.props.changeSearchAutocomplete({ });
-      //this.handleHistory({ });        
-    }
-    
-    this.handlePermalinkMask(suggestions);   
+      this.props.changeSearchAutocomplete({ 
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,        
+      });
+      this.handleHistory({ 
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,        
+      });        
+    } else {
+      this.props.changeSearchAutocomplete({ 
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,
+        features: this.props.local.searchAutocomplete.features,
+        filter: this.props.local.searchAutocomplete.filter        
+      });
+      this.handleHistory({ 
+        selectedItem,
+        selectedItemRegProv,
+        selectedItemTassonomia,
+        features: this.props.local.searchAutocomplete.features,
+        filter: this.props.local.searchAutocomplete.filter            
+      });
+    }    
   };
 
   handlePermalinkMask(suggestions) {
