@@ -3,7 +3,7 @@ let defaultState = {
   viewparams: '',
   refreshIndicator: { status: 'hide' },
   measureComponent: { open: false },
-  searchAutocomplete: { selectedItem: [] }
+  searchAutocomplete: { selectedItem: [], selectedItemRegProv:[], selectedItemTassonomia:[] }
 };
 
 export default function MapReducer(state = defaultState, action) {
