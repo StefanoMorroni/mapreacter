@@ -109,9 +109,10 @@ class HistoryComponent extends Component {
                             <div className="history-supercontainer">
                                 {rows.length <= 0 ? <span className="title">{mylocalizedstrings.no_data_to_display}</span> : <span />}
                                 {rows.map(rec => {
+                                    let xx = rec.doc._id.split("/").slice(0,10).filter(word => word!=='*').join(', ');
                                     return (
                                         <div className="history-container" key={rec.key}>
-                                            <div className="div1"><span className="title">{rec.doc._id}</span> </div>
+                                            <div className="div1"><span className="title">{xx}</span> </div>
                                             <div className="div2">
                                                 <Button className="button"
                                                     onClick={() => {
