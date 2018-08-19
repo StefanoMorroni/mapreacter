@@ -80,7 +80,7 @@ class HistoryComponent extends Component {
         console.log("HistoryComponent.render() rows.length -> ", rows.length);
         return (
             <div>
-                <Tooltip title='Storico delle ricerche'>
+                <Tooltip title={mylocalizedstrings.history_tooltip}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">play_circle_outline</i>
                     </IconButton>
@@ -110,6 +110,7 @@ class HistoryComponent extends Component {
                                 {rows.length <= 0 ? <span className="title">{mylocalizedstrings.no_data_to_display}</span> : <span />}
                                 {rows.map(rec => {
                                     let xx = rec.doc._id.split("/").slice(0,10).filter(word => word!=='*').join(', ');
+                                    if (xx === '') return;
                                     return (
                                         <div className="history-container" key={rec.key}>
                                             <div className="div1"><span className="title">{xx}</span> </div>
