@@ -146,6 +146,14 @@ class SearchAutocomplete extends React.Component {
     };
 
     console.log("SearchAutocomplete() this.state:", JSON.stringify(this.state));
+    
+    let newstate = { 
+      selectedItem: [...selectedItemRegProv, ...selectedItemTassonomia],
+      selectedItemRegProv,
+      selectedItemTassonomia,
+    }
+    this.props.changeSearchAutocomplete(newstate);
+    this.handleHistory(newstate);
 
     this.props.local.mapConfig.regprovconf.forEach(_record => {
       const url = _record.url + _record.cql_filter + '&outputFormat=application/json&propertyName=' + _record.propertyname;
@@ -153,28 +161,26 @@ class SearchAutocomplete extends React.Component {
       axios.get(url)
         .then((response) => {
           console.log("SearchAutocomplete() response:", JSON.stringify(response.data));
-          this.setState(prevState => {
-            try {
-              return {
-                suggestions: prevState.suggestions.concat(
-                  response.data.features.map(_feature => {
-                    return ({
-                      label: _feature.properties[_record.propertyname],
-                      sublabel: _record.propertyname,
-                      mask: '<REGPROV>',
-                      feature: _feature,
-                      url: _record.url,
-                      wpsserviceurl: _record.wpsserviceurl
-                    });
-                  })
-                )
-              }
-            } catch (error) {
-              return {};
-            }
+
+          let newsuggestions = response.data.features.map(_feature => {
+            return ({
+              label: _feature.properties[_record.propertyname],
+              sublabel: _record.propertyname,
+              mask: '<REGPROV>',
+              feature: _feature,
+              url: _record.url,
+              wpsserviceurl: _record.wpsserviceurl
+            });
           });
+
+          this.setState(prevState => { return ({ suggestions: [...prevState.suggestions, ...newsuggestions] }) });
+
           if (this.state.selectedItemRegProv[0]) {
-            this.handleChange(this.state.selectedItemRegProv[0]);
+            newsuggestions.forEach( element => {
+              if (element.label === this.state.selectedItemRegProv[0]) {
+                this.handleChange(this.state.selectedItemRegProv[0]);
+              }
+            });
           }
         })
         .catch((error) => {
@@ -185,7 +191,7 @@ class SearchAutocomplete extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { selectedItem } = this.state;
-    if (nextProps.local.searchAutocomplete.selectedItem !== selectedItem) {
+    if (JSON.stringify(nextProps.local.searchAutocomplete.selectedItem) !== JSON.stringify(selectedItem)) {
       console.log("SearchAutocomplete.componentWillReceiveProps()", 
         "selectedItem ->", JSON.stringify(nextProps.local.searchAutocomplete.selectedItem), 
         "selectedItemRegProv ->", JSON.stringify(nextProps.local.searchAutocomplete.selectedItemRegProv),
@@ -264,8 +270,8 @@ class SearchAutocomplete extends React.Component {
     }
     selectedItem = [...selectedItemRegProv, ...selectedItemTassonomia];
 
-    console.log("SearchAutocomplete.handleChange()", 
-      "selectedItem ->", JSON.stringify(selectedItem), 
+    console.log("SearchAutocomplete.handleChange()",
+      "selectedItem ->", JSON.stringify(selectedItem),
       "selectedItemRegProv ->", JSON.stringify(selectedItemRegProv),
       "selectedItemTassonomia ->", JSON.stringify(selectedItemTassonomia));
 
@@ -276,35 +282,24 @@ class SearchAutocomplete extends React.Component {
       selectedItemTassonomia,
     });
 
+    let newstate = Object.assign(this.props.local.searchAutocomplete, {
+      selectedItem,
+      selectedItemRegProv,
+      selectedItemTassonomia,
+    });
+    this.props.changeSearchAutocomplete(newstate);
+
     let suggestions = selectedItem.map((_item) => {
       return this.getSuggestions(_item)[0];
     });
     console.log("SearchAutocomplete.handleChange() suggestions ->", JSON.stringify(suggestions));
-    this.handlePermalinkMask(suggestions);
     
-    if (record.mask === '<REGPROV>') {
-      this.handleChangeRegProv(item, record);
-    } else {
-      this.props.changeSearchAutocomplete({ 
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,
-        features: this.props.local.searchAutocomplete.features,
-        filter: this.props.local.searchAutocomplete.filter
-      });
-      this.handleHistory({
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,
-        features: this.props.local.searchAutocomplete.features,
-        filter: this.props.local.searchAutocomplete.filter
-      });      
+    if (record.mask !== '<REGPROV>') {
+      this.handlePermalinkMask(suggestions);
+      this.handleHistory(newstate);
+      return;
     }
-  };  
 
-
-  handleChangeRegProv = (item, suggestions) => {
-      
     this.props.removeFeatures("regioni_province");
 
     let _data =
@@ -359,13 +354,14 @@ class SearchAutocomplete extends React.Component {
       '  </wps:ResponseForm>\n' +
       '</wps:Execute>';
 
+    let regprovsuggestion = this.getSuggestions(item)[0];
     let _data2 = _data
-      .replace("<WFSURL>", encodeURI(suggestions.url).replace(/&/g, '&amp;'))
-      .replace("<FEATUREID>", suggestions.feature.id)
+      .replace("<WFSURL>", encodeURI(regprovsuggestion.url).replace(/&/g, '&amp;'))
+      .replace("<FEATUREID>", regprovsuggestion.feature.id)
       .replace("<SRSNAME>", "EPSG:4326")
       .replace("<MIMETYPE>", "application/json");
-    let url = suggestions.wpsserviceurl;
-    console.log("POST", url, _data2);
+    let url = regprovsuggestion.wpsserviceurl;
+    console.log("SearchAutocomplete.handleChange() POST", url, _data2);
     axios({
       method: 'post',
       url: url,
@@ -381,23 +377,11 @@ class SearchAutocomplete extends React.Component {
         let filter = '&cql_filter=INTERSECTS(geom,' + feature_wkt + ')';
 
         console.log("SearchAutocomplete.handleChange() filter -->", filter);
-        let viewparams = decodeURIComponent(window.location.hash).replace(/^#\//, '');
-        this.props.updateLayersWithViewparams(viewparams.split("/"));
         this.props.addFeatures("regioni_province", response.data);
-        this.props.changeSearchAutocomplete({ 
-          selectedItem: this.state.selectedItem,
-          selectedItemRegProv: this.state.selectedItemRegProv,
-          selectedItemTassonomia: this.state.selectedItemTassonomia,
-          features: response.data, 
-          filter: filter 
-        });
-        this.handleHistory({
-          selectedItem: this.state.selectedItem,
-          selectedItemRegProv: this.state.selectedItemRegProv,
-          selectedItemTassonomia: this.state.selectedItemTassonomia,
-          features: response.data,
-          filter: filter
-        });
+        let newstate = Object.assign(this.props.local.searchAutocomplete, { features: response.data, filter });
+        this.props.changeSearchAutocomplete(newstate);
+        this.handlePermalinkMask(suggestions);
+        this.handleHistory(newstate);
       })
       .catch((error) => {
         console.error(error);
@@ -415,16 +399,16 @@ class SearchAutocomplete extends React.Component {
     }).catch( err => {
       if (err.name === 'conflict') {
         historydb.get(viewparams).then( doc => {
-          console.log('SearchAutocomplete.handleHistory(), get ->', JSON.stringify(doc));
+          //console.log('SearchAutocomplete.handleHistory(), get ->', JSON.stringify(doc));
           doc.searchAutocomplete = searchAutocomplete;
           historydb.put(doc).then( () => {
             console.log('SearchAutocomplete.handleHistory(), update ->', JSON.stringify(doc));
           }).catch( err => {
-            console.error('SearchAutocomplete.handleHistory()', err);
+            console.error('SearchAutocomplete.handleHistory()', err, JSON.stringify(doc));
           });
         });
       } else {
-        console.error('SearchAutocomplete.handleHistory()', err);
+        console.error('SearchAutocomplete.handleHistory()', err, JSON.stringify(doc));
       }
     });  
   }
@@ -464,31 +448,19 @@ class SearchAutocomplete extends React.Component {
     
     if (record.mask === '<REGPROV>') {
       this.props.removeFeatures("regioni_province");
-      this.props.changeSearchAutocomplete({ 
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,        
+      let newstate = Object.assign(this.props.local.searchAutocomplete, { 
+        selectedItem, 
+        selectedItemRegProv, 
+        selectedItemTassonomia, 
+        features: undefined,
+        filter: undefined, 
       });
-      this.handleHistory({ 
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,        
-      });        
+      this.props.changeSearchAutocomplete(newstate);
+      this.handleHistory(newstate);
     } else {
-      this.props.changeSearchAutocomplete({ 
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,
-        features: this.props.local.searchAutocomplete.features,
-        filter: this.props.local.searchAutocomplete.filter        
-      });
-      this.handleHistory({ 
-        selectedItem,
-        selectedItemRegProv,
-        selectedItemTassonomia,
-        features: this.props.local.searchAutocomplete.features,
-        filter: this.props.local.searchAutocomplete.filter            
-      });
+      let newstate = Object.assign(this.props.local.searchAutocomplete, { selectedItem, selectedItemRegProv, selectedItemTassonomia });
+      this.props.changeSearchAutocomplete(newstate);
+      this.handleHistory(newstate);
     }    
   };
 
@@ -539,7 +511,8 @@ class SearchAutocomplete extends React.Component {
     }
 
     this.props.history.push(permalinkmask);
-  }  
+    this.props.updateLayersWithViewparams(permalinkmask.replace(/^\//, '').split("/"));
+  }
 
   getSuggestions(inputValue) {
     //console.log("SearchAutocomplete.getSuggestions()", inputValue);
