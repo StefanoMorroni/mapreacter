@@ -107,6 +107,7 @@ class HistoryComponent extends Component {
                     >
                         <DialogContent style={{ padding: '20px' }}>
                             <div className="history-supercontainer">
+                                {rows.length <= 0 ? <span className="title">{mylocalizedstrings.no_data_to_display}</span> : <span />}
                                 {rows.map(rec => {
                                     return (
                                         <div className="history-container" key={rec.key}>
