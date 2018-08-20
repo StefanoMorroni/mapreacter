@@ -77,6 +77,9 @@ class HistoryComponent extends Component {
 
     render() {
         const { anchorEl, rows } = this.state;
+        let _rows = rows.filter(rec => {
+            return (rec.doc._id.split("/").slice(0,10).filter(word => word!=='*').join(', ') !== '');
+        });
         console.log("HistoryComponent.render() rows.length -> ", rows.length);
         return (
             <div>
@@ -107,10 +110,9 @@ class HistoryComponent extends Component {
                     >
                         <DialogContent style={{ padding: '20px' }}>
                             <div className="history-supercontainer">
-                                {rows.length <= 0 ? <span className="title">{mylocalizedstrings.no_data_to_display}</span> : <span />}
-                                {rows.map(rec => {
+                                {_rows.length <= 0 ? <span className="title">{mylocalizedstrings.no_data_to_display}</span> : <span />}
+                                {_rows.map(rec => {
                                     let xx = rec.doc._id.split("/").slice(0,10).filter(word => word!=='*').join(', ');
-                                    if (xx === '') return;
                                     return (
                                         <div className="history-container" key={rec.key}>
                                             <div className="div1"><span className="title">{xx}</span> </div>
