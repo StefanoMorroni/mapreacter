@@ -12,8 +12,7 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 
 import { mylocalizedstrings } from '../services/localizedstring';
-import * as actions from '../actions/map';
-import { historydb } from './HistoryComponent'
+//import * as actions from '../actions/map';
 
 var axios = require('axios');
 
@@ -127,23 +126,7 @@ class TassonomiaAutoComplete extends React.Component {
       selectedRecord: selectedRecord,
       suggestions: []
     };
-
     console.log("TassonomiaAutoComplete() this.state:", JSON.stringify(this.state));
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    //console.log("TassonomiaAutoComplete.componentDidUpdate()",JSON.stringify(prevProps.local.tassonomiaAutoComplete.selectedItem),JSON.stringify(this.props.local.tassonomiaAutoComplete.selectedItem));
-    if (this.props.local.tassonomiaAutoComplete.selectedItem) {
-      //console.log("TassonomiaAutoComplete.componentDidUpdate() step 2");
-      if (this.props.local.tassonomiaAutoComplete.selectedItem !== prevProps.local.tassonomiaAutoComplete.selectedItem) {
-        //console.log("TassonomiaAutoComplete.componentDidUpdate() step 2.2");
-        this.setState({ 
-          selectedItem: this.props.local.tassonomiaAutoComplete.selectedItem,
-          selectedRecord: this.props.local.tassonomiaAutoComplete.selectedRecord,
-         });
-        console.log("TassonomiaAutoComplete.componentDidUpdate() this.state.selectedItem ->", JSON.stringify(this.props.local.tassonomiaAutoComplete.selectedItem));
-      }
-    }
   }
 
   handleKeyDown = event => {
@@ -210,14 +193,6 @@ class TassonomiaAutoComplete extends React.Component {
     this.setState({ selectedRecord });
     console.log("TassonomiaAutoComplete.handleChange()", JSON.stringify(selectedRecord));
     this.handlePermalinkMask(selectedRecord);
-    this.handleHistory({ 
-      selectedItem,
-      selectedRecord
-    });
-    this.props.changeTassonomiaAutoComplete({ 
-      selectedItem,
-      selectedRecord
-    });
   };
 
   handleDelete = item => () => {
@@ -228,14 +203,6 @@ class TassonomiaAutoComplete extends React.Component {
     this.setState({ selectedRecord });
     console.log("TassonomiaAutoComplete.handleDelete()", item);
     this.handlePermalinkMask(selectedRecord);
-    this.handleHistory({ 
-      selectedItem,
-      selectedRecord
-    });
-    this.props.changeTassonomiaAutoComplete({ 
-      selectedItem,
-      selectedRecord
-    });      
   };
 
   handlePermalinkMask(selectedRecord) {
@@ -283,36 +250,6 @@ class TassonomiaAutoComplete extends React.Component {
     }
 
     this.props.history.push(permalinkmask);
-  }
-
-  handleHistory(tassonomiaAutoComplete) {
-    let viewparams = decodeURIComponent(window.location.hash).replace(/^#\//, '');
-    let doc = {
-      _id: viewparams,
-      regProvAutocomplete: {
-        selectedItem: this.props.local.regProvAutocomplete.selectedItem,
-        features: this.props.local.regProvAutocomplete.features,
-        filter: this.props.local.regProvAutocomplete.filter,
-      },
-      tassonomiaAutoComplete: tassonomiaAutoComplete,
-    }
-    historydb.put(doc).then( () => {
-      console.log('TassonomiaAutoComplete.handleHistory(), insert ->', JSON.stringify(doc));
-    }).catch( err => {
-      if (err.name === 'conflict') {
-        historydb.get(viewparams).then( doc => {
-          console.log('TassonomiaAutoComplete.handleHistory(), get ->', JSON.stringify(doc));
-          doc.tassonomiaAutoComplete = tassonomiaAutoComplete;
-          historydb.put(doc).then( () => {
-            console.log('TassonomiaAutoComplete.handleHistory(), update ->', JSON.stringify(doc));
-          }).catch( err => {
-            console.error('TassonomiaAutoComplete.handleHistory()', err);
-          });
-        });
-      } else {
-        console.error('TassonomiaAutoComplete.handleHistory()', err);
-      }
-    }); 
   }
 
   getSuggestions(inputValue) {
@@ -396,9 +333,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeTassonomiaAutoComplete: (params) => {
-      dispatch(actions.changeTassonomiaAutoComplete(params));
-    },
   };
 };
 

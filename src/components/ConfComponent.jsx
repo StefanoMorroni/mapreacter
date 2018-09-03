@@ -147,7 +147,7 @@ class ConfComponent extends Component {
 
                     { /*
                     <MenuItem onClick={(event) => {
-                        downloadFile(this.props.local.mapConfig.downloadPdfUrl, this.getActiveLayers(), '.pdf', this.props.local.regProvAutocomplete['filter']);
+                        downloadFile(this.props.local.mapConfig.downloadPdfUrl, this.getActiveLayers(), '.pdf', this.props.local.searchAutocomplete['filter']);
                         this.handleCloseMenu();
                     }} >
                         <i className="material-icons">file_download</i><span style={{ padding: '10px' }}>PDF</span>
