@@ -28,51 +28,18 @@ const theBrowserList = [
     {
         name: "Firefox",
         minver: Number(52.0),
-    },
-    {
-        name: "MSIE",
-        minver: Number(0),
     }
 ];
 
-export var theBrowserItem;
-export var theBrowserVersion;
+export var theBrowserItem = { name: "" };
+export var theBrowserVersion = "";
 
-try {
-    //console.log("browser,  Browser CodeName: ", navigator.appCodeName);
-    //console.log("browser,  Browser Name: ", navigator.appName);
-    //console.log("browser,  Browser Version: ", navigator.appVersion);
-    console.log("BrowserVerComponent() Cookies Enabled: ", navigator.cookieEnabled);
-    console.log("BrowserVerComponent() Browser Language: ", navigator.language);
-    console.log("BrowserVerComponent() Browser Online: ", navigator.onLine);
-    console.log("BrowserVerComponent() Platform: ", navigator.platform);
-    console.log("BrowserVerComponent() User-agent header: ", navigator.userAgent);
-
-    theBrowserItem = theBrowserList.find(function (element) {
-        return navigator.userAgent.indexOf(element.name) > -1;
-    });
-
-    let userAgentRecord = navigator.userAgent.split(" ").find(function (element) {
-        return element.indexOf(theBrowserItem.name) > -1;
-    });
-    let fullversion = userAgentRecord.split("/")[1];
-    while (!Number(fullversion)) {
-        fullversion = fullversion.substr(0, fullversion.lastIndexOf("."));
-    }
-    theBrowserVersion = Number(fullversion);
-    console.log("BrowserVerComponent() detected:", JSON.stringify(theBrowserItem), theBrowserVersion);
-} catch (error) {
-    theBrowserVersion = Number(0);
-    theBrowserItem = {
-        name: "",
-        minver: Number(-1),
-    }
-}
 
 class BrowserVerComponent extends Component {
 
     state = {
-        sharedialog: false,
+        sharedialog: false, 
+        theMessage: ""
     };
 
     handleCloseMenu = () => {
@@ -81,24 +48,77 @@ class BrowserVerComponent extends Component {
     };
 
     componentDidMount() {
-        if (theBrowserVersion < theBrowserItem.minver) {
-            this.setState({ sharedialog: true });
+
+        //console.log("browser,  Browser CodeName: ", navigator.appCodeName);
+        //console.log("browser,  Browser Name: ", navigator.appName);
+        //console.log("browser,  Browser Version: ", navigator.appVersion);
+        console.log("BrowserVerComponent.componentDidMount() Cookies Enabled: ", navigator.cookieEnabled);
+        console.log("BrowserVerComponent.componentDidMount() Browser Language: ", navigator.language);
+        console.log("BrowserVerComponent.componentDidMount() Browser Online: ", navigator.onLine);
+        console.log("BrowserVerComponent.componentDidMount() Platform: ", navigator.platform);
+        console.log("BrowserVerComponent.componentDidMount() User-agent header: ", navigator.userAgent);
+
+        if (navigator.userAgent.indexOf("rv:11") > -1) {
+            theBrowserItem = {
+                name: "IE",
+            }
+            theBrowserVersion = Number(11);
+            let theMessage = "il browser corrente (" + theBrowserItem.name + " " + theBrowserVersion + ") non è compatibile con l’applicazione ... " +
+                "per una corretta visualizzazione è necessario utilizzare un browser di ultima generazione";
+            this.setState({ sharedialog: true, theMessage });
+
+        } else if (navigator.userAgent.indexOf("MSIE") > -1) {
+            try {
+                theBrowserItem = {
+                    name: "MSIE",
+                }
+                let userAgentRecord = navigator.userAgent.split(";").find(function (element) {
+                    return element.indexOf(theBrowserItem.name) > -1;
+                });
+                console.log("BrowserVerComponent.componentDidMount() userAgentRecord ->", userAgentRecord);
+                let fullversion = userAgentRecord.split(" ")[2];
+                console.log("BrowserVerComponent.componentDidMount() fullversion ->", fullversion);
+                theBrowserVersion = Number(fullversion);
+            } catch (error) {
+            }
+            let theMessage = "il browser corrente (" + theBrowserItem.name + " " + theBrowserVersion + ") non è compatibile con l’applicazione ... " +
+                "per una corretta visualizzazione è necessario utilizzare un browser di ultima generazione";
+            this.setState({ sharedialog: true, theMessage });
+
+        } else {
+            try {
+                theBrowserItem = theBrowserList.find(function (element) {
+                    return navigator.userAgent.indexOf(element.name) > -1;
+                });
+
+                let userAgentRecord = navigator.userAgent.split(" ").find(function (element) {
+                    return element.indexOf(theBrowserItem.name) > -1;
+                });
+                let fullversion = userAgentRecord.split("/")[1];
+                while (!Number(fullversion)) {
+                    fullversion = fullversion.substr(0, fullversion.lastIndexOf("."));
+                }
+                theBrowserVersion = Number(fullversion);
+                if (theBrowserVersion < theBrowserItem.minver) {
+                    let theMessage = "il browser corrente (" + theBrowserItem.name + " " + theBrowserVersion + ") non è compatibile con l’applicazione, " +
+                        "per una corretta visualizzazione è necessario eseguire l’aggiornamento alla versione " + theBrowserItem.minver + " o successive";
+                    this.setState({ sharedialog: true, theMessage });
+                }
+            } catch (error) {
+            }
         }
+        console.log("BrowserVerComponent.componentDidMount() detected:", JSON.stringify(theBrowserItem), theBrowserVersion, this.state.sharedialog, this.state.theMessage);
     }
 
     render() {
         console.log("BrowserVerComponent.render()");
         return (
             <Dialog open={this.state.sharedialog} >
-                <DialogContent style={{ 
+                <DialogContent style={{
                     //padding: '10px' 
                 }}>
                     <h2>Attenzione</h2>
-                    <p>
-                        il browser corrente ({theBrowserItem.name} {theBrowserVersion})
-                        non è compatibile con l’applicazione, per una corretta visualizzazione è necessario
-                        eseguire l’aggiornamento alla versione {theBrowserItem.minver} o successive
-                    </p>
+                    <p>{this.state.theMessage}</p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => { this.handleCloseMenu(); }}>
