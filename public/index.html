@@ -50,6 +50,9 @@
       source: 'http://193.206.192.107/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
       groups: {
         'mapbox:groups': {
+          osservazioni: {
+            name: 'Osservazioni',
+          },
           mare: {
             name: 'Mare',
           },
@@ -369,7 +372,10 @@
         {
           id: 'nnb:Osservazioni_su_Regioni-Provincie-Comuni',
           name: 'nnb:Osservazioni_su_Regioni-Provincie-Comuni',
-          metadata: { 'bnd:queryable': true, },
+          metadata: {
+            'mapbox:group': 'osservazioni',
+            'bnd:queryable': true
+          },
           description: "<span class='description'>Osservazioni di presenza/assenza sul territorio Nazionale, Regionale e Provinciale</span>",
           layout: { visibility: 'visible' },
           flag_filter: true,
@@ -380,7 +386,8 @@
           id: 'nnb:Osservazioni_su_griglia_10x10',
           name: 'nnb:Osservazioni_su_griglia_10x10',
           metadata: {
-            'bnd:queryable': true,
+            'mapbox:group': 'osservazioni',
+            'bnd:queryable': true
           },
           description: "<span class='description'>Osservazioni con griglia</span>",
           layout: { visibility: 'visible' },
@@ -392,7 +399,8 @@
           id: 'nnb:Osservazioni_puntuali',
           name: 'nnb:Osservazioni_puntuali',
           metadata: {
-            'bnd:queryable': true,
+            'mapbox:group': 'osservazioni',
+            'bnd:queryable': true
           },
           description: "<span class='description'>Osservazioni con coordinate</span>",
           layout: { visibility: 'visible' },
