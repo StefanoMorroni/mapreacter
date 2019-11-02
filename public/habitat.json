@@ -1,0 +1,172 @@
+{
+    "type": "FeatureCollection",
+    "totalFeatures": 63717,
+    "features": [
+        {
+            "type": "Feature",
+            "id": "habitat_geom.1",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "9110",
+                "nome_habitat": "Faggeti del Luzulo-Fagetum",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.2",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "9180",
+                "nome_habitat": "Foreste di versanti, ghiaioni e valloni del Tilio-Acerion",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.3",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "8110",
+                "nome_habitat": "Ghiaioni silicei dei piani montano fino a nivale (Androsacetalia alpinae e Galeopsietalia ladani)",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.4",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "8220",
+                "nome_habitat": "Pareti rocciose silicee con vegetazione casmofitica ",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.5",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "9130",
+                "nome_habitat": "Faggete di Asperulo-Fagetum",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.6",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "6170",
+                "nome_habitat": "Formazioni erbose calcicole alpine e subalpine",
+                "bbox": [
+                    7.0244,
+                    45.0056,
+                    7.2412,
+                    45.1095
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.61435",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "3150",
+                "nome_habitat": "Laghi eutrofici naturali con vegetazione del Magnopotamion o Hydrocharition",
+                "bbox": [
+                    12.6878,
+                    45.8455,
+                    12.821,
+                    45.9388
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.60188",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "3160",
+                "nome_habitat": "Laghi e stagni distrofici naturali",
+                "bbox": [
+                    10.6104,
+                    44.0774,
+                    10.7361,
+                    44.1684
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.61348",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "7110",
+                "nome_habitat": "Torbiere alte attive",
+                "bbox": [
+                    12.4594,
+                    46.4821,
+                    12.5938,
+                    46.5751
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.61345",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "7230",
+                "nome_habitat": "Torbiere basse alcaline",
+                "bbox": [
+                    12.4594,
+                    46.4821,
+                    12.5938,
+                    46.5751
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "id": "habitat_geom.61347",
+            "geometry": null,
+            "properties": {
+                "cod_habitat": "7140",
+                "nome_habitat": "Torbiere di transizione e instabili",
+                "bbox": [
+                    12.4594,
+                    46.4821,
+                    12.5938,
+                    46.5751
+                ]
+            }
+        }
+    ],
+    "crs": null
+}
