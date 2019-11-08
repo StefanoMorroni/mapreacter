@@ -166,8 +166,8 @@ class RegProvAutocomplete extends React.Component {
         });
     });
 
-    // STF: devo invocare l'indicizzatore
-    const url = '/habitat.json';
+
+    const url = this.props.local.mapConfig.habitatserviceurl;
     console.log("GET", url);
     axios.get(url)
       .then((response) => {
@@ -176,15 +176,14 @@ class RegProvAutocomplete extends React.Component {
           try {
             return {
               suggestions: prevState.suggestions.concat(
-                response.data.features.map(_feature => {
+                response.data.habitat.map(item => {
                   return ({
-                    feature: _feature,
-                    label: _feature.properties.cod_habitat + ' ' + _feature.properties.nome_habitat,
+                    label: item.cod_habita + ' ' + item.nome_habit,
                     sublabel: 'habitat',
                     url: 'http://193.206.192.107/geoserver/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=nnb:habitat_geom',
                     wpsserviceurl: 'http://193.206.192.107/geoserver/ows?strict:true',
-                    intersectfilter: "&cql_filter=INTERSECTS(geom,collectGeometries(queryCollection('nnb:habitat_geom','geom','cod_habitat=<KEY>')))"
-                      .replace("<KEY>", _feature.properties.cod_habitat),
+                    intersectfilter: "&cql_filter=INTERSECTS(geom,collectGeometries(queryCollection('nnb:habitat_geom','the_geom','cod_habita=''<KEY>''')))"
+                      .replace("<KEY>", item.cod_habita),
                   });
                 })
               )
