@@ -47,7 +47,7 @@
         zoom: 6
       },
       viewparams: ['order_', 'family', 'genus', 'nome_scientifico', 'order_2', 'family2', 'genus2', 'nome_scientifico2'],
-      source: 'http://193.206.192.107/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
+      source: 'http://geoviewer.nnb.isprambiente.it/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
       groups: {
         'mapbox:groups': {
           osservazioni: {
@@ -91,7 +91,7 @@
           source: 'mapbox',
           description: "<span class='description'>Dato di base satellitare</span>",
           layout: {
-            visibility: 'none'
+            visibility: 'visible'
           }
         },
         {
@@ -132,7 +132,7 @@
             'bnd:queryable': true,
           },
           description: "<span class='description'></span>",
-          layout: { visibility: 'visible' },
+          layout: { visibility: 'none' },
           flag_legend: true
         },
         {
@@ -409,9 +409,9 @@
           class: 'dataLayer',
         },
       ],
-      tassonomiaserviceurl: 'http://193.206.192.107/MyRestServer/tassonomia?name=',
-      regprovsuggestionsurl: 'http://193.206.192.107/MyRestServer/regprov',
-      geoserverurl: 'http://193.206.192.107/geoserver',
+      tassonomiaserviceurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/tassonomia?name=',
+      regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/regprov',
+      geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
       permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<HABITAT>/<REGPROV>',
       permalinkmasklength: 10,
 
@@ -421,11 +421,11 @@
         { field: 'genus', label: 'genuslabel', mask: '<GENUSxx>' },
         { field: 'nome_scientifico', label: 'specielabel', mask: '<SPECIESxx>' },
       ],
-      wpsserviceurl: 'http://193.206.192.107/geoserver/ows?strict:true',
-      downloadCSVUrl: 'http://193.206.192.107/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
-      downloadShapefileUrl: 'http://193.206.192.107/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=shape-zip&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
-      downloadPdfUrl: 'http://193.206.192.107/geoserver/nnb/wms?service=WMS&version=1.1.0&request=GetMap&format=application/pdf&width=768&height=384&bbox=-180.0,-90.0,180.0,90.0&srs=EPSG:4326&layers=<LAYER>&viewparams=<VIEWPARAMS>',
-      helpUrl: 'http://193.206.192.107/mapreacter-help/docs/',
+      wpsserviceurl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?strict:true',
+      downloadCSVUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
+      downloadShapefileUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=shape-zip&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
+      downloadPdfUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/nnb/wms?service=WMS&version=1.1.0&request=GetMap&format=application/pdf&width=768&height=384&bbox=-180.0,-90.0,180.0,90.0&srs=EPSG:4326&layers=<LAYER>&viewparams=<VIEWPARAMS>',
+      helpUrl: 'http://geoviewer.nnb.isprambiente.it/mapreacter-help/docs/',
       helpDoc: '/doc_mapreacter.html',
       SdkMousePosition: {
         style: { position: 'absolute', top: 10, right: 40, zIndex: 1, width: '5em', color: '#00ffff', fontFamily: 'roboto', fontSize: 14 }
