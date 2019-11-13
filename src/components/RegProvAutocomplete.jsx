@@ -125,8 +125,11 @@ class RegProvAutocomplete extends React.Component {
 
     this.state = {
       inputValue: '',
-      selectedItem: selectedItem,
-      suggestions: []
+      selectedItem,
+      selectedItemRegProv: selectedItem,
+      selectedItemGeocoding: [],
+      suggestions: [],
+      suggestionsInital: []
     };
 
     console.log("RegProvAutocomplete() this.state:", JSON.stringify(this.state));
@@ -136,7 +139,7 @@ class RegProvAutocomplete extends React.Component {
     axios.get(url)
       .then((response) => {
         console.log("RegProvAutocomplete() response:", JSON.stringify(response.data));
-        this.setState({suggestions: response.data.items});
+        this.setState({ suggestions: response.data.items, suggestionsInital: response.data.items });
         if (this.state.selectedItem[0]) {
           this.handleChange(this.state.selectedItem[0]);
         }
@@ -161,45 +164,102 @@ class RegProvAutocomplete extends React.Component {
   handleInputChange = event => {
     console.log("RegProvAutocomplete.handleInputChange()", event.target.value);
     this.setState({ inputValue: event.target.value });
+
+    const url = this.props.local.mapConfig.geocodingurl + event.target.value;
+    console.log("GET", url);
+    axios.get(url)
+      .then((response) => {
+        console.log("response:", JSON.stringify(response.data));
+        let _suggestions = response.data.map(_record => {
+          _record.label = _record.display_name;
+          _record.sublabel = 'geocoding';
+          return _record;
+        })
+        this.setState({ suggestions: this.state.suggestionsInital.concat(_suggestions) });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   handleChange = item => {
     console.log("RegProvAutocomplete.handleChange()", item);
 
-    this.setState({
-      inputValue: '',
-      selectedItem: [item],
-    });
-
     let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
     console.log("RegProvAutocomplete.handleChange() selectedRecord -->", selectedRecord);
 
-    this.props.removeFeatures("regioni_province");
+    switch (selectedRecord.sublabel) {
+      case 'geocoding':
+        this.setState({
+          inputValue: '',
+          selectedItemGeocoding: [item],
+          selectedItem: [...this.state.selectedItemRegProv, item],
+        });
 
-    this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
-    this.handlePermalinkMask(selectedRecord);
-    this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
+        this.props.removeFeatures("geocoding");
+        this.props.addFeatures("geocoding", selectedRecord.geojson);
 
-    let url = selectedRecord.wfsGetFeaturesUrl;
-    console.log("RegProvAutocomplete().handleChange() GET", url);
-    axios.get(url)
-    .then((response) => {
-      console.log("RegProvAutocomplete().handleChange() response:", JSON.stringify(response.data));
-      this.props.addFeatures("regioni_province", response.data.features);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+        // Nominatim API returns a boundingbox property of the form: south Latitude, north Latitude, west Longitude, east Longitude
+        let _extent = [
+          Number(selectedRecord.boundingbox[2]),
+          Number(selectedRecord.boundingbox[0]),
+          Number(selectedRecord.boundingbox[3]),
+          Number(selectedRecord.boundingbox[1])
+        ];
+        if (_extent[0] !== 0 && _extent[1] !== 0 && _extent[2] !== -1 && _extent[3] !== -1) {
+          this.props.fitExtent(_extent, this.props.mapinfo.size, "EPSG:4326");
+          this.props.zoomOut();
+        }
+        break;
+
+      default:
+        this.setState({
+          inputValue: '',
+          selectedItemRegProv: [item],
+          selectedItem: [...this.state.selectedItemGeocoding, item],
+        });
+
+        this.props.removeFeatures("regioni_province");
+
+        this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+        this.handlePermalinkMask(selectedRecord);
+        this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
+
+        let url = selectedRecord.wfsGetFeaturesUrl;
+        console.log("RegProvAutocomplete().handleChange() GET", url);
+        axios.get(url)
+          .then((response) => {
+            console.log("RegProvAutocomplete().handleChange() response:", JSON.stringify(response.data));
+            this.props.addFeatures("regioni_province", response.data.features);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    }
   }
 
   handleDelete = item => () => {
-    const selectedItem = [...this.state.selectedItem];
-    selectedItem.splice(selectedItem.indexOf(item), 1);
-    this.setState({ selectedItem });
     console.log("RegProvAutocomplete.handleDelete()", item);
-    this.props.changeRegProvComponent({});
-    this.handlePermalinkMask();
-    this.props.removeFeatures("regioni_province");
+    let deletedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
+    console.log("RegProvAutocomplete.handleChange() deletedRecord -->", deletedRecord);
+
+    if (item == this.state.selectedItemGeocoding[0]) {
+      this.setState({
+        selectedItemGeocoding: [],
+        selectedItem: [...this.state.selectedItemRegProv],
+      });
+      this.props.removeFeatures("geocoding");
+
+    } else {
+      this.setState({
+        selectedItemRegProv: [],
+        selectedItem: [...this.state.selectedItemGeocoding],
+      });
+
+      this.props.changeRegProvComponent({});
+      this.handlePermalinkMask();
+      this.props.removeFeatures("regioni_province");
+    }
   };
 
   handlePermalinkMask(selectedRecord = {}) {
@@ -324,6 +384,7 @@ const mapStateToProps = (state) => {
   return {
     map: state.map,
     local: state.local,
+    mapinfo: state.mapinfo
   }
 }
 
@@ -340,6 +401,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     removeFeatures: (sourceName, filter) => {
       dispatch(mapActions.removeFeatures(sourceName, filter));
+    },
+    fitExtent: (extent, size, projection) => {
+      dispatch(mapActions.fitExtent(extent, size, projection));
+    },
+    zoomOut: () => {
+      dispatch(mapActions.zoomOut());
     },
   };
 };
