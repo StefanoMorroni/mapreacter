@@ -66,11 +66,26 @@ function renderInput(inputProps) {
   );
 }
 
+function getStyle(sublabel) {
+  let style = { backgroundColor: '#46f46f', color: 'black' }
+  if (sublabel == 'habitat') {
+    style = { backgroundColor: '#a3bfdf', color: 'black' };
+  } else if (sublabel == 'regione') {
+    style = { backgroundColor: '#feb24c', color: 'black' };
+  } else if (sublabel == 'provincia') {
+    style = { backgroundColor: '#feb24c', color: 'black' };
+  } else if (sublabel == 'den_cmpro') {
+    style = { backgroundColor: '#feb24c', color: 'black' };
+  }
+  return style;
+}
+
 function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   console.log("RegProvAutocomplete.renderSuggestion()", JSON.stringify(suggestion));
   const isHighlighted = highlightedIndex === index;
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
+  let style = getStyle(suggestion.sublabel);
   return (
     <MenuItem
       {...itemProps}
@@ -78,14 +93,14 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
-        fontWeight: isSelected ? 500 : 400,
+        fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
-      <Typography variant="subheading">
+      <Typography variant="subheading" style={{ color: 'black' }}>
         {suggestion.label}
       </Typography>
       &nbsp;
-      <Typography variant="caption" style={{ fontStyle: 'italic', }}>
+      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black' }}>
         {mylocalizedstrings.getString(suggestion.sublabel, mylocalizedstrings.getLanguage())}
       </Typography>
     </MenuItem>
@@ -318,6 +333,24 @@ class RegProvAutocomplete extends React.Component {
     });
   }
 
+  getChip(item, index, classes) {
+    let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
+    console.log("RegProvAutocomplete.getChip()", item, selectedRecord);
+    let style = getStyle("");
+    if (selectedRecord) {
+      style = getStyle(selectedRecord.sublabel);
+    }
+    return (
+      <Chip
+        key={index}
+        tabIndex={-1}
+        label={item}
+        className={classes.chip}
+        onDelete={this.handleDelete(item)}
+        style={style}
+      />);
+  }
+
   render() {
     console.log("RegProvAutocomplete.render()");
     const { classes } = this.props;
@@ -339,14 +372,8 @@ class RegProvAutocomplete extends React.Component {
                   fullWidth: true,
                   classes,
                   InputProps: getInputProps({
-                    startAdornment: selectedItem.map(item => (
-                      <Chip
-                        key={item}
-                        tabIndex={-1}
-                        label={item}
-                        className={classes.chip}
-                        onDelete={this.handleDelete(item)}
-                      />
+                    startAdornment: selectedItem.map((item, index, self) => (
+                      this.getChip(item, index, classes)
                     )),
                     onChange: this.handleInputChange,
                     onKeyDown: this.handleKeyDown,
