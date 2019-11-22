@@ -21,13 +21,14 @@ import MapReducer from './reducers/map';
 import * as configActions from './actions/map';
 import Map from './components/Map';
 import TassonomiaAutoComplete from './components/TassonomiaAutoComplete';
-//import { mylocalizedstrings } from './services/localizedstring';
+import { mylocalizedstrings } from './services/localizedstring';
 import RefreshIndicatorComponent from './components/RefreshIndicatorComponent';
 import MeasureComponent from './components/MeasureComponent';
 import TocComponent from './components/TocComponent';
 import LangComponent from './components/LangComponent';
 import ConfComponent from './components/ConfComponent';
 import RegProvAutocomplete from './components/RegProvAutocomplete';
+import TheTooltip from './components/TheTooltip';
 import GeocodingAutoComplete from './components/GeocodingAutoComplete';
 import BrowserVerComponent from './components/BrowserVerComponent';
 import ErrorBoundary from './ErrorBoundary';
@@ -262,7 +263,7 @@ class App extends Component {
       metadata: {
         'bnd:hide-layerlist': true,
         'bnd:queryable': false,
-      },      
+      },
     }));
 
     store.dispatch(mapActions.addSource('geocoding', {
@@ -286,8 +287,8 @@ class App extends Component {
       metadata: {
         'bnd:hide-layerlist': true,
         'bnd:queryable': false,
-      },      
-    }));    
+      },
+    }));
   }
 
   componentDidMount() {
@@ -316,7 +317,11 @@ class App extends Component {
 
                       <TocComponent />
 
+                      <TheTooltip title={mylocalizedstrings.tassonomiainfo} />
+
                       <TassonomiaAutoComplete />
+
+                      <TheTooltip title={mylocalizedstrings.regprovinfo} />
 
                       <RegProvAutocomplete />
 
@@ -370,7 +375,7 @@ class App extends Component {
         let source = createWMSSourceWithLayerName(sourceUrl, rec.name, rec.styles);
         const sourceId = 'source_' + i;
         store.dispatch(mapActions.addSource(sourceId, source));
-        let _layer = Object.assign({source: sourceId}, rec);
+        let _layer = Object.assign({ source: sourceId }, rec);
         store.dispatch(mapActions.addLayer(_layer));
       }
     });
