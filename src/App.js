@@ -29,7 +29,7 @@ import LangComponent from './components/LangComponent';
 import ConfComponent from './components/ConfComponent';
 import RegProvAutocomplete from './components/RegProvAutocomplete';
 import TheTooltip from './components/TheTooltip';
-import GeocodingAutoComplete from './components/GeocodingAutoComplete';
+//import GeocodingAutoComplete from './components/GeocodingAutoComplete';
 import BrowserVerComponent from './components/BrowserVerComponent';
 import ErrorBoundary from './ErrorBoundary';
 

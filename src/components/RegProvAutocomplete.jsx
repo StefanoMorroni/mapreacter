@@ -11,8 +11,6 @@ import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
-import GeoJSON from 'ol/format/geojson';
-import WKT from 'ol/format/wkt';
 import { mylocalizedstrings } from '../services/localizedstring';
 import * as actions from '../actions/map';
 import * as mapActions from '@boundlessgeo/sdk/actions/map';
@@ -68,13 +66,13 @@ function renderInput(inputProps) {
 
 function getStyle(sublabel) {
   let style = { backgroundColor: '#46f46f', color: 'black' }
-  if (sublabel == 'habitat') {
+  if (sublabel === 'habitat') {
     style = { backgroundColor: '#a3bfdf', color: 'black' };
-  } else if (sublabel == 'regione') {
+  } else if (sublabel === 'regione') {
     style = { backgroundColor: '#feb24c', color: 'black' };
-  } else if (sublabel == 'provincia') {
+  } else if (sublabel === 'provincia') {
     style = { backgroundColor: '#feb24c', color: 'black' };
-  } else if (sublabel == 'den_cmpro') {
+  } else if (sublabel === 'den_cmpro') {
     style = { backgroundColor: '#feb24c', color: 'black' };
   }
   return style;
@@ -258,7 +256,7 @@ class RegProvAutocomplete extends React.Component {
     let deletedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
     console.log("RegProvAutocomplete.handleChange() deletedRecord -->", deletedRecord);
 
-    if (item == this.state.selectedItemGeocoding[0]) {
+    if (item === this.state.selectedItemGeocoding[0]) {
       this.setState({
         selectedItemGeocoding: [],
         selectedItem: [...this.state.selectedItemRegProv],
