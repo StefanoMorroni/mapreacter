@@ -49,7 +49,6 @@ const styles = theme => ({
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
-  console.log("RegProvAutocomplete.renderInput()");
   return (
     <TextField
       InputProps={{
@@ -375,7 +374,6 @@ class RegProvAutocomplete extends React.Component {
   }
 
   render() {
-    console.log("RegProvAutocomplete.render()");
     const { classes } = this.props;
     const { inputValue, selectedItem } = this.state;
 

@@ -317,11 +317,11 @@ class App extends Component {
 
                       <TocComponent />
 
-                      <TheTooltip title={mylocalizedstrings.tassonomiainfo} />
+                      <TheTooltip label='tassonomiainfo' />
 
                       <TassonomiaAutoComplete />
 
-                      <TheTooltip title={mylocalizedstrings.regprovinfo} />
+                      <TheTooltip label='regprovinfo' />
 
                       <RegProvAutocomplete />
 

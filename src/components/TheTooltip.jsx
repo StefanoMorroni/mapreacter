@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import * as actions from '../actions/map';
 import * as mapActions from '@boundlessgeo/sdk/actions/map';
+import { mylocalizedstrings } from '../services/localizedstring';
 
 
 const styles = theme => ({
@@ -24,9 +25,10 @@ const styles = theme => ({
 class TheTooltip extends React.Component {
 
   render() {
-    console.log("TheTooltip.render()");
-    const { classes, title } = this.props;
-
+    const { classes, label } = this.props;
+    let title = mylocalizedstrings.getString(label, mylocalizedstrings.getLanguage())
+    //console.log("TheTooltip.render()", label, title);
+    
     return (
       <div className={classes.root}>
         <Tooltip title={title} classes={{ tooltip: classes.customWidth }}>
