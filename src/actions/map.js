@@ -53,6 +53,14 @@ export const updateLayersWithViewparams = (params) => {
       viewparams.push(_item);
     }
 
+    if (params[9] !== '*') {
+      try {
+        let cod_habitat = 'cod_habitat:'+params[9].split(' ')[0];
+        console.log("map.updateLayersWithViewparams() aggiungo ", cod_habitat);
+        viewparams.push(cod_habitat);  
+      } catch(err) {}
+    }
+
     let filter='';
     if (local.regProvComponent['filter']) {
       filter=local.regProvComponent['filter'];

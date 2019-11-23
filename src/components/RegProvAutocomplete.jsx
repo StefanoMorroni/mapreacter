@@ -225,6 +225,31 @@ class RegProvAutocomplete extends React.Component {
         }
         break;
 
+      case 'habitat':
+        this.setState({
+          inputValue: '',
+          selectedItemRegProv: [item],
+          selectedItem: [...this.state.selectedItemGeocoding, item],
+        });
+
+        this.props.removeFeatures("regioni_province");
+
+        this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+        this.handlePermalinkMask(selectedRecord);
+        this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
+
+        // let url = selectedRecord.wfsGetFeaturesUrl;
+        // console.log("RegProvAutocomplete().handleChange() GET", url);
+        // axios.get(url)
+        //   .then((response) => {
+        //     console.log("RegProvAutocomplete().handleChange() response:", JSON.stringify(response.data));
+        //     this.props.addFeatures("regioni_province", response.data.features);
+        //   })
+        //   .catch((error) => {
+        //     console.error(error);
+        //   });
+        break;
+
       default:
         this.setState({
           inputValue: '',
