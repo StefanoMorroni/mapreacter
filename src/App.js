@@ -21,7 +21,7 @@ import MapReducer from './reducers/map';
 import * as configActions from './actions/map';
 import Map from './components/Map';
 import TassonomiaAutoComplete from './components/TassonomiaAutoComplete';
-import { mylocalizedstrings } from './services/localizedstring';
+//import { mylocalizedstrings } from './services/localizedstring';
 import RefreshIndicatorComponent from './components/RefreshIndicatorComponent';
 import MeasureComponent from './components/MeasureComponent';
 import TocComponent from './components/TocComponent';
