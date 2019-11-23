@@ -16,7 +16,8 @@ const styles = theme => ({
   },
   customWidth: {
     //maxWidth: 500,
-    maxWidth: '80%',
+    maxWidth: '70%',
+    fontSize: '16px'
   },
 });
 
