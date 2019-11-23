@@ -18,7 +18,7 @@ var axios = require('axios');
 
 const styles = theme => ({
   root: {
-    margin: '15px',
+    margin: '5px',
     width: 'calc(50% - 170px)',
     color: 'currentColor'
   },
