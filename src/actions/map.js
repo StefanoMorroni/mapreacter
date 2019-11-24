@@ -9,6 +9,9 @@ export const updateLayersWithViewparams = (params) => {
   return function (dispatch, getState) {
     const { local } = getState();
 
+    let permalinkmask = local.mapConfig.permalinkmask.replace(/^\//, '');    
+    let permalinkmaskarray = permalinkmask.split("/");
+    
     viewparams.length = 0;
     /*params.forEach((param, i) => {
       if (param !== '*') {
@@ -53,13 +56,18 @@ export const updateLayersWithViewparams = (params) => {
       viewparams.push(_item);
     }
 
-    if (params[9] !== '*') {
-      try {
-        let cod_habitat = 'cod_habitat:'+params[9].split(' ')[0];
-        console.log("map.updateLayersWithViewparams() aggiungo ", cod_habitat);
-        viewparams.push(cod_habitat);  
-      } catch(err) {}
-    }
+    permalinkmaskarray.forEach((item, index) => {
+      //console.log("map.updateLayersWithViewparams() item->", item, "index->",index);
+      if (item === '<REGPROV>') {
+        if (params[index] !== '*') {
+          try {
+            let cod_habitat = 'cod_habitat:'+params[index].split(' ')[0];
+            console.log("map.updateLayersWithViewparams() aggiungo ", cod_habitat);
+            viewparams.push(cod_habitat);  
+          } catch(err) {}
+        }            
+      }
+    })
 
     let filter='';
     if (local.regProvComponent['filter']) {
