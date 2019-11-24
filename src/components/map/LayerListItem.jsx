@@ -12,7 +12,7 @@ class LayerListItem extends SdkLayerListItem {
     const checkbox = this.getVisibilityControl(layer);
 
     let fitextentbutton = null;
-    if (layer.flag_filter) {
+    if (layer.flag_fitextent) {
       fitextentbutton = (
         <Button className="button"
           onClick={() => {
