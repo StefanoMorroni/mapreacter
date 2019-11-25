@@ -43,7 +43,7 @@ class ConfComponent extends Component {
     getActiveLayers() {
         let _array = [];
         this.props.layers.forEach((rec) => {
-            if (rec.flag_filter) {
+            if (rec.flag_download) {
                 if (rec['layout']) {
                     if (rec.layout.visibility === 'visible') {
                         _array.push(rec.id);
