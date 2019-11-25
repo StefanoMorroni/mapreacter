@@ -177,21 +177,21 @@ class RegProvAutocomplete extends React.Component {
     console.log("RegProvAutocomplete.handleInputChange()", event.target.value);
     this.setState({ inputValue: event.target.value });
 
-    const url = this.props.local.mapConfig.geocodingurl + event.target.value;
-    console.log("GET", url);
-    axios.get(url)
-      .then((response) => {
-        console.log("response:", JSON.stringify(response.data));
-        let _suggestions = response.data.map(_record => {
-          _record.label = _record.display_name;
-          _record.sublabel = 'geocoding';
-          return _record;
-        })
-        this.setState({ suggestions: this.state.suggestionsInital.concat(_suggestions) });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // const url = this.props.local.mapConfig.geocodingurl + event.target.value;
+    // console.log("GET", url);
+    // axios.get(url)
+    //   .then((response) => {
+    //     console.log("response:", JSON.stringify(response.data));
+    //     let _suggestions = response.data.map(_record => {
+    //       _record.label = _record.display_name;
+    //       _record.sublabel = 'geocoding';
+    //       return _record;
+    //     })
+    //     this.setState({ suggestions: this.state.suggestionsInital.concat(_suggestions) });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   handleChange = item => {
