@@ -13,7 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { mylocalizedstrings } from '../services/localizedstring';
-
+import * as actions from '../actions/map';
 
 
 const styles = theme => ({
@@ -22,15 +22,10 @@ const styles = theme => ({
     },
 });
 
-
-
 class OptionsComponent extends Component {
 
     state = {
         anchorEl: null,
-        osservazioni: true,
-        citizenscience: true,
-        provider: true,
     };
 
     handleOpenMenu = event => {
@@ -48,7 +43,7 @@ class OptionsComponent extends Component {
 
     handleChange = name => event => {
         console.log("OptionsComponent.handleChange()", name, event.target.checked);
-        this.setState({ [name]: event.target.checked });
+        this.props.changeOptions({ [name]: event.target.checked });
     };
 
     render() {
@@ -92,35 +87,35 @@ class OptionsComponent extends Component {
                                 <FormControlLabel
                                     control={
                                         <Switch
-                                            checked={this.state.osservazioni}
+                                            checked={this.props.local.options.osservazioni}
                                             onChange={this.handleChange('osservazioni')}
-                                            //value={this.state.osservazioni}
+                                            //value={this.props.local.options.osservazioni}
                                             color="secondary"
                                         />
                                     }
-                                    label={this.state.osservazioni ? mylocalizedstrings.options.osservazioni.trueLabel : mylocalizedstrings.options.osservazioni.falseLabel}
+                                    label={this.props.local.options.osservazioni ? mylocalizedstrings.options.osservazioni.trueLabel : mylocalizedstrings.options.osservazioni.falseLabel}
                                 />
                                 <FormControlLabel
                                     control={
                                         <Switch
-                                            checked={this.state.citizenscience}
+                                            checked={this.props.local.options.citizenscience}
                                             onChange={this.handleChange('citizenscience')}
-                                            //value={this.state.osservazioni}
+                                            //value={this.props.local.options.osservazioni}
                                             color="secondary"
                                         />
                                     }
-                                    label={this.state.citizenscience ? mylocalizedstrings.options.citizenscience.trueLabel : mylocalizedstrings.options.citizenscience.falseLabel}
+                                    label={this.props.local.options.citizenscience ? mylocalizedstrings.options.citizenscience.trueLabel : mylocalizedstrings.options.citizenscience.falseLabel}
                                 />
                                 <FormControlLabel
                                     control={
                                         <Switch
-                                            checked={this.state.provider}
+                                            checked={this.props.local.options.provider}
                                             onChange={this.handleChange('provider')}
-                                            //value={this.state.osservazioni}
+                                            //value={this.props.local.options.osservazioni}
                                             color="secondary"
                                         />
                                     }
-                                    label={this.state.provider ? mylocalizedstrings.options.provider.trueLabel : mylocalizedstrings.options.provider.falseLabel}
+                                    label={this.props.local.options.provider ? mylocalizedstrings.options.provider.trueLabel : mylocalizedstrings.options.provider.falseLabel}
                                 />
                             </FormGroup>
                         </DialogContent>
@@ -138,4 +133,12 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(OptionsComponent)));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeOptions: (params) => {
+            dispatch(actions.changeOptions(params));
+        },
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(OptionsComponent)));

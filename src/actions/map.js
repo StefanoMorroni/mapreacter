@@ -141,3 +141,10 @@ export const changeRegProvComponent = (regProvComponent) => {
     }
   };
 }
+
+export const changeOptions = (params) => {
+  return {
+    type: 'LOCAL.CHANGEOPTIONS',
+    ...params,
+  };
+}

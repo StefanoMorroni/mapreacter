@@ -3,7 +3,12 @@ let defaultState = {
   viewparams: '',
   refreshIndicator: { status: 'hide' },
   measureComponent: { open: false },
-  regProvComponent: {}
+  regProvComponent: {},
+  options: {
+    osservazioni: true,
+    citizenscience: true,
+    provider: true,
+  }
 };
 
 export default function MapReducer(state = defaultState, action) {
@@ -43,6 +48,12 @@ export default function MapReducer(state = defaultState, action) {
         regProvComponent: action.payload['regProvComponent']
       });
       return state;
+
+    case 'LOCAL.CHANGEOPTIONS':
+      let { type, ...other } = action;
+      let options = { ...state.options, ...other }
+      console.log("MapReducer() ", JSON.stringify(other), ", options->", JSON.stringify(options));
+      return { ...state, options };
 
     default:
       return state;
