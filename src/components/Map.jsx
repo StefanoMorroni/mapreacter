@@ -59,7 +59,7 @@ const LegendControl = function (opt_options) {
   }
 
   var theButton = document.createElement('button');
-  theButton.innerHTML = 'L';
+  theButton.innerHTML = '<i class="material-icons">menu</i>';
 
   //var this_ = this;
   var handleLegendControl = function () {
