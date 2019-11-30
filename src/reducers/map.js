@@ -4,7 +4,7 @@ let defaultState = {
   refreshIndicator: { status: 'hide' },
   measureComponent: { open: false },
   regProvComponent: {},
-  options: {
+  options: localStorage.getItem('OPT') ? JSON.parse(window.atob(localStorage.getItem('OPT'))) : {
     osservazioni: true,
     citizenscience: true,
     provider: true,
@@ -53,6 +53,7 @@ export default function MapReducer(state = defaultState, action) {
       let { type, ...other } = action;
       let options = { ...state.options, ...other }
       console.log("MapReducer() ", JSON.stringify(other), ", options->", JSON.stringify(options));
+      localStorage.setItem('OPT', window.btoa(JSON.stringify(options)));
       return { ...state, options };
 
     default:
