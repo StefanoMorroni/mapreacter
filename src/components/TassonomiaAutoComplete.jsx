@@ -145,7 +145,7 @@ class TassonomiaAutoComplete extends React.Component {
 
     const url = this.props.local.mapConfig.tassonomiaserviceurl + event.target.value;
     console.log("GET", url);
-    axios.get(url)
+    axios.get(url, { params: { ...this.props.local.options } })
       .then((response) => {
         console.log("response:", JSON.stringify(response.data));
         const _datasource = [];
