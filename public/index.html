@@ -53,6 +53,9 @@
           osservazioni: {
             name: 'Osservazioni',
           },
+          citizenscience: {
+            name: 'Citizen science',
+          },
           mare: {
             name: 'Mare',
           },
@@ -384,6 +387,21 @@
           flag_legend: true
         },
         {
+          id: 'nnb:inaturalist',
+          name: 'nnb:inaturalist',
+          metadata: {
+            'mapbox:group': 'citizenscience',
+            'bnd:queryable': true
+          },
+          description: "<span class='description'>inaturalist</span>",
+          layout: { visibility: 'visible' },
+          flag_fitextent: true,
+          flag_filter: true,
+          flag_legend: true,
+          flag_download: true,
+          //class: 'dataLayer',
+        },        
+        {
           id: 'nnb:osservazioniweb',
           name: 'nnb:osservazioniweb',
           metadata: {
@@ -396,7 +414,7 @@
           flag_filter: true,
           flag_legend: true,
           flag_download: true,
-          class: 'dataLayer',
+          //class: 'dataLayer',
         },
       ],
       tassonomiaserviceurl: 'http://localhost:8080/MyRestServer/v2/tassonomia?name=',
