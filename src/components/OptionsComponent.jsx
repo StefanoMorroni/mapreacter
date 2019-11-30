@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -8,12 +9,28 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import { mylocalizedstrings } from '../services/localizedstring';
+
+
+
+const styles = theme => ({
+    formControl: {
+        margin: '5px',
+    },
+});
+
+
 
 class OptionsComponent extends Component {
 
     state = {
-        anchorEl: null
+        anchorEl: null,
+        osservazioni: true,
+        citizenscience: true,
+        provider: true,
     };
 
     handleOpenMenu = event => {
@@ -29,12 +46,18 @@ class OptionsComponent extends Component {
         console.log("OptionsComponent.componentDidMount() this.props=", JSON.stringify(this.props));
     }
 
+    handleChange = name => event => {
+        console.log("OptionsComponent.handleChange()", name, event.target.checked);
+        this.setState({ [name]: event.target.checked });
+    };
+
     render() {
         console.log("OptionsComponent.render()");
         const { anchorEl } = this.state;
+        const { classes } = this.props;
         return (
-            <div>
-                <Tooltip title={mylocalizedstrings.options}>
+            <div style={{ padding: '10px' }}>
+                <Tooltip title={mylocalizedstrings.options.tooltip}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">tune</i>
                     </IconButton>
@@ -59,16 +82,49 @@ class OptionsComponent extends Component {
                         open={Boolean(anchorEl)}
                         onClose={() => { this.handleCloseMenu(); }}
                     >
-                        <DialogContent style={{ padding: '10px' }}>
-                        <div style={{ overflowY: 'scroll', maxHeight: '300px' }}>
-
-                        </div>
-                        </DialogContent>
                         <DialogActions>
                             <Button onClick={() => { this.handleCloseMenu(); }}>
-                                {mylocalizedstrings.close}
+                                <i className="material-icons">close</i>
                             </Button>
                         </DialogActions>
+                        <DialogContent style={{ paddingLeft: '20px' }}>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={this.state.osservazioni}
+                                            onChange={this.handleChange('osservazioni')}
+                                            //value={this.state.osservazioni}
+                                            color="secondary"
+                                        />
+                                    }
+                                    label={this.state.osservazioni ? mylocalizedstrings.options.osservazioni.trueLabel : mylocalizedstrings.options.osservazioni.falseLabel}
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={this.state.citizenscience}
+                                            onChange={this.handleChange('citizenscience')}
+                                            //value={this.state.osservazioni}
+                                            color="secondary"
+                                        />
+                                    }
+                                    label={this.state.citizenscience ? mylocalizedstrings.options.citizenscience.trueLabel : mylocalizedstrings.options.citizenscience.falseLabel}
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={this.state.provider}
+                                            onChange={this.handleChange('provider')}
+                                            //value={this.state.osservazioni}
+                                            color="secondary"
+                                        />
+                                    }
+                                    label={this.state.provider ? mylocalizedstrings.options.provider.trueLabel : mylocalizedstrings.options.provider.falseLabel}
+                                />
+                            </FormGroup>
+                        </DialogContent>
+
                     </Dialog>
                 </Menu>
             </div>
@@ -82,4 +138,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(OptionsComponent));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(OptionsComponent)));
