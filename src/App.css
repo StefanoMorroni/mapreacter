@@ -358,6 +358,9 @@ li.sdk-layer-group {
   top: 65px;
   left: .5em; }
 
+.legend-control .icon {
+  font-size: 18px; }
+
 .legend-control .name {
   font-family: Roboto, Courier, monospace;
   font-size: 14px; }
