@@ -112,7 +112,7 @@ class TassonomiaAutoComplete extends React.Component {
         if (_record !== '*' && _record !== '') {
           selectedItem = [...selectedItem, _record];
           let _selectedRecord = {
-            routingrecord: this.props.local.mapConfig.routing[index % 4],
+            routingrecord: this.props.local.mapConfig.routing[index % this.props.local.mapConfig.tassonomialength],
             label: _record,
           };
           console.log("TassonomiaAutoComplete() -> ", JSON.stringify(_selectedRecord));

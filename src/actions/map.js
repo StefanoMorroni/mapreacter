@@ -21,7 +21,7 @@ export const updateLayersWithViewparams = (params) => {
     });*/
 
     let counter = 0;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < local.mapConfig.tassonomialength; i++) {
       if (params[i]) {
         if (params[i] !== '*') {
           let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
@@ -39,7 +39,7 @@ export const updateLayersWithViewparams = (params) => {
     }
 
     counter = 0;
-    for (let i = 4; i < 8; i++) {
+    for (let i = local.mapConfig.tassonomialength; i < local.mapConfig.tassonomialength*2; i++) {
       if (params[i]) {
         if (params[i] !== '*') {
           let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
@@ -51,7 +51,7 @@ export const updateLayersWithViewparams = (params) => {
       }
     }
     if (counter === 0) {
-      let _item = local.mapConfig.viewparams[4] + ':none';
+      let _item = local.mapConfig.viewparams[local.mapConfig.tassonomialength] + ':none';
       console.log("map.updateLayersWithViewparams() aggiungo ", _item);
       viewparams.push(_item);
     }

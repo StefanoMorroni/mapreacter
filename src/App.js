@@ -66,7 +66,7 @@ export const themiddleware = store => next => action => {
         //const _index = store.getState().local.mapConfig.routing.length;
         const _index = store.getState().local.mapConfig.permalinkmasklength;
         const _array = store.getState().local.viewparams.split("/");
-        while (_array.length < (_index + 4)) {
+        while (_array.length < (_index + store.getState().local.mapConfig.tassonomialength)) {
           _array.push('*');
         }
 
@@ -121,7 +121,7 @@ export const themiddleware = store => next => action => {
           if (_record !== '*' && _record !== '') {
             _datafilter +=
               '                <ogc:PropertyIsEqualTo>\n' +
-              '                  <ogc:PropertyName>' + store.getState().local.mapConfig.routing[index % 4].field + '</ogc:PropertyName>\n' +
+              '                  <ogc:PropertyName>' + store.getState().local.mapConfig.routing[index % store.getState().local.mapConfig.tassonomialength].field + '</ogc:PropertyName>\n' +
               '                  <ogc:Literal>' + _record + '</ogc:Literal>\n' +
               '                </ogc:PropertyIsEqualTo>\n';
           }

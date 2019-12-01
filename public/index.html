@@ -81,7 +81,7 @@
           },
           description: "<span class='description'>Open Street Map</span>",
           layout: {
-            visibility: 'none'
+            visibility: 'visible'
           }
         },
         {
@@ -420,14 +420,16 @@
       tassonomiaserviceurl: 'http://localhost:8080/MyRestServer/v2/tassonomia?name=',
       regprovsuggestionsurl: 'http://localhost:8080/MyRestServer/regprov',
       geoserverurl: 'http://localhost:8080/geoserver',
-      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<HABITAT>/<REGPROV>',
-      permalinkmasklength: 10,
+      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<HABITAT>/<REGPROV>',
+      permalinkmasklength: 12,
+      tassonomialength: 5,
 
       routing: [
         { field: 'ordo', label: 'orderlabel', mask: '<ORDERxx>' },
         { field: 'family', label: 'familylabel', mask: '<FAMILYxx>' },
         { field: 'genus', label: 'genuslabel', mask: '<GENUSxx>' },
         { field: 'canonicalname', label: 'specielabel', mask: '<SPECIESxx>' },
+        { field: 'provider', label: 'providerlabel', mask: '<PROVIDERxx>' },
       ],
       wpsserviceurl: 'http://localhost:8080/geoserver/ows?strict:true',
       downloadCSVUrl: 'http://localhost:8080/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
@@ -451,6 +453,7 @@
           familylabel: 'Famiglia',
           genuslabel: 'Genere',
           specielabel: 'Specie',
+          providerlabel: 'Provider',
           line: 'Linea',
           polygon: 'Poligono',
           layer: 'Layer',
@@ -493,6 +496,7 @@
           familylabel: 'Family',
           genuslabel: 'Genus',
           specielabel: 'Species',
+          providerlabel: 'Provider',
           line: 'Line',
           polygon: 'Polygon',
           layer: 'Layer',
