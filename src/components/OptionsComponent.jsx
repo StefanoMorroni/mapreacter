@@ -49,7 +49,7 @@ class OptionsComponent extends Component {
     render() {
         console.log("OptionsComponent.render()");
         const { anchorEl } = this.state;
-        const { classes } = this.props;
+        //const { classes } = this.props;
         return (
             <div style={{ padding: '10px' }}>
                 <Tooltip title={mylocalizedstrings.options.tooltip}>
