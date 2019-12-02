@@ -118,27 +118,10 @@ class RegProvAutocomplete extends React.Component {
   constructor(props) {
     super(props);
 
-    let permalinkmask = this.props.local.mapConfig.permalinkmask.replace(/^\//, '');
-    let thehash = decodeURIComponent(window.location.hash).replace(/^#\//, '');
-    const _permalinkmaskarray = permalinkmask.split("/");
-    const _locationarray = thehash.split("/");
-
-    let selectedItem = [];
-    try {
-      _permalinkmaskarray.forEach((_record, _index) => {
-        if (_record === '<REGPROV>') {
-          if (_locationarray[_index] && _locationarray[_index] !== '*' && _locationarray[_index] !== '<REGPROV>') {
-            selectedItem = [_locationarray[_index]];
-          }
-        }
-      });
-    } catch (error) {
-    }
-
     this.state = {
       inputValue: '',
-      selectedItem,
-      selectedItemRegProv: selectedItem,
+      selectedItem: [],
+      selectedItemRegProv: [],
       selectedItemGeocoding: [],
       suggestions: [],
       suggestionsInital: []
@@ -152,9 +135,29 @@ class RegProvAutocomplete extends React.Component {
       .then((response) => {
         console.log("RegProvAutocomplete() response:", JSON.stringify(response.data));
         this.setState({ suggestions: response.data.items, suggestionsInital: response.data.items });
-        if (this.state.selectedItem[0]) {
-          this.handleChange(this.state.selectedItem[0]);
-        }
+
+        const hasharray = decodeURIComponent(window.location.hash)
+          .replace(/^#\//, '')
+          .split("/");
+
+        let selectedItem = [];
+        this.props.local.mapConfig.permalinkmask
+          .replace(/^\//, '')
+          .split("/")
+          .forEach((_record, _index) => {
+            try {
+              if (_record === '<HABITAT>') {
+                if (hasharray[_index] !== '*') {
+                  this.handleChange(hasharray[_index]);
+                }
+              } else if (_record === '<REGPROV>') {
+                if (hasharray[_index] !== '*') {
+                  this.handleChange(hasharray[_index]);
+                }
+              }
+            } catch (error) {
+            }
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -309,15 +312,36 @@ class RegProvAutocomplete extends React.Component {
     const _locationarray = thehash.split("/");
 
     let _newpermalinkmaskarray = _permalinkmaskarray.map((_record, _index) => {
-      let returnvalue = '';
-      if (_record === '<REGPROV>') {
-        returnvalue = selectedRecord.label ? selectedRecord.label : '*';
-      } else {
-        try {
-          returnvalue = _locationarray[_index];
-        } catch (error) {
-          returnvalue = '*';
-        }
+      let returnvalue;
+      try {
+        returnvalue = _locationarray[_index];
+      } catch (error) {
+        returnvalue = '*';
+      }
+      switch (selectedRecord.sublabel) {
+        case 'habitat':
+          if (_record === '<HABITAT>') {
+            returnvalue = selectedRecord.label;
+          } else if (_record === '<REGPROV>') {
+            returnvalue = '*';
+          }
+          break;
+        case 'regione':
+        case 'provincia':
+        case 'den_cmpro':
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<REGPROV>') {
+            returnvalue = selectedRecord.label;
+          }
+          break;
+        default:
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<REGPROV>') {
+            returnvalue = '*';
+          }
+          break;
       }
       console.log("RegProvAutocomplete.handlePermalinkMask() sostituisco", _record, "con", returnvalue);
       return returnvalue;

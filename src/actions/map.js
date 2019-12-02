@@ -58,7 +58,7 @@ export const updateLayersWithViewparams = (params) => {
 
     permalinkmaskarray.forEach((item, index) => {
       //console.log("map.updateLayersWithViewparams() item->", item, "index->",index);
-      if (item === '<REGPROV>') {
+      if (item === '<HABITAT>') {
         if (params[index] !== '*') {
           try {
             let cod_habitat = 'cod_habitat:'+params[index].split(' ')[0];
