@@ -62,11 +62,29 @@ function renderInput(inputProps) {
   );
 }
 
+function getStyle(sublabel) {
+  console.log("TassonomiaAutoComplete.getStyle()", sublabel);
+  let style = { }
+  if (sublabel === 'ordo') {
+    style = { backgroundColor: '#6B8CF6', color: 'black' };
+  } else if (sublabel === 'family') {
+    style = { backgroundColor: '#89A3F8', color: 'black' };
+  } else if (sublabel === 'genus') {
+    style = { backgroundColor: '#A1B5F9', color: 'black' };
+  } else if (sublabel === 'canonicalname') {
+    style = { backgroundColor: '#B4C4FA', color: 'black' };
+  } else if (sublabel === 'provider') {
+    style = { backgroundColor: '#C3D0FB', color: 'black' };
+  }
+  return style;
+}
+
 function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
   console.log("TassonomiaAutoComplete.renderSuggestion()", JSON.stringify(suggestion));
   const isHighlighted = highlightedIndex === index;
   const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
+  let style = getStyle(suggestion.routingrecord.field);
   return (
     <MenuItem
       {...itemProps}
@@ -74,7 +92,7 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
-        fontWeight: isSelected ? 500 : 400,
+        fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
       <Typography variant="subheading">
@@ -103,23 +121,22 @@ class TassonomiaAutoComplete extends React.Component {
   constructor(props) {
     super(props);
     let selectedItem = [];
-    let selectedRecord = [];
-    let thehash = decodeURIComponent(window.location.hash).replace(/#\//, '');
-    let _array = thehash.split('/');
-    console.log("TassonomiaAutoComplete()", thehash, JSON.stringify(_array));
-    _array.forEach((_record, index) => {
-      if (index < 8) {
-        if (_record !== '*' && _record !== '') {
-          selectedItem = [...selectedItem, _record];
+    let selectedRecord = [];  
+    decodeURIComponent(window.location.hash)
+      .replace(/#\//, '')
+      .split('/')
+      .filter((item, index) => index < (this.props.local.mapConfig.tassonomialength * 2))
+      .forEach((item, index) => {
+        if (item !== '*' && item !== '') {
+          selectedItem = [...selectedItem, item];
           let _selectedRecord = {
             routingrecord: this.props.local.mapConfig.routing[index % this.props.local.mapConfig.tassonomialength],
-            label: _record,
+            label: item,
           };
-          console.log("TassonomiaAutoComplete() -> ", JSON.stringify(_selectedRecord));
+          console.log("TassonomiaAutoComplete()", JSON.stringify(_selectedRecord));
           selectedRecord = [...selectedRecord, _selectedRecord];
         }
-      }
-    });
+      });
     this.state = {
       inputValue: '',
       selectedItem: selectedItem,
@@ -260,7 +277,24 @@ class TassonomiaAutoComplete extends React.Component {
     });
   }
 
-
+  getChip(item, index, classes) {
+    //let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
+    let selectedRecord = this.state.selectedRecord.filter(_record => _record.label === item)[0];
+    console.log("TassonomiaAutoComplete.getChip()", item, selectedRecord);
+    let style = getStyle("");
+    if (selectedRecord) {
+      style = getStyle(selectedRecord.routingrecord.field);
+    }
+    return (
+      <Chip
+        key={index}
+        tabIndex={-1}
+        label={item}
+        className={classes.chip}
+        onDelete={this.handleDelete(item)}
+        style={style}
+      />);
+  }
 
   render() {
     console.log("TassonomiaAutoComplete.render()");
@@ -283,15 +317,9 @@ class TassonomiaAutoComplete extends React.Component {
                   fullWidth: true,
                   classes,
                   InputProps: getInputProps({
-                    startAdornment: selectedItem.map(item => (
-                      <Chip
-                        key={item}
-                        tabIndex={-1}
-                        label={item}
-                        className={classes.chip}
-                        onDelete={this.handleDelete(item)}
-                      />
-                    )),
+                    startAdornment: selectedItem.map((item, index, self) => (
+                      this.getChip(item, index, classes)
+                    )),                    
                     onChange: this.handleInputChange,
                     onKeyDown: this.handleKeyDown,
                     placeholder: `${mylocalizedstrings.tassonomialabel}`,
