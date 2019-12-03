@@ -15,7 +15,7 @@ const styles = theme => ({
     marginLeft: '20px',
     color: 'currentColor'
   },
-  customWidth: {
+  tooltip: {
     //maxWidth: 500,
     maxWidth: '70%',
     fontSize: '16px'
@@ -31,7 +31,7 @@ class TheTooltip extends React.Component {
     
     return (
       <div className={classes.root}>
-        <Tooltip title={title} classes={{ tooltip: classes.customWidth }}>
+        <Tooltip title={title} classes={{ tooltip: classes.tooltip }}>
           <i className="material-icons">info_outline</i>
         </Tooltip>
       </div>

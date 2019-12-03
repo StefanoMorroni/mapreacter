@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles';
 import SdkLayerList from '@boundlessgeo/sdk/components/layer-list';
 import LayerListItem from './map/LayerListItem';
 import Menu from '@material-ui/core/Menu';
@@ -11,6 +12,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { mylocalizedstrings } from '../services/localizedstring';
+
+const styles = theme => ({
+    tooltip: {
+        fontSize: '16px'
+    },
+});
 
 class TocComponent extends Component {
 
@@ -34,9 +41,10 @@ class TocComponent extends Component {
     render() {
         console.log("TocComponent.render()");
         const { anchorEl } = this.state;
+        const { classes } = this.props;
         return (
             <div>
-                <Tooltip title={mylocalizedstrings.toc}>
+                <Tooltip title={mylocalizedstrings.toc} classes={{ tooltip: classes.tooltip }}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">folder_open</i>
                     </IconButton>
@@ -93,4 +101,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(TocComponent));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(TocComponent)));

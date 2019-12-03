@@ -13,6 +13,9 @@ const styles = theme => ({
     top: 10,
     left: 10,
   },
+  tooltip: {
+    fontSize: '16px'
+  },  
 });
 
 class ZoomControl extends React.Component {
@@ -22,7 +25,7 @@ class ZoomControl extends React.Component {
 
     return (
       <div className={classes.container}>
-        <Tooltip title={this.props.zoomInTitle}>
+        <Tooltip title={this.props.zoomInTitle} classes={{ tooltip: classes.tooltip }}>
           <Button
             onClick={this.props.zoomIn}
             variant="fab"
@@ -33,7 +36,7 @@ class ZoomControl extends React.Component {
             <i className="material-icons">add</i>
           </Button>
         </Tooltip>
-        <Tooltip title={this.props.zoomOutTitle}>
+        <Tooltip title={this.props.zoomOutTitle} classes={{ tooltip: classes.tooltip }}>
           <Button
             onClick={this.props.zoomOut}
             variant="fab"

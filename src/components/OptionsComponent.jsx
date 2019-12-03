@@ -20,6 +20,9 @@ const styles = theme => ({
     formControl: {
         margin: '5px',
     },
+    tooltip: {
+        fontSize: '16px'
+    },
 });
 
 class OptionsComponent extends Component {
@@ -49,10 +52,10 @@ class OptionsComponent extends Component {
     render() {
         console.log("OptionsComponent.render()");
         const { anchorEl } = this.state;
-        //const { classes } = this.props;
+        const { classes } = this.props;
         return (
             <div style={{ padding: '10px' }}>
-                <Tooltip title={mylocalizedstrings.options.tooltip}>
+                <Tooltip title={mylocalizedstrings.options.tooltip} classes={{ tooltip: classes.tooltip }}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">tune</i>
                     </IconButton>
