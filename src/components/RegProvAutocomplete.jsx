@@ -140,7 +140,6 @@ class RegProvAutocomplete extends React.Component {
           .replace(/^#\//, '')
           .split("/");
 
-        let selectedItem = [];
         this.props.local.mapConfig.permalinkmask
           .replace(/^\//, '')
           .split("/")
