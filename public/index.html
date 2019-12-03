@@ -47,7 +47,7 @@
         zoom: 6
       },
       viewparams: ['ordo', 'family', 'genus', 'canonicalname', 'ordo2', 'family2', 'genus2', 'canonicalname2'],
-      source: 'http://localhost:8080/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
+      source: 'http://geoviewer.nnb.isprambiente.it/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
       groups: {
         'mapbox:groups': {
           osservazioni: {
@@ -81,7 +81,7 @@
           },
           description: "<span class='description'>Open Street Map</span>",
           layout: {
-            visibility: 'visible'
+            visibility: 'none'
           }
         },
         {
@@ -387,8 +387,8 @@
           flag_legend: true
         },
         {
-          id: 'nnb:inaturalist',
-          name: 'nnb:inaturalist',
+          id: 'nnb:fakeinaturalist',
+          name: 'nnb:fakeinaturalist',
           metadata: {
             'mapbox:group': 'citizenscience',
             'bnd:queryable': true
@@ -402,8 +402,8 @@
           //class: 'dataLayer',
         },        
         {
-          id: 'nnb:osservazioniweb',
-          name: 'nnb:osservazioniweb',
+          id: 'nnb:fakeosservazioniweb',
+          name: 'nnb:fakeosservazioniweb',
           metadata: {
             'mapbox:group': 'osservazioni',
             'bnd:queryable': true
@@ -417,9 +417,9 @@
           //class: 'dataLayer',
         },
       ],
-      tassonomiaserviceurl: 'http://localhost:8080/MyRestServer/v2/tassonomia?name=',
-      regprovsuggestionsurl: 'http://localhost:8080/MyRestServer/regprov',
-      geoserverurl: 'http://localhost:8080/geoserver',
+      tassonomiaserviceurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/tassonomia?name=',
+      regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/regprov',
+      geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
       permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<HABITAT>/<REGPROV>',
       permalinkmasklength: 12,
       tassonomialength: 5,
@@ -431,10 +431,10 @@
         { field: 'canonicalname', label: 'specielabel', mask: '<SPECIESxx>' },
         { field: 'provider', label: 'providerlabel', mask: '<PROVIDERxx>' },
       ],
-      wpsserviceurl: 'http://localhost:8080/geoserver/ows?strict:true',
-      downloadCSVUrl: 'http://localhost:8080/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
-      downloadShapefileUrl: 'http://localhost:8080/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=shape-zip&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
-      downloadPdfUrl: 'http://localhost:8080/geoserver/nnb/wms?service=WMS&version=1.1.0&request=GetMap&format=application/pdf&width=768&height=384&bbox=-180.0,-90.0,180.0,90.0&srs=EPSG:4326&layers=<LAYER>&viewparams=<VIEWPARAMS>',
+      wpsserviceurl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?strict:true',
+      downloadCSVUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
+      downloadShapefileUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=shape-zip&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
+      downloadPdfUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/nnb/wms?service=WMS&version=1.1.0&request=GetMap&format=application/pdf&width=768&height=384&bbox=-180.0,-90.0,180.0,90.0&srs=EPSG:4326&layers=<LAYER>&viewparams=<VIEWPARAMS>',
       helpUrl: 'http://geoviewer.nnb.isprambiente.it/mapreacter-help/docs/',
       helpDoc: '/doc_mapreacter.html',
       SdkMousePosition: {
