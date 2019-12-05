@@ -64,9 +64,9 @@ function renderInput(inputProps) {
 }
 
 function getStyle(sublabel) {
-  let style = { backgroundColor: '#46f46f', color: 'black' }
+  let style = {  }
   if (sublabel === 'habitat') {
-    style = { backgroundColor: '#a3bfdf', color: 'black' };
+    style = { backgroundColor: '#fec170', color: 'black' };
   } else if (sublabel === 'regione') {
     style = { backgroundColor: '#feb24c', color: 'black' };
   } else if (sublabel === 'provincia') {
@@ -365,7 +365,7 @@ class RegProvAutocomplete extends React.Component {
     this.props.history.push(permalinkmask);
   }
 
-  getSuggestions(inputValue) {
+  _getSuggestions(inputValue) {
     console.log("RegProvAutocomplete.getSuggestions()", inputValue);
     let count = 0;
 
@@ -376,6 +376,28 @@ class RegProvAutocomplete extends React.Component {
       }
       return keep;
     });
+  }
+
+  getSuggestions(inputValue) {
+    console.log("RegProvAutocomplete.getSuggestions()", inputValue);
+
+    let habitatArr = this.state.suggestions
+      .filter(item => item.sublabel === 'habitat')
+      .filter(suggestion => {
+        const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
+        return keep;
+      })
+      .slice(0, 6);
+
+    let tassonomiaArr = this.state.suggestions
+      .filter(item => item.sublabel !== 'habitat')
+      .filter(suggestion => {
+        const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
+        return keep;
+      })
+      .slice(0, 6);
+
+    return habitatArr.concat(tassonomiaArr);
   }
 
   getChip(item, index, classes) {
