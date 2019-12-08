@@ -66,15 +66,15 @@ function getStyle(sublabel) {
   console.log("TassonomiaAutoComplete.getStyle()", sublabel);
   let style = { }
   if (sublabel === 'ordo') {
-    style = { backgroundColor: '#6B8CF6', color: 'black' };
+    style = { backgroundColor: '#FEB24C', color: 'black' };
   } else if (sublabel === 'family') {
-    style = { backgroundColor: '#89A3F8', color: 'black' };
+    style = { backgroundColor: '#FEC170', color: 'black' };
   } else if (sublabel === 'genus') {
-    style = { backgroundColor: '#A1B5F9', color: 'black' };
+    style = { backgroundColor: '#FECD8D', color: 'black' };
   } else if (sublabel === 'canonicalname') {
-    style = { backgroundColor: '#B4C4FA', color: 'black' };
+    style = { backgroundColor: '#FED7A4', color: 'black' };
   } else if (sublabel === 'provider') {
-    style = { backgroundColor: '#C3D0FB', color: 'black' };
+    style = { backgroundColor: '#FEDFB6', color: 'black' };
   }
   return style;
 }
@@ -95,11 +95,11 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
         fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
-      <Typography variant="subheading">
+      <Typography variant="subheading" style={{ color: 'black' }}>
         {suggestion.label}
       </Typography>
       &nbsp;
-      <Typography variant="caption" style={{ fontStyle: 'italic', }}>
+      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black' }}>
         {mylocalizedstrings.getString(suggestion.routingrecord.label, mylocalizedstrings.getLanguage())}
       </Typography>
     </MenuItem>
@@ -281,7 +281,7 @@ class TassonomiaAutoComplete extends React.Component {
     //let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
     let selectedRecord = this.state.selectedRecord.filter(_record => _record.label === item)[0];
     console.log("TassonomiaAutoComplete.getChip()", item, selectedRecord);
-    let style = getStyle("");
+    let style = {}
     if (selectedRecord) {
       style = getStyle(selectedRecord.routingrecord.field);
     }
