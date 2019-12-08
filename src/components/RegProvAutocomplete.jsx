@@ -90,7 +90,8 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
-        height: 'max-content',
+        //height: 'max-content',
+        height: '30%',
         maxHeight: 'unset',
         fontWeight: isSelected ? 500 : 400, ...style
       }}
