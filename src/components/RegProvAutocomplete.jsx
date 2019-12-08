@@ -149,11 +149,58 @@ class RegProvAutocomplete extends React.Component {
             try {
               if (_record === '<HABITAT>') {
                 if (hasharray[_index] !== '*') {
-                  this.handleChange(hasharray[_index]);
+                  //this.handleChange(hasharray[_index]);
+                  let selectedRecord = this.state.suggestions
+                    .filter(item => item.sublabel === 'habitat')
+                    .filter(item => item.codice === hasharray[_index])[0];
+
+                  let item = selectedRecord.label;
+
+                  console.log("RegProvAutocomplete() selectedRecord -->", selectedRecord);
+
+                  this.setState({
+                    inputValue: '',
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
+                  });
+
+                  this.props.removeFeatures("regioni_province");
+                  this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+                  this.handlePermalinkMask(selectedRecord);
+
                 }
               } else if (_record === '<REGPROV>') {
                 if (hasharray[_index] !== '*') {
-                  this.handleChange(hasharray[_index]);
+                  //this.handleChange(hasharray[_index]);
+                  let selectedRecord = this.state.suggestions
+                    .filter(item => item.sublabel !== 'habitat')
+                    .filter(item => item.sublabel !== 'geocoding')
+                    .filter(item => item.label === hasharray[_index])[0];
+
+                  let item = selectedRecord.label;
+
+                  console.log("RegProvAutocomplete() selectedRecord -->", selectedRecord);
+
+                  this.setState({
+                    inputValue: '',
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
+                  });
+
+                  this.props.removeFeatures("regioni_province");
+                  this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+                  this.handlePermalinkMask(selectedRecord);
+
+                  let url = selectedRecord.wfsGetFeaturesUrl;
+                  console.log("RegProvAutocomplete() GET", url);
+                  axios.get(url)
+                    .then((response) => {
+                      console.log("RegProvAutocomplete() response:", JSON.stringify(response.data));
+                      this.props.addFeatures("regioni_province", response.data.features);
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
                 }
               }
             } catch (error) {
@@ -163,7 +210,6 @@ class RegProvAutocomplete extends React.Component {
       .catch((error) => {
         console.error(error);
       });
-
   }
 
 
