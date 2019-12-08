@@ -64,7 +64,7 @@ function renderInput(inputProps) {
 }
 
 function getStyle(sublabel) {
-  let style = {  }
+  let style = {}
   if (sublabel === 'habitat') {
     style = { backgroundColor: '#fec170', color: 'black' };
   } else if (sublabel === 'regione') {
@@ -90,14 +90,16 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
+        height: 'max-content',
+        maxHeight: 'unset',
         fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
-      <Typography variant="subheading" style={{ color: 'black' }}>
+      <Typography variant="subheading" style={{ color: 'black', whiteSpace: 'pre-wrap' }}>
         {suggestion.label}
       </Typography>
       &nbsp;
-      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black' }}>
+      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black', whiteSpace: 'pre-wrap' }}>
         {mylocalizedstrings.getString(suggestion.sublabel, mylocalizedstrings.getLanguage())}
       </Typography>
     </MenuItem>
@@ -387,7 +389,7 @@ class RegProvAutocomplete extends React.Component {
         const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
         return keep;
       })
-      .slice(0, 6);
+      .slice(0, 5);
 
     let tassonomiaArr = this.state.suggestions
       .filter(item => item.sublabel !== 'habitat')
@@ -395,7 +397,7 @@ class RegProvAutocomplete extends React.Component {
         const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
         return keep;
       })
-      .slice(0, 6);
+      .slice(0, 5);
 
     return habitatArr.concat(tassonomiaArr);
   }
