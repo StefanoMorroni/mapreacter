@@ -322,7 +322,7 @@ class RegProvAutocomplete extends React.Component {
       switch (selectedRecord.sublabel) {
         case 'habitat':
           if (_record === '<HABITAT>') {
-            returnvalue = selectedRecord.label;
+            returnvalue = selectedRecord.codice;
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
           }
@@ -405,10 +405,46 @@ class RegProvAutocomplete extends React.Component {
   getChip(item, index, classes) {
     let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
     console.log("RegProvAutocomplete.getChip()", item, selectedRecord);
-    let style = getStyle("");
+    let style = {};
     if (selectedRecord) {
       style = getStyle(selectedRecord.sublabel);
+
+      switch (selectedRecord.sublabel) {
+        case 'habitat':
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={selectedRecord.codice}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+        case 'regione':
+        case 'provincia':
+        case 'den_cmpro':
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={item}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+        default:
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={item}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+      }
     }
+
     return (
       <Chip
         key={index}

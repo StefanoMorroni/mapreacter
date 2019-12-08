@@ -61,7 +61,8 @@ export const updateLayersWithViewparams = (params) => {
       if (item === '<HABITAT>') {
         if (params[index] !== '*') {
           try {
-            let cod_habitat = 'cod_habitat:'+params[index].split(' ')[0];
+            //let cod_habitat = 'cod_habitat:'+params[index].split(' ')[0];
+            let cod_habitat = 'cod_habitat:'+params[index];
             console.log("map.updateLayersWithViewparams() aggiungo ", cod_habitat);
             viewparams.push(cod_habitat);  
           } catch(err) {}
