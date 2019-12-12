@@ -136,7 +136,7 @@ class RegProvAutocomplete extends React.Component {
     console.log("RegProvAutocomplete() GET", url);
     axios.get(url)
       .then((response) => {
-        console.log("RegProvAutocomplete() response:", JSON.stringify(response.data));
+        console.log("RegProvAutocomplete() response:", response.data);
         this.setState({ suggestions: response.data.items, suggestionsInital: response.data.items });
 
         const hasharray = decodeURIComponent(window.location.hash)
@@ -165,9 +165,10 @@ class RegProvAutocomplete extends React.Component {
                     selectedItem: [...this.state.selectedItemGeocoding, item],
                   });
 
-                  this.props.removeFeatures("regioni_province");
+                  //this.props.removeFeatures("regioni_province");
                   this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
-                  this.handlePermalinkMask(selectedRecord);
+                  //this.handlePermalinkMask(selectedRecord);
+                  this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
                 }
               } else if (_record === '<REGPROV>') {
@@ -188,15 +189,16 @@ class RegProvAutocomplete extends React.Component {
                     selectedItem: [...this.state.selectedItemGeocoding, item],
                   });
 
-                  this.props.removeFeatures("regioni_province");
+                  //this.props.removeFeatures("regioni_province");
                   this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
-                  this.handlePermalinkMask(selectedRecord);
+                  //this.handlePermalinkMask(selectedRecord);
+                  this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
                   let url = selectedRecord.wfsGetFeaturesUrl;
                   console.log("RegProvAutocomplete() GET", url);
                   axios.get(url)
                     .then((response) => {
-                      console.log("RegProvAutocomplete() response:", JSON.stringify(response.data));
+                      console.log("RegProvAutocomplete() response:", response.data);
                       this.props.addFeatures("regioni_province", response.data.features);
                     })
                     .catch((error) => {
@@ -428,7 +430,7 @@ class RegProvAutocomplete extends React.Component {
   }
 
   getSuggestions(inputValue) {
-    console.log("RegProvAutocomplete.getSuggestions()", inputValue);
+    //console.log("RegProvAutocomplete.getSuggestions()", inputValue);
 
     let habitatArr = this.state.suggestions
       .filter(item => item.sublabel === 'habitat')
@@ -451,7 +453,7 @@ class RegProvAutocomplete extends React.Component {
 
   getChip(item, index, classes) {
     let selectedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
-    console.log("RegProvAutocomplete.getChip()", item, selectedRecord);
+    //console.log("RegProvAutocomplete.getChip()", item, selectedRecord);
     let style = {};
     if (selectedRecord) {
       style = getStyle(selectedRecord.sublabel);
