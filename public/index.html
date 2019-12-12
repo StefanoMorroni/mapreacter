@@ -24,17 +24,6 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <style>
-    .isprafooter {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      padding: 10px;
-      background-color: #ffffff;
-      text-align: right;
-    }
-  </style>
   <script>
     var config = {
       mapbox: {
@@ -548,20 +537,12 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-  <div id="ispraheader" style="padding: 10px; background-color: #ffffff; text-align: left; position:absolute; left:0px; top:0px; height: 60px; width: 100%">
+  <div id="ispraheader" >
     <img src="%PUBLIC_URL%/logo_MATTM.jpg" alt="" height="60px" />
     <img src="%PUBLIC_URL%/logoNaturaitalia.png" alt="" height="60px" style="padding-left: 20px;" />
     <img src="%PUBLIC_URL%/logo.png" alt="" height="60px" style="padding-left: 20px;" />
   </div>
-  <div id="root" style="position:absolute; left:0px; top:80px; width: 100%; height: calc(100% - 80px)"></div>
-  <script>
-    if (screen.width <= 480) {
-      document.getElementById("ispraheader").innerHTML =
-        "<img src='%PUBLIC_URL%/logo_MATTM.jpg'       alt=''       style='height: 40px; padding: 10px;' />" +
-        "<img src='%PUBLIC_URL%/logoNaturaitalia.png' alt='' style='height: 40px; padding: 10px;' />" +
-        "<img src='%PUBLIC_URL%/logo.png'             alt=''             style='height: 40px; padding: 10px;' />";
-    }
-  </script>
+  <div id="root" />
 </body>
 
 </html>
