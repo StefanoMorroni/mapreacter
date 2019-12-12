@@ -14,6 +14,10 @@ import Button from '@material-ui/core/Button';
 import { mylocalizedstrings } from '../services/localizedstring';
 
 const styles = theme => ({
+    root: {
+        margin: 0,
+        padding: 0,
+    },    
     tooltip: {
         fontSize: '16px'
     },
@@ -43,7 +47,7 @@ class TocComponent extends Component {
         const { anchorEl } = this.state;
         const { classes } = this.props;
         return (
-            <div>
+            <div className={classes.root}>
                 <Tooltip title={mylocalizedstrings.toc} classes={{ tooltip: classes.tooltip }}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">folder_open</i>

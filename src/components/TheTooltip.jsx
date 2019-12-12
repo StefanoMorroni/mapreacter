@@ -12,7 +12,8 @@ import { mylocalizedstrings } from '../services/localizedstring';
 
 const styles = theme => ({
   root: {
-    marginLeft: '20px',
+    margin: '5px',
+    padding: 0,
     color: 'currentColor'
   },
   tooltip: {

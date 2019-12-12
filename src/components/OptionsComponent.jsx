@@ -17,6 +17,10 @@ import * as actions from '../actions/map';
 
 
 const styles = theme => ({
+    root: {
+        margin: 0,
+        padding: 0,
+    },
     formControl: {
         margin: '5px',
     },
@@ -54,7 +58,7 @@ class OptionsComponent extends Component {
         const { anchorEl } = this.state;
         const { classes } = this.props;
         return (
-            <div style={{ padding: '10px' }}>
+            <div className={classes.root}>
                 <Tooltip title={mylocalizedstrings.options.tooltip} classes={{ tooltip: classes.tooltip }}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">tune</i>

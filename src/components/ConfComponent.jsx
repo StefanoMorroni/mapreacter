@@ -14,12 +14,19 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
 
 import * as configActions from '../actions/map';
 import { mylocalizedstrings } from '../services/localizedstring';
 import { downloadFile } from '../services/download';
 import { theBrowserItem, theBrowserVersion } from './BrowserVerComponent';
 
+const styles = theme => ({
+    root: {
+        margin: 0,
+        padding: 0,
+    },
+});
 
 class ConfComponent extends Component {
 
@@ -57,8 +64,9 @@ class ConfComponent extends Component {
     render() {
         console.log("ConfComponent.render()");
         const { anchorEl } = this.state;
+        const { classes } = this.props;
         return (
-            <div>
+            <div className={classes.root}>
                 <IconButton onClick={this.handleOpenMenu}>
                     <i className="material-icons">more_vert</i>
                 </IconButton>
@@ -121,7 +129,7 @@ class ConfComponent extends Component {
 
 
                     <MenuItem
-                        disabled={navigator.userAgent.indexOf("Edge")>-1}
+                        disabled={navigator.userAgent.indexOf("Edge") > -1}
                         onClick={(event) => {
                             this.props.exportMapImage();
                             this.handleCloseMenu();
@@ -137,7 +145,7 @@ class ConfComponent extends Component {
                     </MenuItem>
 
                     <MenuItem
-                        disabled={navigator.userAgent.indexOf("Edge")>-1 && this.props.local.regProvComponent['filter'] && this.props.local.regProvComponent.filter.length>2000}
+                        disabled={navigator.userAgent.indexOf("Edge") > -1 && this.props.local.regProvComponent['filter'] && this.props.local.regProvComponent.filter.length > 2000}
                         onClick={(event) => {
                             downloadFile(this.props.local.mapConfig.downloadShapefileUrl, this.getActiveLayers(), '.zip', this.props.local.regProvComponent['filter']);
                             this.handleCloseMenu();
@@ -212,4 +220,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfComponent));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ConfComponent)));
