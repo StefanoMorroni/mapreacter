@@ -531,7 +531,7 @@ class RegProvAutocomplete extends React.Component {
                     onChange: this.handleInputChange,
                     onKeyDown: this.handleKeyDown,
                     placeholder: `${mylocalizedstrings.regprovlabel}`,
-                    id: 'integration-downshift-multiple',
+                    id: 'regprov-downshift-multiple',
                   }),
                 })}
                 {isOpen ? (
