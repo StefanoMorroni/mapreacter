@@ -212,6 +212,22 @@ li.sdk-layer-group {
 }
 
 @media screen and (min-width: 0px) and (max-width: 600px) {
+  #toolbar {
+    height: 100px;
+    padding-left: 0;
+    padding-right: 0;
+  } 
+}
+
+@media screen and (min-width: 601px) {
+  #toolbar {
+    height: 80px; 
+    padding-left: 16px;
+    padding-right: 16px;    
+  } 
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
   #tooltip1 {
     display: none; 
   } 

@@ -310,7 +310,7 @@ class App extends Component {
                   <MeasureComponent />
 
                   <AppBar position="static">
-                    <Toolbar style={{ height: '80px' }}>
+                    <Toolbar id="toolbar">
 
                       <BrowserVerComponent />
 
