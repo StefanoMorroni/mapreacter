@@ -47,7 +47,7 @@ class TocComponent extends Component {
         const { anchorEl } = this.state;
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
+            <div id="toccomponent" className={classes.root}>
                 <Tooltip title={mylocalizedstrings.toc} classes={{ tooltip: classes.tooltip }}>
                     <IconButton onClick={this.handleOpenMenu}>
                         <i className="material-icons">folder_open</i>

@@ -409,3 +409,59 @@ li.sdk-layer-group {
     top: 80px;
     width: 100%;
     height: calc(100% - 80px); } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #tooltip {
+    display: none; } }
+
+@media screen and (min-width: 601px) {
+  #tooltip {
+    display: block; } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #toccomponent {
+    display: none; } }
+
+@media screen and (min-width: 601px) {
+  #toccomponent {
+    display: block; } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #confcomponent {
+    display: none; } }
+
+@media screen and (min-width: 601px) {
+  #confcomponent {
+    display: block; } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #langcomponent {
+    display: none; } }
+
+@media screen and (min-width: 601px) {
+  #langcomponent {
+    display: block; } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #tassonomiaautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 10px); } }
+
+@media screen and (min-width: 601px) {
+  #tassonomiaautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 170px); } }
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #regprovautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 10px); } }
+
+@media screen and (min-width: 601px) {
+  #regprovautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 170px); } }

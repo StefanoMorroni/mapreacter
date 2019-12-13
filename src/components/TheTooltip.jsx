@@ -31,7 +31,7 @@ class TheTooltip extends React.Component {
     //console.log("TheTooltip.render()", label, title);
     
     return (
-      <div className={classes.root}>
+      <div id="tooltip" className={classes.root}>
         <Tooltip title={title} classes={{ tooltip: classes.tooltip }}>
           <i className="material-icons">info_outline</i>
         </Tooltip>

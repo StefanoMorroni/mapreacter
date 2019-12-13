@@ -17,19 +17,21 @@ class LangComponent extends Component {
         console.log("LangComponent.render()", this.props);
         const { style } = this.props;
         return (
-            <Select
-                //color='primary'
-                style={style}
-                value={mylocalizedstrings.getLanguage()}
-                onChange={this.handleChangeLanguage}
-                inputProps={{
-                    name: 'language',
-                    id: 'language',
-                }}
-            >
-                <MenuItem value={'it'}>ITA</MenuItem>
-                <MenuItem value={'en'}>ENG</MenuItem>
-            </Select>
+            <div id="langcomponent">
+                <Select
+                    //color='primary'
+                    style={style}
+                    value={mylocalizedstrings.getLanguage()}
+                    onChange={this.handleChangeLanguage}
+                    inputProps={{
+                        name: 'language',
+                        id: 'language',
+                    }}
+                >
+                    <MenuItem value={'it'}>ITA</MenuItem>
+                    <MenuItem value={'en'}>ENG</MenuItem>
+                </Select>
+            </div>
         );
     }
 }

@@ -20,9 +20,9 @@ var axios = require('axios');
 
 const styles = theme => ({
   root: {
-    margin: '5px',
-    padding: 0,
-    width: 'calc(50% - 170px)',
+    // margin: '5px',
+    // padding: 0,
+    // width: 'calc(50% - 170px)',
     color: 'currentColor'
   },
   container: {
@@ -511,7 +511,7 @@ class RegProvAutocomplete extends React.Component {
     const { inputValue, selectedItem } = this.state;
 
     return (
-      <div className={classes.root}>
+      <div id="regprovautocomplete" className={classes.root}>
         <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedItem} classes={classes}>
           {({
             getInputProps,

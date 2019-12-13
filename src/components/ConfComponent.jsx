@@ -66,7 +66,7 @@ class ConfComponent extends Component {
         const { anchorEl } = this.state;
         const { classes } = this.props;
         return (
-            <div className={classes.root}>
+            <div id="confcomponent" className={classes.root}>
                 <IconButton onClick={this.handleOpenMenu}>
                     <i className="material-icons">more_vert</i>
                 </IconButton>
