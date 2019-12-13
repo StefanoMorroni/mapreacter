@@ -212,13 +212,25 @@ li.sdk-layer-group {
 }
 
 @media screen and (min-width: 0px) and (max-width: 600px) {
-  #tooltip {
+  #tooltip1 {
     display: none; 
   } 
 }
 
 @media screen and (min-width: 601px) {
-  #tooltip {
+  #tooltip1 {
+    display: block; 
+  } 
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  #tooltip2 {
+    display: none; 
+  } 
+}
+
+@media screen and (min-width: 601px) {
+  #tooltip2 {
     display: block; 
   } 
 }

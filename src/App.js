@@ -320,15 +320,15 @@ class App extends Component {
 
                       {/* <OptionsComponent /> */}
 
-                      <TheTooltip label='tassonomiainfo' />
+                      <TheTooltip id="tooltip1" label='tassonomiainfo' />
 
                       <TassonomiaAutoComplete />
 
-                      <TheTooltip label='regprovinfo' />
+                      <TheTooltip id="tooltip2" label='regprovinfo' />
 
                       <RegProvAutocomplete />
 
-                      <LangComponent style={{ position: 'absolute', right: 40, width: '70px', color: 'currentColor' }} />
+                      <LangComponent style={{ position: 'absolute', top: '20px', right: '40px', width: '70px', color: 'currentColor' }} />
 
                     </Toolbar>
                   </AppBar>

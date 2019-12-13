@@ -26,12 +26,12 @@ const styles = theme => ({
 class TheTooltip extends React.Component {
 
   render() {
-    const { classes, label } = this.props;
+    const { classes, label, id } = this.props;
     let title = mylocalizedstrings.getString(label, mylocalizedstrings.getLanguage())
     //console.log("TheTooltip.render()", label, title);
     
     return (
-      <div id="tooltip" className={classes.root}>
+      <div id={id} className={classes.root}>
         <Tooltip title={title} classes={{ tooltip: classes.tooltip }}>
           <i className="material-icons">info_outline</i>
         </Tooltip>
