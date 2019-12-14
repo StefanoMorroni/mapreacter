@@ -325,6 +325,8 @@ class TassonomiaAutoComplete extends React.Component {
                     onKeyDown: this.handleKeyDown,
                     placeholder: `${mylocalizedstrings.tassonomialabel}`,
                     id: 'integration-downshift-multiple',
+                    multiline: true,
+                    rows: 2,                    
                   }),
                 })}
                 {isOpen ? (
