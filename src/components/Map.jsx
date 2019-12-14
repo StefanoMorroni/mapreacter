@@ -190,7 +190,7 @@ class Map extends Component {
             });
           }}>
           <SdkScaleLine />
-          <SdkMousePosition style={window.config.SdkMousePosition.style} />
+          <SdkMousePosition />
           <ZoomControl />
           {/* <SdkZoomSlider /> */}
         </SdkMap>

@@ -99,6 +99,25 @@ li.sdk-layer-group {
   list-style: none; 
 }
 
+@media screen and (min-width: 0px) and (max-width: 600px) {  
+  .sdk-mouseposition {
+    display: none; 
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .sdk-mouseposition {
+    position: absolute; 
+    top: 10px; 
+    right: 40px; 
+    z-index: 1; 
+    width: 5em; 
+    color: rgb(0, 255, 255); 
+    font-family: roboto; 
+    font-size: 14px;
+  }  
+}
+
 .ol-overviewmap {
     left: 0.5em;
     bottom: 2em;
