@@ -302,6 +302,12 @@ class TassonomiaAutoComplete extends React.Component {
     const { classes } = this.props;
     const { inputValue, selectedItem } = this.state;
 
+    let componentwhidth = 0;
+    try {
+      componentwhidth = document.getElementById("regprovautocomplete").clientWidth;
+      //console.log("TassonomiaAutoComplete.render() componentwhidth ->", componentwhidth);
+    } catch(ex) {}
+
     return (
       <div id="tassonomiaautocomplete" className={classes.root}>
         <Downshift inputValue={inputValue} onChange={this.handleChange} selectedItem={selectedItem} classes={classes}>
@@ -325,8 +331,8 @@ class TassonomiaAutoComplete extends React.Component {
                     onKeyDown: this.handleKeyDown,
                     placeholder: `${mylocalizedstrings.tassonomialabel}`,
                     id: 'integration-downshift-multiple',
-                    multiline: true,
-                    rows: 2,                    
+                    multiline: componentwhidth < 170 ? true : false,
+                    rows: 2,               
                   }),
                 })}
                 {isOpen ? (
