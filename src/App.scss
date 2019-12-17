@@ -203,6 +203,52 @@ li.sdk-layer-group {
   #ispraheader {
     display: none; 
   } 
+
+  #root {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  #toolbar {
+    height: 100px;
+    padding-left: 0;
+    padding-right: 0;
+  }   
+
+  #confcomponent {
+    display: none; 
+  } 
+
+  #toccomponent {
+    display: none; 
+  } 
+
+  #tooltip1 {
+    display: none; 
+  }  
+  
+  #tassonomiaautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 10px);  
+  }
+
+  #tooltip2 {
+    display: none; 
+  }   
+
+  #regprovautocomplete {
+    margin: 5px;
+    padding: 0;
+    width: calc(50% - 10px);  
+  } 
+
+  #langcomponent {
+    display: none; 
+  }   
 }
 
 @media screen and (min-width: 601px) {
@@ -217,132 +263,52 @@ li.sdk-layer-group {
     height: 60px;
     width: 100%; 
   } 
-}
 
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #root {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-@media screen and (min-width: 601px) {
   #root {
     position: absolute;
     left: 0px;
     top: 80px;
     width: 100%;
     height: calc(100% - 80px); 
-  } 
-}
+  }   
 
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #toolbar {
-    height: 100px;
-    padding-left: 0;
-    padding-right: 0;
-  } 
-}
-
-@media screen and (min-width: 601px) {
   #toolbar {
     height: 80px; 
     padding-left: 16px;
     padding-right: 16px;    
-  } 
-}
-
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #tooltip1 {
-    display: none; 
-  } 
-}
-
-@media screen and (min-width: 601px) {
-  #tooltip1 {
-    display: block; 
-  } 
-}
-
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #tooltip2 {
-    display: none; 
-  } 
-}
-
-@media screen and (min-width: 601px) {
-  #tooltip2 {
-    display: block; 
-  } 
-}
-
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #toccomponent {
-    display: none; 
-  } 
-}
-
-@media screen and (min-width: 601px) {
-  #toccomponent {
-    display: block; 
-  } 
-}   
-
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #confcomponent {
-    display: none; 
-  } 
-}
-
-@media screen and (min-width: 601px) {
+  }  
+  
   #confcomponent {
     display: block; 
   } 
-}      
 
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #langcomponent {
-    display: none; 
-  } 
-}
-
-@media screen and (min-width: 601px) {
-  #langcomponent {
+  #toccomponent {
     display: block; 
   } 
-}   
 
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #tassonomiaautocomplete {
-    margin: 5px;
-    padding: 0;
-    width: calc(50% - 10px);  
-  } 
-}
+  #tooltip1 {
+    display: block; 
+    padding-left: 15px;
+  }   
 
-@media screen and (min-width: 601px) {
   #tassonomiaautocomplete {
     margin: 5px;
     padding: 0;
     width: calc(50% - 170px);  
-  } 
-}
+  }   
 
-@media screen and (min-width: 0px) and (max-width: 600px) {
-  #regprovautocomplete {
-    margin: 5px;
-    padding: 0;
-    width: calc(50% - 10px);  
-  } 
-}
-
-@media screen and (min-width: 601px) {
+  #tooltip2 {
+    display: block; 
+  }  
+  
   #regprovautocomplete {
     margin: 5px;
     padding: 0;
     width: calc(50% - 170px);  
   } 
-}  
+
+  #langcomponent {
+    display: block; 
+  }   
+}
+
