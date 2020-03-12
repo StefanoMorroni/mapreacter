@@ -13,47 +13,15 @@ export const updateLayersWithViewparams = (params) => {
     let permalinkmaskarray = permalinkmask.split("/");
     
     viewparams.length = 0;
-    /*params.forEach((param, i) => {
-      if (param !== '*') {
-        let paramEscaped = param.replace(",", "\\,").replace(";", "\\;");
-        viewparams.push(local.mapConfig.viewparams[i] + ':' + paramEscaped);
-      }
-    });*/
-
-    let counter = 0;
-    for (let i = 0; i < local.mapConfig.tassonomialength; i++) {
+    for (let i = 0; i < local.mapConfig.tassonomialength * 2; i++) {
       if (params[i]) {
-        if (params[i] !== '*') {
-          let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
-          if (local.mapConfig.viewparams[i]) {
-            viewparams.push(local.mapConfig.viewparams[i] + ':' + paramEscaped);
-            counter++;
-          }
+        let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
+        if (local.mapConfig.viewparams[i]) {
+          let _item = local.mapConfig.viewparams[i] + ':' + paramEscaped;
+          console.log("map.updateLayersWithViewparams() aggiungo ", _item);
+          viewparams.push(_item);
         }
       }
-    }
-    if (counter === 0) {
-      let _item = local.mapConfig.viewparams[0] + ':none';
-      console.log("map.updateLayersWithViewparams() aggiungo ", _item);
-      viewparams.push(_item);
-    }
-
-    counter = 0;
-    for (let i = local.mapConfig.tassonomialength; i < local.mapConfig.tassonomialength*2; i++) {
-      if (params[i]) {
-        if (params[i] !== '*') {
-          let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
-          if (local.mapConfig.viewparams[i]) {
-            viewparams.push(local.mapConfig.viewparams[i] + ':' + paramEscaped);
-            counter++;
-          }
-        }
-      }
-    }
-    if (counter === 0) {
-      let _item = local.mapConfig.viewparams[local.mapConfig.tassonomialength] + ':none';
-      console.log("map.updateLayersWithViewparams() aggiungo ", _item);
-      viewparams.push(_item);
     }
 
     permalinkmaskarray.forEach((item, index) => {
