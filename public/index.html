@@ -128,17 +128,6 @@
           flag_legend: true
         },
         {
-          id: 'Studi Federparchi',
-          name: 'nnb:studi_federparchi',
-          metadata: {
-            'mapbox:group': 'sitiprotetti',
-            'bnd:queryable': true,
-          },
-          description: "<span class='description'>Studi scientifici prodotti dai Parchi Nazionali Italiani</span>",
-          layout: { visibility: 'none' },
-          flag_legend: true
-        },
-        {
           id: 'Rete Natura 2000 (SIC ZPS ZSC)',
           name: 'nnb:sic_zps_ita_32',
           metadata: {
@@ -285,28 +274,6 @@
           flag_legend: true
         },
         {
-          id: 'Carta dei tipi forestali Molise',
-          name: 'nnb:carta_dei_tipi_forestali_molise',
-          metadata: {
-            'mapbox:group': 'specieehabitat',
-            'bnd:queryable': true,
-          },
-          description: "<span class='description'>Cartografia puntuale che descrive la distribuzione delle specie di flora presenti nella regione Molise</span>",
-          layout: { visibility: 'none' },
-          flag_legend: true
-        },
-        {
-          id: 'Tipi forestali Molise',
-          name: 'nnb:tipi_forestali_molise',
-          metadata: {
-            'mapbox:group': 'specieehabitat',
-            'bnd:queryable': true,
-          },
-          description: "<span class='description'>Cartografia puntuale dei tipi forestali per la Regione Molise</span>",
-          layout: { visibility: 'none' },
-          flag_legend: true
-        },
-        {
           id: 'SIC-ZPS-ZSC',
           name: 'nnb:siczps_filter',
           metadata: {
@@ -405,6 +372,21 @@
           //class: 'dataLayer',
         },*/
         {
+          id: 'CitizenScience',
+          name: 'nnb:citizen_science_nnb',
+          metadata: {
+            'mapbox:group': 'osservazioni',
+            'bnd:queryable': true
+          },
+          description: "<span class='description'>Osservazioni puntuali di Citizen Science</span>",
+          layout: { visibility: 'visible' },
+          flag_fitextent: true,
+          flag_filter: true,
+          flag_legend: true,
+          flag_download: true,
+          //class: 'dataLayer',
+        },        
+        {
           id: 'Distribuzioni',
           name: 'nnb:distribuzioniweb_polig',
           metadata: {
@@ -426,7 +408,7 @@
             'mapbox:group': 'osservazioni',
             'bnd:queryable': true
           },
-          description: "<span class='description'>Osservazioni con ...</span>",
+          description: "<span class='description'>Osservazioni poligonali</span>",
           layout: { visibility: 'visible' },
           flag_fitextent: true,
           flag_filter: true,
@@ -441,7 +423,7 @@
             'mapbox:group': 'osservazioni',
             'bnd:queryable': true
           },
-          description: "<span class='description'>Osservazioni con ...</span>",
+          description: "<span class='description'>Osservazioni puntuali</span>",
           layout: { visibility: 'visible' },
           flag_fitextent: true,
           flag_filter: true,
