@@ -236,6 +236,8 @@ class TassonomiaAutoComplete extends React.Component {
       let returnvalue = '*';
       if (_record === '<HABITAT>') {
         returnvalue = _locationarray[_index];
+      } else if (_record === '<SICZPS>') {
+        returnvalue = _locationarray[_index];
       } else if (_record === '<REGPROV>') {
         returnvalue = _locationarray[_index];
       }
