@@ -307,6 +307,20 @@
           flag_legend: true
         },
         {
+          id: 'siczps',
+          name: 'nnb:siczps_filter',
+          metadata: {
+            'mapbox:group': 'specieehabitat',
+            'bnd:queryable': true
+          },
+          description: "<span class='description'>Sic Zps mostrati in 'Seleziona un area di interesse'</span>",
+          layout: { visibility: 'visible' },
+          flag_fitextent: false,
+          flag_filter: true,
+          flag_legend: true,
+          flag_download: false,
+        },
+        {
           id: 'Habitat',
           name: 'nnb:habitat_filter',
           metadata: {
@@ -439,8 +453,8 @@
       tassonomiaserviceurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/tassonomia?name=',
       regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/regprov',
       geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
-      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<HABITAT>/<REGPROV>',
-      permalinkmasklength: 12,
+      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<SICZPS>/<HABITAT>/<REGPROV>',
+      permalinkmasklength: 13,
       tassonomialength: 5,
 
       routing: [
@@ -499,6 +513,7 @@
           den_cmpro: 'Città Metropolitana',
           addressautocompletelabel: 'Cerca località ...',
           habitat: 'Habitat',
+          siczps: 'Sic/Zps',
           geocoding: 'Geocoding'
         },
         en: {
@@ -542,6 +557,7 @@
           den_cmpro: 'Metropolitan City',
           addressautocompletelabel: 'Search places ...',
           habitat: 'Habitat',
+          siczps: 'Sic/Zps',
           geocoding: 'Geocoding'
         }
       },

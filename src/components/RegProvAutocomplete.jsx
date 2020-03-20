@@ -68,6 +68,8 @@ function getStyle(sublabel) {
   let style = {}
   if (sublabel === 'habitat') {
     style = { backgroundColor: '#fec170', color: 'black' };
+  } else if (sublabel === 'siczps') {
+    style = { backgroundColor: '#9e5c05', color: 'black' };
   } else if (sublabel === 'regione') {
     style = { backgroundColor: '#feb24c', color: 'black' };
   } else if (sublabel === 'provincia') {
@@ -154,6 +156,29 @@ class RegProvAutocomplete extends React.Component {
                   //this.handleChange(hasharray[_index]);
                   let selectedRecord = this.state.suggestions
                     .filter(item => item.sublabel === 'habitat')
+                    .filter(item => item.codice === hasharray[_index])[0];
+
+                  let item = selectedRecord.label;
+
+                  console.log("RegProvAutocomplete() selectedRecord -->", selectedRecord);
+
+                  this.setState({
+                    inputValue: '',
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
+                  });
+
+                  //this.props.removeFeatures("regioni_province");
+                  this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+                  //this.handlePermalinkMask(selectedRecord);
+                  this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
+
+                }
+              } else if (_record === '<SICZPS>') {
+                if (hasharray[_index] !== '*') {
+                  //this.handleChange(hasharray[_index]);
+                  let selectedRecord = this.state.suggestions
+                    .filter(item => item.sublabel === 'siczps')
                     .filter(item => item.codice === hasharray[_index])[0];
 
                   let item = selectedRecord.label;
@@ -279,6 +304,7 @@ class RegProvAutocomplete extends React.Component {
         break;
 
       case 'habitat':
+      case 'siczps':
         this.setState({
           inputValue: '',
           selectedItemRegProv: [item],
@@ -373,6 +399,17 @@ class RegProvAutocomplete extends React.Component {
         case 'habitat':
           if (_record === '<HABITAT>') {
             returnvalue = selectedRecord.codice;
+          } else if (_record === '<SICZPS>') {
+            returnvalue = '*';
+          } else if (_record === '<REGPROV>') {
+            returnvalue = '*';
+          }
+          break;
+        case 'siczps':
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
+            returnvalue = selectedRecord.codice;
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
           }
@@ -382,6 +419,8 @@ class RegProvAutocomplete extends React.Component {
         case 'den_cmpro':
           if (_record === '<HABITAT>') {
             returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
+            returnvalue = '*';
           } else if (_record === '<REGPROV>') {
             returnvalue = selectedRecord.label;
           }
@@ -389,6 +428,8 @@ class RegProvAutocomplete extends React.Component {
         default:
           if (_record === '<HABITAT>') {
             returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
+            returnvalue = '*';            
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
           }
@@ -461,6 +502,7 @@ class RegProvAutocomplete extends React.Component {
 
       switch (selectedRecord.sublabel) {
         case 'habitat':
+        case 'siczps':
           return (
             <Chip
               key={index}
@@ -514,7 +556,7 @@ class RegProvAutocomplete extends React.Component {
     try {
       componentwhidth = document.getElementById("regprovautocomplete").clientWidth;
       //console.log("RegProvAutocomplete.render() componentwhidth ->", componentwhidth);
-    } catch(ex) {}
+    } catch (ex) { }
 
     return (
       <div id="regprovautocomplete" className={classes.root}>
