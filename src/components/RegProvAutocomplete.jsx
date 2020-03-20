@@ -317,16 +317,17 @@ class RegProvAutocomplete extends React.Component {
         this.handlePermalinkMask(selectedRecord);
         this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
-        // let url = selectedRecord.wfsGetFeaturesUrl;
-        // console.log("RegProvAutocomplete().handleChange() GET", url);
-        // axios.get(url)
-        //   .then((response) => {
-        //     console.log("RegProvAutocomplete().handleChange() response:", JSON.stringify(response.data));
-        //     this.props.addFeatures("regioni_province", response.data.features);
-        //   })
-        //   .catch((error) => {
-        //     console.error(error);
-        //   });
+        let featuresUrl = selectedRecord.wfsGetFeaturesUrl;
+        console.log("RegProvAutocomplete().handleChange() GET", featuresUrl);
+        axios.get(featuresUrl)
+          .then((response) => {
+            console.log("RegProvAutocomplete().handleChange() response:", response.data);
+            this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+            this.props.zoomOut();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
         break;
 
       default:
@@ -346,8 +347,10 @@ class RegProvAutocomplete extends React.Component {
         console.log("RegProvAutocomplete().handleChange() GET", url);
         axios.get(url)
           .then((response) => {
-            console.log("RegProvAutocomplete().handleChange() response:", JSON.stringify(response.data));
+            console.log("RegProvAutocomplete().handleChange() response:", response.data);
             this.props.addFeatures("regioni_province", response.data.features);
+            this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+            this.props.zoomOut();            
           })
           .catch((error) => {
             console.error(error);
