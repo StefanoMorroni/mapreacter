@@ -322,8 +322,10 @@ class RegProvAutocomplete extends React.Component {
         axios.get(featuresUrl)
           .then((response) => {
             console.log("RegProvAutocomplete().handleChange() response:", response.data);
-            this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
-            this.props.zoomOut();
+            setTimeout(() => {
+              this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+              this.props.zoomOut();
+            }, 500);
           })
           .catch((error) => {
             console.error(error);
@@ -349,8 +351,10 @@ class RegProvAutocomplete extends React.Component {
           .then((response) => {
             console.log("RegProvAutocomplete().handleChange() response:", response.data);
             this.props.addFeatures("regioni_province", response.data.features);
-            this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
-            this.props.zoomOut();            
+            setTimeout(() => {
+              this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+              this.props.zoomOut();
+            }, 500);
           })
           .catch((error) => {
             console.error(error);
@@ -432,7 +436,7 @@ class RegProvAutocomplete extends React.Component {
           if (_record === '<HABITAT>') {
             returnvalue = '*';
           } else if (_record === '<SICZPS>') {
-            returnvalue = '*';            
+            returnvalue = '*';
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
           }
