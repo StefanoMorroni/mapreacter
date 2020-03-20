@@ -80,7 +80,7 @@ class TocComponent extends Component {
                                     <div className="toc-container">
                                         <div className="div1"><span className="title">{mylocalizedstrings.layer}</span> </div>
                                         <div className="div2"><span className="title">{mylocalizedstrings.onoff}</span> </div>
-                                        <div className="div3"><span className="title">{mylocalizedstrings.updown}</span> </div>
+                                        <div className="div3"><span className="title">{mylocalizedstrings.fitextent}</span> </div>
                                     </div>
                                 </li>
                             </ul>

@@ -25,7 +25,7 @@ class LayerListItem extends SdkLayerListItem {
 
     let moveButtons = (
       <span className="btn-container" style={{width: '100%'}}>
-        <Button mini className="button"
+        {/* <Button mini className="button"
           onClick={() => {
             this.moveLayerUp();
           }}>
@@ -36,7 +36,7 @@ class LayerListItem extends SdkLayerListItem {
             this.moveLayerDown();
           }}>
           <i className="material-icons">arrow_downward</i>
-        </Button>
+        </Button> */}
         {fitextentbutton}
       </span>
     );
