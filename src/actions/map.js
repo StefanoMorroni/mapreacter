@@ -47,18 +47,21 @@ export const updateLayersWithViewparams = (params) => {
       filter=local.regProvComponent['filter'];
       console.log("map.updateLayersWithViewparams()", filter);
     }    
-    local.mapConfig.layers.forEach((rec, i) => {
-      if (rec.flag_filter) {
+    local.mapConfig.layers
+      .filter(item => item.flag_filter)
+      .forEach((rec, i) => {
         let sourceUrl = encodeURI(local.mapConfig.source + '&viewparams=' + viewparams.join(';') + filter);
         console.log("map.updateLayersWithViewparams()", rec.id, sourceUrl);
         let source = createWMSSourceWithLayerName(sourceUrl, rec.name, rec.styles);
         const sourceId = 'source_' + i + local.mapConfig.viewparams[0] + (Math.floor(Math.random() * 1000) + 1);
         dispatch(mapActions.addSource(sourceId, source));
-        let _layer = Object.assign({source: sourceId}, rec);
-        dispatch(mapActions.updateLayer(rec.id, _layer));
+        //let _layer = Object.assign({source: sourceId}, rec);
+        let { layout, other } = rec;
+        let newlayer = { ...other, source: sourceId };
+        console.log("map.updateLayersWithViewparams() ->", rec, newlayer);
+        dispatch(mapActions.updateLayer(rec.id, newlayer));
         dispatch(mapActions.orderLayer(rec.id));
-      }
-    })
+      });
   }
 }
 
