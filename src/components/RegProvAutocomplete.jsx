@@ -318,17 +318,16 @@ class RegProvAutocomplete extends React.Component {
         this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
         let featuresUrl = selectedRecord.wfsGetFeaturesUrl;
-        console.log("RegProvAutocomplete().handleChange() GET", featuresUrl);
         axios.get(featuresUrl)
           .then((response) => {
-            console.log("RegProvAutocomplete().handleChange() response:", response.data);
+            console.log("RegProvAutocomplete.handleChange() GET", featuresUrl, "response:", response.data);
             setTimeout(() => {
               this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
               this.props.zoomOut();
             }, 500);
           })
           .catch((error) => {
-            console.error(error);
+            console.error("RegProvAutocomplete.handleChange() GET", featuresUrl, error);
           });
         break;
 

@@ -4,7 +4,6 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { types, layerListItemSource, layerListItemTarget, collect, collectDrop } from '@boundlessgeo/sdk/components/layer-list-item';
 import SdkLayerListItem from '@boundlessgeo/sdk/components/layer-list-item';
 import Button from '@material-ui/core/Button';
-//import { fitextent } from '../../actions/map';
 import * as actions from '../../actions/map';
 import * as mapActions from '@boundlessgeo/sdk/actions/map';
 import { viewparams } from '../../actions/map';
@@ -21,8 +20,7 @@ class LayerListItem extends SdkLayerListItem {
       fitextentbutton = (
         <Button className="button"
           onClick={() => {
-            //this.props.dispatch(fitextent(this.props.layer.name));
-
+            
             const featuresUrl = this.props.local.mapConfig.geoserverurl +
               '/ows?service=WFS' +
               '&version=2.0.0' +

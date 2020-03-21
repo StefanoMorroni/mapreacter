@@ -82,15 +82,6 @@ export const setViewParams = (viewparams) => {
   };
 }
 
-export const fitextent = (layername) => {
-  return {
-    type: 'LOCAL.FITEXTENT',
-    payload: {
-      layername: layername
-    }
-  };
-}
-
 export const changerefreshindicator = (refreshIndicator) => {
   return {
     type: 'LOCAL.CHANGEREFRESHINDICATOR',
