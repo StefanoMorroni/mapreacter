@@ -16,7 +16,7 @@ class LayerListItem extends SdkLayerListItem {
       fitextentbutton = (
         <Button className="button"
           onClick={() => {
-            this.props.dispatch(fitextent(this.props.layer.id));
+            this.props.dispatch(fitextent(this.props.layer.name));
           }}>
           <i className="material-icons">fullscreen</i>
         </Button>

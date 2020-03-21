@@ -5,7 +5,7 @@ import FeaturesTable from './FeaturesTable';
 
 export default class WMSPopup extends SdkPopup {
   render() {
-    console.log("WMSPopup.render()", JSON.stringify(this.props.items));
+    console.log("WMSPopup.render()", this.props.items);
     return this.renderPopup(
       <div className="sdk-popup-content">
         <FeaturesTable items={this.props.items} />
