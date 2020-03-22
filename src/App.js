@@ -143,17 +143,15 @@ class App extends Component {
       this._createLayers(this.config.source, this.config.layers);
     }
 
-    const _array = window.location.hash.split("/");
-    const _index = store.getState().local.mapConfig.permalinkmasklength;
-    if (_array.length === _index + 5) {
-      const _map = {
-        center: [Number(_array[_index + 2]), Number(_array[_index + 3])],
-        zoom: Number(_array[_index + 1])
-      };
-      store.dispatch(mapActions.setView(_map.center, _map.zoom));
+    const _array = window.location.hash
+      .split("/")
+      .filter(item => item !== '#');
+    if (_array.length >= store.getState().local.mapConfig.permalinkmasklength + 3) {
+      let center = [Number(_array[store.getState().local.mapConfig.permalinkmasklength + 1]), Number(_array[store.getState().local.mapConfig.permalinkmasklength + 2])];
+      let zoom = Number(_array[store.getState().local.mapConfig.permalinkmasklength]);
+      store.dispatch(mapActions.setView(center, zoom));
     } else if (this.config.map && this.config.map.center) {
-      let zoom = this.config.map.zoom || 2;
-      store.dispatch(mapActions.setView(this.config.map.center, zoom));
+      store.dispatch(mapActions.setView(this.config.map.center, this.config.map.zoom || 2));
     }
 
     store.dispatch(mapActions.addSource('regioni_province', {
