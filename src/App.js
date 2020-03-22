@@ -39,8 +39,6 @@ import './App.css';
 //import {} from 'dotenv/config';
 require('dotenv').config();
 
-var axios = require('axios');
-
 export const themiddleware = store => next => action => {
   switch (action.type) {
     case 'MAPINFO.SET_MOUSE_POSITION':

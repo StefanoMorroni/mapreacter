@@ -55,7 +55,7 @@ export const updateLayersWithViewparams = (params) => {
         let source = createWMSSourceWithLayerName(sourceUrl, rec.name, rec.styles);
         const sourceId = 'source_' + i + local.mapConfig.viewparams[0] + (Math.floor(Math.random() * 1000) + 1);
         dispatch(mapActions.addSource(sourceId, source));
-        //let _layer = Object.assign({source: sourceId}, rec);
+        // eslint-disable-next-line
         let { layout, other } = rec;
         let newlayer = { ...other, source: sourceId };
         console.log("map.updateLayersWithViewparams() ->", rec, newlayer);
