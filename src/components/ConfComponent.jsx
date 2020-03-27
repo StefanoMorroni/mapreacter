@@ -53,7 +53,7 @@ class ConfComponent extends Component {
             if (rec.flag_download) {
                 if (rec['layout']) {
                     if (rec.layout.visibility === 'visible') {
-                        _array.push(rec.id);
+                        _array.push(rec.name);
                     }
                 }
             }
