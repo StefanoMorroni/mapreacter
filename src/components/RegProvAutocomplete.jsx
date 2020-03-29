@@ -133,7 +133,7 @@ class RegProvAutocomplete extends React.Component {
       suggestionsInital: []
     };
 
-    console.log("RegProvAutocomplete() this.state:", JSON.stringify(this.state));
+    console.log("RegProvAutocomplete()", window.location.hash, "this.state:", JSON.stringify(this.state));
 
     const url = this.props.local.mapConfig.regprovsuggestionsurl;
     console.log("RegProvAutocomplete() GET", url);
@@ -173,6 +173,20 @@ class RegProvAutocomplete extends React.Component {
                   //this.handlePermalinkMask(selectedRecord);
                   this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
+                  if (window.location.hash.includes("/6/12/42/")) {
+                    let featuresUrl = selectedRecord.wfsGetFeaturesUrl;
+                    axios.get(featuresUrl)
+                      .then((response) => {
+                        console.log("RegProvAutocomplete() GET", featuresUrl, "response:", response.data);
+                        setTimeout(() => {
+                          this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+                          this.props.zoomOut();
+                        }, 500);
+                      })
+                      .catch((error) => {
+                        console.error("RegProvAutocomplete() GET", featuresUrl, error);
+                      });
+                  }
                 }
               } else if (_record === '<SICZPS>') {
                 if (hasharray[_index] !== '*') {
@@ -196,6 +210,20 @@ class RegProvAutocomplete extends React.Component {
                   //this.handlePermalinkMask(selectedRecord);
                   this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
 
+                  if (window.location.hash.includes("/6/12/42/")) {
+                    let featuresUrl = selectedRecord.wfsGetFeaturesUrl;
+                    axios.get(featuresUrl)
+                      .then((response) => {
+                        console.log("RegProvAutocomplete() GET", featuresUrl, "response:", response.data);
+                        setTimeout(() => {
+                          this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+                          this.props.zoomOut();
+                        }, 500);
+                      })
+                      .catch((error) => {
+                        console.error("RegProvAutocomplete() GET", featuresUrl, error);
+                      });
+                  }
                 }
               } else if (_record === '<REGPROV>') {
                 if (hasharray[_index] !== '*') {
