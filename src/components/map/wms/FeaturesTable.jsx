@@ -67,9 +67,9 @@ function FeaturesTable(props) {
             <CustomTableCell>feature value</CustomTableCell>
           </TableRow>
         </TableHead>
-        {items.map(n => {
+        {items.map((n,index) => {
           return (
-            <TableBody>
+            <TableBody key={index}>
               {featuresTableBody(classes, n.layer, n.features)}
             </TableBody>
           );
