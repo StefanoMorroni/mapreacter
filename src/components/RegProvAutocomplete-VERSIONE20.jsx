@@ -66,15 +66,15 @@ function renderInput(inputProps) {
 
 function getStyle(sublabel) {
   let style = {}
-  if (sublabel === 'siczps') {
+  if (sublabel === 'habitat') {
     style = { backgroundColor: '#fec170', color: 'black' };
-  } else if (sublabel === 'regione') {
+  } else if (sublabel === 'siczps') {
     style = { backgroundColor: '#9e5c05', color: 'black' };
+  } else if (sublabel === 'regione') {
+    style = { backgroundColor: '#feb24c', color: 'black' };
   } else if (sublabel === 'provincia') {
     style = { backgroundColor: '#feb24c', color: 'black' };
   } else if (sublabel === 'den_cmpro') {
-    style = { backgroundColor: '#feb24c', color: 'black' };
-  } else if (sublabel === 'comune') {
     style = { backgroundColor: '#feb24c', color: 'black' };
   }
   return style;
@@ -127,6 +127,8 @@ class RegProvAutocomplete extends React.Component {
     this.state = {
       inputValue: '',
       selectedItem: [],
+      selectedItemRegProv: [],
+      selectedItemGeocoding: [],
       suggestions: [],
       suggestionsInital: []
     };
@@ -149,7 +151,44 @@ class RegProvAutocomplete extends React.Component {
           .split("/")
           .forEach((_record, _index) => {
             try {
-              if (_record === '<SICZPS>') {
+              if (_record === '<HABITAT>') {
+                if (hasharray[_index] !== '*') {
+                  //this.handleChange(hasharray[_index]);
+                  let selectedRecord = this.state.suggestions
+                    .filter(item => item.sublabel === 'habitat')
+                    .filter(item => item.codice === hasharray[_index])[0];
+
+                  let item = selectedRecord.label;
+
+                  console.log("RegProvAutocomplete() selectedRecord -->", selectedRecord);
+
+                  this.setState({
+                    inputValue: '',
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
+                  });
+
+                  //this.props.removeFeatures("regioni_province");
+                  this.props.changeRegProvComponent({ filter: selectedRecord.intersectfilter });
+                  //this.handlePermalinkMask(selectedRecord);
+                  this.props.updateLayersWithViewparams(decodeURIComponent(window.location.hash).replace(/^#\//, '').split("/"));
+
+                  if (window.location.hash.includes("/6/12/42/")) {
+                    let featuresUrl = selectedRecord.wfsGetFeaturesUrl;
+                    axios.get(featuresUrl)
+                      .then((response) => {
+                        console.log("RegProvAutocomplete() GET", featuresUrl, "response:", response.data);
+                        setTimeout(() => {
+                          this.props.fitExtent(response.data.bbox, this.props.mapinfo.size, "EPSG:4326");
+                          this.props.zoomOut();
+                        }, 500);
+                      })
+                      .catch((error) => {
+                        console.error("RegProvAutocomplete() GET", featuresUrl, error);
+                      });
+                  }
+                }
+              } else if (_record === '<SICZPS>') {
                 if (hasharray[_index] !== '*') {
                   //this.handleChange(hasharray[_index]);
                   let selectedRecord = this.state.suggestions
@@ -162,7 +201,8 @@ class RegProvAutocomplete extends React.Component {
 
                   this.setState({
                     inputValue: '',
-                    selectedItem: [item],
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
                   });
 
                   //this.props.removeFeatures("regioni_province");
@@ -189,7 +229,8 @@ class RegProvAutocomplete extends React.Component {
                 if (hasharray[_index] !== '*') {
                   //this.handleChange(hasharray[_index]);
                   let selectedRecord = this.state.suggestions
-                    .filter(item => item.sublabel !== 'siczps')
+                    .filter(item => item.sublabel !== 'habitat')
+                    .filter(item => item.sublabel !== 'geocoding')
                     .filter(item => item.label === hasharray[_index])[0];
 
                   let item = selectedRecord.label;
@@ -198,7 +239,8 @@ class RegProvAutocomplete extends React.Component {
 
                   this.setState({
                     inputValue: '',
-                    selectedItem: [item],
+                    selectedItemRegProv: [item],
+                    selectedItem: [...this.state.selectedItemGeocoding, item],
                   });
 
                   //this.props.removeFeatures("regioni_province");
@@ -241,6 +283,22 @@ class RegProvAutocomplete extends React.Component {
   handleInputChange = event => {
     console.log("RegProvAutocomplete.handleInputChange()", event.target.value);
     this.setState({ inputValue: event.target.value });
+
+    // const url = this.props.local.mapConfig.geocodingurl + event.target.value;
+    // console.log("GET", url);
+    // axios.get(url)
+    //   .then((response) => {
+    //     console.log("response:", JSON.stringify(response.data));
+    //     let _suggestions = response.data.map(_record => {
+    //       _record.label = _record.display_name;
+    //       _record.sublabel = 'geocoding';
+    //       return _record;
+    //     })
+    //     this.setState({ suggestions: this.state.suggestionsInital.concat(_suggestions) });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   };
 
   handleChange = item => {
@@ -250,10 +308,35 @@ class RegProvAutocomplete extends React.Component {
     console.log("RegProvAutocomplete.handleChange() selectedRecord -->", selectedRecord);
 
     switch (selectedRecord.sublabel) {
+      case 'geocoding':
+        this.setState({
+          inputValue: '',
+          selectedItemGeocoding: [item],
+          selectedItem: [...this.state.selectedItemRegProv, item],
+        });
+
+        this.props.removeFeatures("geocoding");
+        this.props.addFeatures("geocoding", selectedRecord.geojson);
+
+        // Nominatim API returns a boundingbox property of the form: south Latitude, north Latitude, west Longitude, east Longitude
+        let _extent = [
+          Number(selectedRecord.boundingbox[2]),
+          Number(selectedRecord.boundingbox[0]),
+          Number(selectedRecord.boundingbox[3]),
+          Number(selectedRecord.boundingbox[1])
+        ];
+        if (_extent[0] !== 0 && _extent[1] !== 0 && _extent[2] !== -1 && _extent[3] !== -1) {
+          this.props.fitExtent(_extent, this.props.mapinfo.size, "EPSG:4326");
+          this.props.zoomOut();
+        }
+        break;
+
+      case 'habitat':
       case 'siczps':
         this.setState({
           inputValue: '',
-          selectedItem: [item],
+          selectedItemRegProv: [item],
+          selectedItem: [...this.state.selectedItemGeocoding, item],
         });
 
         this.props.removeFeatures("regioni_province");
@@ -279,7 +362,8 @@ class RegProvAutocomplete extends React.Component {
       default:
         this.setState({
           inputValue: '',
-          selectedItem: [item],
+          selectedItemRegProv: [item],
+          selectedItem: [...this.state.selectedItemGeocoding, item],
         });
 
         this.props.removeFeatures("regioni_province");
@@ -310,13 +394,23 @@ class RegProvAutocomplete extends React.Component {
     let deletedRecord = this.getSuggestions(item).filter(_record => _record.label === item)[0];
     console.log("RegProvAutocomplete.handleChange() deletedRecord -->", deletedRecord);
 
-    this.setState({
-      selectedItem: [],
-    });
+    if (item === this.state.selectedItemGeocoding[0]) {
+      this.setState({
+        selectedItemGeocoding: [],
+        selectedItem: [...this.state.selectedItemRegProv],
+      });
+      this.props.removeFeatures("geocoding");
 
-    this.props.changeRegProvComponent({});
-    this.handlePermalinkMask();
-    this.props.removeFeatures("regioni_province");
+    } else {
+      this.setState({
+        selectedItemRegProv: [],
+        selectedItem: [...this.state.selectedItemGeocoding],
+      });
+
+      this.props.changeRegProvComponent({});
+      this.handlePermalinkMask();
+      this.props.removeFeatures("regioni_province");
+    }
   };
 
   handlePermalinkMask(selectedRecord = {}) {
@@ -336,8 +430,19 @@ class RegProvAutocomplete extends React.Component {
         returnvalue = '*';
       }
       switch (selectedRecord.sublabel) {
+        case 'habitat':
+          if (_record === '<HABITAT>') {
+            returnvalue = selectedRecord.codice;
+          } else if (_record === '<SICZPS>') {
+            returnvalue = '*';
+          } else if (_record === '<REGPROV>') {
+            returnvalue = '*';
+          }
+          break;
         case 'siczps':
-          if (_record === '<SICZPS>') {
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
             returnvalue = selectedRecord.codice;
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
@@ -346,15 +451,18 @@ class RegProvAutocomplete extends React.Component {
         case 'regione':
         case 'provincia':
         case 'den_cmpro':
-        case 'comune':
-          if (_record === '<SICZPS>') {
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
             returnvalue = '*';
           } else if (_record === '<REGPROV>') {
             returnvalue = selectedRecord.label;
           }
           break;
         default:
-          if (_record === '<SICZPS>') {
+          if (_record === '<HABITAT>') {
+            returnvalue = '*';
+          } else if (_record === '<SICZPS>') {
             returnvalue = '*';
           } else if (_record === '<REGPROV>') {
             returnvalue = '*';
@@ -384,28 +492,39 @@ class RegProvAutocomplete extends React.Component {
     this.props.history.push(permalinkmask);
   }
 
+  _getSuggestions(inputValue) {
+    console.log("RegProvAutocomplete.getSuggestions()", inputValue);
+    let count = 0;
+
+    return this.state.suggestions.filter(suggestion => {
+      const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1) && count < 12;
+      if (keep) {
+        count += 1;
+      }
+      return keep;
+    });
+  }
+
   getSuggestions(inputValue) {
     //console.log("RegProvAutocomplete.getSuggestions()", inputValue);
 
-    // mostro i primi 5 sic-zps che rientrano nel filtro
-    let array1 = this.state.suggestions
-      .filter(item => item.sublabel === 'siczps')
+    let habitatArr = this.state.suggestions
+      .filter(item => item.sublabel === 'habitat')
       .filter(suggestion => {
         const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
         return keep;
       })
       .slice(0, 5);
 
-    // ed altri 5 elementi tra regioni, province e comuni
-    let array2 = this.state.suggestions
-      .filter(item => item.sublabel !== 'siczps')
+    let tassonomiaArr = this.state.suggestions
+      .filter(item => item.sublabel !== 'habitat')
       .filter(suggestion => {
         const keep = (!inputValue || suggestion.label.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1);
         return keep;
       })
       .slice(0, 5);
 
-    return array1.concat(array2);
+    return habitatArr.concat(tassonomiaArr);
   }
 
   getChip(item, index, classes) {
@@ -416,12 +535,25 @@ class RegProvAutocomplete extends React.Component {
       style = getStyle(selectedRecord.sublabel);
 
       switch (selectedRecord.sublabel) {
+        case 'habitat':
         case 'siczps':
           return (
             <Chip
               key={index}
               tabIndex={-1}
               label={selectedRecord.codice}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+        case 'regione':
+        case 'provincia':
+        case 'den_cmpro':
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={item}
               className={classes.chip}
               onDelete={this.handleDelete(item)}
               style={style}
