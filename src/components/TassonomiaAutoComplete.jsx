@@ -152,7 +152,7 @@ class TassonomiaAutoComplete extends React.Component {
             try {
               console.log("TassonomiaAutoComplete()", index, item, hasharray[index]);
               if (item === '<ORDER1>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[0],
@@ -161,7 +161,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<FAMILY1>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[1],
@@ -170,7 +170,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<GENUS1>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[2],
@@ -179,7 +179,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<SPECIES1>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[3],
@@ -188,7 +188,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<PROVIDER1>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[4],
@@ -197,7 +197,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<ORDER2>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[0],
@@ -206,7 +206,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<FAMILY2>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[1],
@@ -215,7 +215,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<GENUS2>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[2],
@@ -224,7 +224,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<SPECIES2>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[3],
@@ -233,7 +233,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<PROVIDER2>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
                     routingrecord: this.props.local.mapConfig.routing[4],
@@ -242,7 +242,7 @@ class TassonomiaAutoComplete extends React.Component {
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
               } else if (item === '<HABITAT>') {
-                if (hasharray[index] !== '*') {
+                if (hasharray[index] && hasharray[index] !== '*') {
                   let thehabitat = this.state.habitat.filter(item => item.codice === hasharray[index])[0];
                   selectedItem = [...selectedItem, thehabitat.descrizione];
                   let _selectedRecord = {
@@ -320,37 +320,23 @@ class TassonomiaAutoComplete extends React.Component {
   handleChange = item => {
     let { selectedItem, selectedRecord, suggestions } = this.state;
 
-    if (selectedItem.indexOf(item) === -1) {
-      selectedItem = [...selectedItem, item];
-    }
-
-    if (selectedItem.length > 2) {
-      selectedItem = selectedItem.slice(1, 3);
-    }
-
-    this.setState({
-      inputValue: '',
-      selectedItem,
-    });
-
-    let _selectedRecord = suggestions.filter(_record => _record.label === item)[0];
-    //this.props.history.push(_selectedRecord.routingrecord.routinglevel + _selectedRecord.label);
-    selectedRecord = [...selectedRecord, _selectedRecord];
+    let newRecord = suggestions.filter(_record => _record.label === item)[0];
+    selectedRecord = [...selectedRecord, newRecord];
     if (selectedRecord.length > 2) {
       selectedRecord = selectedRecord.slice(1, 3);
     }
-    this.setState({ selectedRecord });
+    selectedItem = selectedRecord.map(item => item.label);
+    this.setState({ inputValue: '', selectedRecord, selectedItem });
+
     console.log("TassonomiaAutoComplete.handleChange()", JSON.stringify(selectedRecord));
     this.handlePermalinkMask(selectedRecord);
   };
 
   handleDelete = item => () => {
-    const selectedItem = [...this.state.selectedItem];
-    selectedItem.splice(selectedItem.indexOf(item), 1);
-    this.setState({ selectedItem });
-    const selectedRecord = this.state.selectedRecord.filter(_record => _record.label !== item);
-    this.setState({ selectedRecord });
     console.log("TassonomiaAutoComplete.handleDelete()", item);
+    let selectedRecord = this.state.selectedRecord.filter(record => record.label !== item);
+    let selectedItem = selectedRecord.map(record => record.label);
+    this.setState({ selectedRecord, selectedItem });
     this.handlePermalinkMask(selectedRecord);
   };
 
