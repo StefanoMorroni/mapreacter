@@ -35,7 +35,7 @@
         center: [12, 42],
         zoom: 6
       },
-      viewparams: ['ordo', 'family', 'genus', 'canonicalname', 'provider', 'ordo2', 'family2', 'genus2', 'canonicalname2', 'provider2'],
+      viewparams: ['ordo', 'family', 'genus', 'canonicalname', 'notused', 'ordo2', 'family2', 'genus2', 'canonicalname2', 'provider'],
       source: 'http://geoviewer.nnb.isprambiente.it/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
       groups: {
         'mapbox:groups': {
@@ -436,7 +436,7 @@
       regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/regprov',
       habitatsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/habitat',
       geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
-      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<SICZPS>/<HABITAT>/<REGPROV>',
+      permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<NOTUSED>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER>/<SICZPS>/<HABITAT>/<REGPROV>',
       permalinkmasklength: 13,
       tassonomialength: 5,
 
@@ -445,7 +445,7 @@
         { field: 'family', label: 'familylabel', mask: '<FAMILYxx>' },
         { field: 'genus', label: 'genuslabel', mask: '<GENUSxx>' },
         { field: 'canonicalname', label: 'specielabel', mask: '<SPECIESxx>' },
-        { field: 'provider', label: 'providerlabel', mask: '<PROVIDERxx>' },
+        { field: 'provider', label: 'providerlabel', mask: '<PROVIDER>' },
         { field: 'habitat', label: 'habitatlabel', mask: '<HABITAT>' },
       ],
       wpsserviceurl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?strict:true',

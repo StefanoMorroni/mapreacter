@@ -187,15 +187,6 @@ class TassonomiaAutoComplete extends React.Component {
                   };
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
-              } else if (item === '<PROVIDER1>') {
-                if (hasharray[index] && hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[4],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
               } else if (item === '<ORDER2>') {
                 if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
@@ -232,7 +223,7 @@ class TassonomiaAutoComplete extends React.Component {
                   };
                   selectedRecord = [...selectedRecord, _selectedRecord];
                 }
-              } else if (item === '<PROVIDER2>') {
+              } else if (item === '<PROVIDER>') {
                 if (hasharray[index] && hasharray[index] !== '*') {
                   selectedItem = [...selectedItem, hasharray[index]];
                   let _selectedRecord = {
@@ -318,17 +309,31 @@ class TassonomiaAutoComplete extends React.Component {
   };
 
   handleChange = item => {
+    console.log("TassonomiaAutoComplete.handleChange()", item);
     let { selectedItem, selectedRecord, suggestions } = this.state;
 
     let newRecord = suggestions.filter(_record => _record.label === item)[0];
-    selectedRecord = [...selectedRecord, newRecord];
-    if (selectedRecord.length > 2) {
-      selectedRecord = selectedRecord.slice(1, 3);
+    if (newRecord.routingrecord.mask === '<HABITAT>') {
+      let otherRecord = selectedRecord.filter(record => record.routingrecord.mask !== '<HABITAT>');
+      selectedRecord = [...otherRecord, newRecord];
+
+    } else if (newRecord.routingrecord.mask === '<PROVIDER>') {
+      let otherRecord = selectedRecord.filter(record => record.routingrecord.mask !== '<PROVIDER>');
+      selectedRecord = [...otherRecord, newRecord];
+
+    } else {
+      let tassonomiaRecord = selectedRecord.filter(record => record.routingrecord.mask !== '<PROVIDER>' && record.routingrecord.mask !== '<HABITAT>');
+      let otherRecord = selectedRecord.filter(record => record.routingrecord.mask === '<PROVIDER>' || record.routingrecord.mask === '<HABITAT>');
+      tassonomiaRecord = [...tassonomiaRecord, newRecord];
+      if (tassonomiaRecord.length > 2) {
+        tassonomiaRecord = tassonomiaRecord.slice(1, 3);
+      }
+      selectedRecord = [...tassonomiaRecord, ...otherRecord];
     }
+
     selectedItem = selectedRecord.map(item => item.label);
     this.setState({ inputValue: '', selectedRecord, selectedItem });
 
-    console.log("TassonomiaAutoComplete.handleChange()", JSON.stringify(selectedRecord));
     this.handlePermalinkMask(selectedRecord);
   };
 
