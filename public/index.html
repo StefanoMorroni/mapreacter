@@ -371,54 +371,54 @@
           flag_download: true,
           //class: 'dataLayer',
         },*/
-        {
-          id: 'Citizen Science',
-          name: 'nnb:citizen_science_nnb',
-          metadata: {
-            'mapbox:group': 'osservazioni',
-            'bnd:queryable': true
-          },
-          description: "<span class='description'>Osservazioni puntuali di Citizen Science</span>",
-          layout: { visibility: 'visible' },
-          flag_fitextent: true,
-          flag_filter: true,
-          flag_legend: true,
-          flag_download: true,
-          //class: 'dataLayer',
-        },        
-        {
-          id: 'Distribuzioni',
-          name: 'nnb:distribuzioniweb_polig',
-          metadata: {
-            'mapbox:group': 'osservazioni',
-            'bnd:queryable': true
-          },
-          description: "<span class='description'>Osservazioni con griglia</span>",
-          layout: { visibility: 'visible' },
-          flag_fitextent: true,
-          flag_filter: true,
-          flag_legend: true,
-          flag_download: true,
-          //class: 'dataLayer',
-        },
-        {
-          id: 'Osservazioni_Regione_Provincia_Comune',
-          name: 'nnb:osservazioniweb_polig',
-          metadata: {
-            'mapbox:group': 'osservazioni',
-            'bnd:queryable': true
-          },
-          description: "<span class='description'>Osservazioni di presenza/assenza sul territorio Nazionale, Regionale e Provinciale</span>",
-          layout: { visibility: 'visible' },
-          flag_fitextent: true,
-          flag_filter: true,
-          flag_legend: true,
-          flag_download: true,
-          //class: 'dataLayer',
-        },
+        // {
+        //   id: 'Citizen Science',
+        //   name: 'nnb:citizen_science_nnb',
+        //   metadata: {
+        //     'mapbox:group': 'osservazioni',
+        //     'bnd:queryable': true
+        //   },
+        //   description: "<span class='description'>Osservazioni puntuali di Citizen Science</span>",
+        //   layout: { visibility: 'visible' },
+        //   flag_fitextent: true,
+        //   flag_filter: true,
+        //   flag_legend: true,
+        //   flag_download: true,
+        //   //class: 'dataLayer',
+        // },        
+        // {
+        //   id: 'Distribuzioni',
+        //   name: 'nnb:distribuzioniweb_polig',
+        //   metadata: {
+        //     'mapbox:group': 'osservazioni',
+        //     'bnd:queryable': true
+        //   },
+        //   description: "<span class='description'>Osservazioni con griglia</span>",
+        //   layout: { visibility: 'visible' },
+        //   flag_fitextent: true,
+        //   flag_filter: true,
+        //   flag_legend: true,
+        //   flag_download: true,
+        //   //class: 'dataLayer',
+        // },
+        // {
+        //   id: 'Osservazioni_Regione_Provincia_Comune',
+        //   name: 'nnb:osservazioniweb_polig',
+        //   metadata: {
+        //     'mapbox:group': 'osservazioni',
+        //     'bnd:queryable': true
+        //   },
+        //   description: "<span class='description'>Osservazioni di presenza/assenza sul territorio Nazionale, Regionale e Provinciale</span>",
+        //   layout: { visibility: 'visible' },
+        //   flag_fitextent: true,
+        //   flag_filter: true,
+        //   flag_legend: true,
+        //   flag_download: true,
+        //   //class: 'dataLayer',
+        // },
         {
           id: 'Osservazioni Puntuali',
-          name: 'nnb:osservazioniweb_point',
+          name: 'nnb:osservazioniweb_point_stf',
           metadata: {
             'mapbox:group': 'osservazioni',
             'bnd:queryable': true
@@ -434,6 +434,7 @@
       ],
       tassonomiaserviceurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/tassonomia?name=',
       regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/regprov',
+      habitatsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/habitat',
       geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
       permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<PROVIDER1>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER2>/<SICZPS>/<HABITAT>/<REGPROV>',
       permalinkmasklength: 13,
@@ -445,6 +446,7 @@
         { field: 'genus', label: 'genuslabel', mask: '<GENUSxx>' },
         { field: 'canonicalname', label: 'specielabel', mask: '<SPECIESxx>' },
         { field: 'provider', label: 'providerlabel', mask: '<PROVIDERxx>' },
+        { field: 'habitat', label: 'habitatlabel', mask: '<HABITAT>' },
       ],
       wpsserviceurl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?strict:true',
       downloadCSVUrl: 'http://geoviewer.nnb.isprambiente.it/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=CSV&typeName=<LAYER>&viewparams=<VIEWPARAMS>',
@@ -466,6 +468,7 @@
           genuslabel: 'Genere',
           specielabel: 'Specie',
           providerlabel: 'Provider',
+          habitatlabel: 'Habitat',
           line: 'Linea',
           polygon: 'Poligono',
           layer: 'Layer',
@@ -511,6 +514,7 @@
           genuslabel: 'Genus',
           specielabel: 'Species',
           providerlabel: 'Provider',
+          habitatlabel: 'Habitat',
           line: 'Line',
           polygon: 'Polygon',
           layer: 'Layer',

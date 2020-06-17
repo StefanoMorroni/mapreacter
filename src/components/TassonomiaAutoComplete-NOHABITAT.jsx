@@ -65,7 +65,7 @@ function renderInput(inputProps) {
 
 function getStyle(sublabel) {
   console.log("TassonomiaAutoComplete.getStyle()", sublabel);
-  let style = {}
+  let style = { }
   if (sublabel === 'ordo') {
     style = { backgroundColor: '#FEB24C', color: 'black' };
   } else if (sublabel === 'family') {
@@ -76,8 +76,6 @@ function getStyle(sublabel) {
     style = { backgroundColor: '#FED7A4', color: 'black' };
   } else if (sublabel === 'provider') {
     style = { backgroundColor: '#FEDFB6', color: 'black' };
-  } else if (sublabel === 'habitat') {
-    style = { backgroundColor: '#EBD7BE', color: 'black' };
   }
   return style;
 }
@@ -123,148 +121,30 @@ class TassonomiaAutoComplete extends React.Component {
 
   constructor(props) {
     super(props);
+    let selectedItem = [];
+    let selectedRecord = [];  
+    decodeURIComponent(window.location.hash)
+      .replace(/#\//, '')
+      .split('/')
+      .filter((item, index) => index < (this.props.local.mapConfig.tassonomialength * 2))
+      .forEach((item, index) => {
+        if (item !== '*' && item !== '') {
+          selectedItem = [...selectedItem, item];
+          let _selectedRecord = {
+            routingrecord: this.props.local.mapConfig.routing[index % this.props.local.mapConfig.tassonomialength],
+            label: item,
+          };
+          console.log("TassonomiaAutoComplete()", JSON.stringify(_selectedRecord));
+          selectedRecord = [...selectedRecord, _selectedRecord];
+        }
+      });
     this.state = {
       inputValue: '',
-      selectedItem: [],
-      selectedRecord: [],
-      suggestions: [],
-      habitat: [],
+      selectedItem: selectedItem,
+      selectedRecord: selectedRecord,
+      suggestions: []
     };
-
-    const url = this.props.local.mapConfig.habitatsuggestionsurl;
-    console.log("TassonomiaAutoComplete() GET", url);
-    axios.get(url)
-      .then((response) => {
-        console.log("TassonomiaAutoComplete() response:", response.data);
-        this.setState({ habitat: response.data.habitat });
-
-        let selectedItem = [];
-        let selectedRecord = [];
-
-        const hasharray = decodeURIComponent(window.location.hash)
-          .replace(/^#\//, '')
-          .split("/");
-
-        this.props.local.mapConfig.permalinkmask
-          .replace(/^\//, '')
-          .split("/")
-          .forEach((item, index) => {
-            try {
-              console.log("TassonomiaAutoComplete()", index, item, hasharray[index]);
-              if (item === '<ORDER1>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[0],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<FAMILY1>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[1],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<GENUS1>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[2],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<SPECIES1>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[3],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<PROVIDER1>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[4],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<ORDER2>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[0],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<FAMILY2>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[1],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<GENUS2>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[2],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<SPECIES2>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[3],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<PROVIDER2>') {
-                if (hasharray[index] !== '*') {
-                  selectedItem = [...selectedItem, hasharray[index]];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[4],
-                    label: hasharray[index],
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              } else if (item === '<HABITAT>') {
-                if (hasharray[index] !== '*') {
-                  let thehabitat = this.state.habitat.filter(item => item.codice === hasharray[index])[0];
-                  selectedItem = [...selectedItem, thehabitat.descrizione];
-                  let _selectedRecord = {
-                    routingrecord: this.props.local.mapConfig.routing[5],
-                    label: thehabitat.descrizione,
-                    codice: thehabitat.codice,
-                  };
-                  selectedRecord = [...selectedRecord, _selectedRecord];
-                }
-              }
-            } catch (error) {
-            }
-          });
-
-        this.setState({ selectedItem, selectedRecord });
-        console.log("TassonomiaAutoComplete() this.state:", this.state);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-
+    console.log("TassonomiaAutoComplete() this.state:", JSON.stringify(this.state));
   }
 
   handleKeyDown = event => {
@@ -285,32 +165,21 @@ class TassonomiaAutoComplete extends React.Component {
     console.log("GET", url);
     axios.get(url, { params: { ...this.props.local.options } })
       .then((response) => {
-        console.log("response:", response.data);
-        const suggestions = [];
-        this.props.local.mapConfig.routing
-          .forEach(routingrecord => {
-            if (response.data[routingrecord.field]) {
-              response.data[routingrecord.field]
-                .forEach(item => {
-                  suggestions.push({
-                    routingrecord: routingrecord,
-                    label: item,
-                  });
+        console.log("response:", JSON.stringify(response.data));
+        const _datasource = [];
+        this.props.local.mapConfig.routing.forEach(routingrecord => {
+          if (response.data[routingrecord.field]) {
+            if (response.data[routingrecord.field].length > 0) {
+              response.data[routingrecord.field].forEach(element => {
+                _datasource.push({
+                  routingrecord: routingrecord,
+                  label: element,
                 });
+              });
             }
-          });
-        // aggiungo gli habitat ai suggestions
-        this.state.habitat
-          .filter(item => item.descrizione.toUpperCase().indexOf(this.state.inputValue.toUpperCase()) >= 0)
-          .forEach(item => {
-            suggestions.push({
-              routingrecord: this.props.local.mapConfig.routing[5],
-              label: item.descrizione,
-              codice: item.codice,
-            });
-          });
-
-        this.setState({ suggestions });
+          }
+        });
+        this.setState({ suggestions: _datasource });
       })
       .catch((error) => {
         console.error(error);
@@ -355,7 +224,7 @@ class TassonomiaAutoComplete extends React.Component {
   };
 
   handlePermalinkMask(selectedRecord) {
-    console.log("TassonomiaAutoComplete.handlePermalinkMask()", selectedRecord);
+    console.log("TassonomiaAutoComplete.handlePermalinkMask()", JSON.stringify(selectedRecord));
     let permalinkmask = this.props.local.mapConfig.permalinkmask.replace(/^\//, '');
     let thehash = decodeURIComponent(window.location.hash).replace(/^#\//, '');
     console.log("TassonomiaAutoComplete.handlePermalinkMask() permalinkmask:", permalinkmask, "window.location.hash:", thehash);
@@ -365,24 +234,21 @@ class TassonomiaAutoComplete extends React.Component {
 
     _permalinkmaskarray = _permalinkmaskarray.map((_record, _index) => {
       let returnvalue = '*';
-      if (_record === '<SICZPS>') {
+      if (_record === '<HABITAT>') {
+        returnvalue = _locationarray[_index];
+      } else if (_record === '<SICZPS>') {
         returnvalue = _locationarray[_index];
       } else if (_record === '<REGPROV>') {
         returnvalue = _locationarray[_index];
-      } else {
-        selectedRecord.forEach((_selectedRecord, _selectedRecordIndex) => {
-          let _mask = _selectedRecord.routingrecord.mask.replace(/xx/g, '' + (_selectedRecordIndex + 1));
-          if (_record === _mask) {
-            if (_selectedRecord.codice) {
-              returnvalue = _selectedRecord.codice;
-            } else if (_selectedRecord.label) {
-              returnvalue = _selectedRecord.label;
-            } else {
-              returnvalue = '*';
-            }
-          }
-        });
       }
+
+      selectedRecord.forEach((_selectedRecord, _selectedRecordIndex) => {
+        let _mask = _selectedRecord.routingrecord.mask.replace(/xx/g, '' + (_selectedRecordIndex + 1));
+        if (_record === _mask) {
+          returnvalue = _selectedRecord.label ? _selectedRecord.label : '*';
+        }
+      });
+
       console.log("TassonomiaAutoComplete.handlePermalinkMask() sostituisco", _record, "con", returnvalue);
       return returnvalue;
     });
@@ -442,7 +308,7 @@ class TassonomiaAutoComplete extends React.Component {
     try {
       componentwhidth = document.getElementById("regprovautocomplete").clientWidth;
       //console.log("TassonomiaAutoComplete.render() componentwhidth ->", componentwhidth);
-    } catch (ex) { }
+    } catch(ex) {}
 
     return (
       <div id="tassonomiaautocomplete" className={classes.root}>
@@ -462,13 +328,13 @@ class TassonomiaAutoComplete extends React.Component {
                   InputProps: getInputProps({
                     startAdornment: selectedItem.map((item, index, self) => (
                       this.getChip(item, index, classes)
-                    )),
+                    )),                    
                     onChange: this.handleInputChange,
                     onKeyDown: this.handleKeyDown,
                     placeholder: `${mylocalizedstrings.tassonomialabel}`,
                     id: 'integration-downshift-multiple',
                     multiline: componentwhidth < 170 ? true : false,
-                    rows: 2,
+                    rows: 2,               
                   }),
                 })}
                 {isOpen ? (
