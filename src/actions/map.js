@@ -9,44 +9,22 @@ export const updateLayersWithViewparams = (params) => {
   return function (dispatch, getState) {
     const { local } = getState();
 
-    let permalinkmask = local.mapConfig.permalinkmask.replace(/^\//, '');    
+    let permalinkmask = local.mapConfig.permalinkmask.replace(/^\//, '');
     let permalinkmaskarray = permalinkmask.split("/");
-    
+
     viewparams.length = 0;
-    for (let i = 0; i < local.mapConfig.tassonomialength * 2; i++) {
-      if (params[i]) {
-        let paramEscaped = params[i].replace(",", "\\,").replace(";", "\\;");
-        if (local.mapConfig.viewparams[i]) {
-          let _item = local.mapConfig.viewparams[i] + ':' + paramEscaped;
-          console.log("map.updateLayersWithViewparams() aggiungo ", _item);
-          viewparams.push(_item);
-        }
-      }
-    }
 
-    permalinkmaskarray.forEach((item, index) => {
-      //console.log("map.updateLayersWithViewparams() item->", item, "index->",index);
-      if (item === '<HABITAT>') {
-        try {
-          let param = 'cod_habitat:' + params[index];
-          console.log("map.updateLayersWithViewparams() aggiungo ", param);
-          viewparams.push(param);
-        } catch (err) { }
-      }
-      if (item === '<SICZPS>') {
-        try {
-          let param = 'codice_siczps:' + params[index];
-          console.log("map.updateLayersWithViewparams() aggiungo ", param);
-          viewparams.push(param);
-        } catch (err) { }
-      }
-    })
+    local.mapConfig.viewparams.forEach((item, index) => {
+      let param = item + ':' + params[index];
+      console.log("map.updateLayersWithViewparams() aggiungo ", param);
+      viewparams.push(param);
+    });
 
-    let filter='';
+    let filter = '';
     if (local.regProvComponent['filter']) {
-      filter=local.regProvComponent['filter'];
+      filter = local.regProvComponent['filter'];
       console.log("map.updateLayersWithViewparams()", filter);
-    }    
+    }
     local.mapConfig.layers
       .filter(item => item.flag_filter)
       .forEach((rec, i) => {

@@ -61,17 +61,14 @@ export const themiddleware = store => next => action => {
   switch (action.type) {
     case 'MAP_SET_VIEW':
       if (store.getState().local['viewparams']) {
-        //const _index = store.getState().local.mapConfig.routing.length;
-        const _index = store.getState().local.mapConfig.permalinkmasklength;
         const _array = store.getState().local.viewparams.split("/");
-        while (_array.length < (_index + store.getState().local.mapConfig.tassonomialength)) {
+        while (_array.length < store.getState().local.mapConfig.permalinkmasklength) {
           _array.push('*');
         }
-
-        _array[_index] = store.getState().map.zoom;
-        _array[_index + 1] = '' + Math.round(store.getState().map.center[0] * 100) / 100;
-        _array[_index + 2] = '' + Math.round(store.getState().map.center[1] * 100) / 100;
-        _array[_index + 3] = store.getState().map.bearing;
+        _array[store.getState().local.mapConfig.permalinkmasklength] = store.getState().map.zoom;
+        _array[store.getState().local.mapConfig.permalinkmasklength + 1] = '' + Math.round(store.getState().map.center[0] * 100) / 100;
+        _array[store.getState().local.mapConfig.permalinkmasklength + 2] = '' + Math.round(store.getState().map.center[1] * 100) / 100;
+        _array[store.getState().local.mapConfig.permalinkmasklength + 3] = store.getState().map.bearing;
         const thehash = '#/' + _array.join('/');
         console.log('themiddleware()', thehash);
         window.history.pushState(thehash, 'map', thehash);

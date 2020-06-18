@@ -35,7 +35,6 @@
         center: [12, 42],
         zoom: 6
       },
-      viewparams: ['ordo', 'family', 'genus', 'canonicalname', 'notused', 'ordo2', 'family2', 'genus2', 'canonicalname2', 'provider'],
       source: 'http://geoviewer.nnb.isprambiente.it/geoserver/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image/png&TRANSPARENT=true',
       groups: {
         'mapbox:groups': {
@@ -436,9 +435,9 @@
       regprovsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/regprov',
       habitatsuggestionsurl: 'http://geoviewer.nnb.isprambiente.it/MyRestServer/v2/habitat',
       geoserverurl: 'http://geoviewer.nnb.isprambiente.it/geoserver',
+      viewparams: ['ordo', 'family', 'genus', 'canonicalname', 'notused', 'ordo2', 'family2', 'genus2', 'canonicalname2', 'provider', 'codice_siczps', 'cod_habitat'],
       permalinkmask: '/<ORDER1>/<FAMILY1>/<GENUS1>/<SPECIES1>/<NOTUSED>/<ORDER2>/<FAMILY2>/<GENUS2>/<SPECIES2>/<PROVIDER>/<SICZPS>/<HABITAT>/<REGPROV>',
       permalinkmasklength: 13,
-      tassonomialength: 5,
 
       routing: [
         { field: 'ordo', label: 'orderlabel', mask: '<ORDERxx>' },
