@@ -95,14 +95,17 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       selected={isHighlighted}
       component="div"
       style={{
+        //height: 'max-content',
+        height: '30%',
+        maxHeight: 'unset',        
         fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
-      <Typography variant="subheading" style={{ color: 'black' }}>
+      <Typography variant="subheading" style={{ color: 'black', whiteSpace: 'pre-wrap' }}>
         {suggestion.label}
       </Typography>
       &nbsp;
-      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black' }}>
+      <Typography variant="caption" style={{ fontStyle: 'italic', color: 'black', whiteSpace: 'pre-wrap' }}>
         {mylocalizedstrings.getString(suggestion.routingrecord.label, mylocalizedstrings.getLanguage())}
       </Typography>
     </MenuItem>
