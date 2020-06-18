@@ -9,9 +9,6 @@ export const updateLayersWithViewparams = (params) => {
   return function (dispatch, getState) {
     const { local } = getState();
 
-    let permalinkmask = local.mapConfig.permalinkmask.replace(/^\//, '');
-    let permalinkmaskarray = permalinkmask.split("/");
-
     viewparams.length = 0;
 
     local.mapConfig.viewparams.forEach((item, index) => {
