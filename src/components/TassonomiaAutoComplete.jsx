@@ -97,7 +97,7 @@ function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, sele
       style={{
         //height: 'max-content',
         height: '30%',
-        maxHeight: 'unset',        
+        maxHeight: 'unset',
         fontWeight: isSelected ? 500 : 400, ...style
       }}
     >
@@ -415,16 +415,29 @@ class TassonomiaAutoComplete extends React.Component {
     let style = {}
     if (selectedRecord) {
       style = getStyle(selectedRecord.routingrecord.field);
+      switch (selectedRecord.routingrecord.field) {
+        case 'habitat':
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={selectedRecord.codice}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+        default:
+          return (
+            <Chip
+              key={index}
+              tabIndex={-1}
+              label={item}
+              className={classes.chip}
+              onDelete={this.handleDelete(item)}
+              style={style}
+            />);
+      }
     }
-    return (
-      <Chip
-        key={index}
-        tabIndex={-1}
-        label={item}
-        className={classes.chip}
-        onDelete={this.handleDelete(item)}
-        style={style}
-      />);
   }
 
   render() {
