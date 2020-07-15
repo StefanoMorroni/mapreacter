@@ -295,11 +295,11 @@ class TassonomiaAutoComplete extends React.Component {
           });
         // aggiungo gli habitat ai suggestions
         this.state.habitat
-          .filter(item => item.descrizione.toUpperCase().indexOf(this.state.inputValue.toUpperCase()) >= 0)
+          .filter(item => (item.codice + ' ' + item.descrizione).toUpperCase().indexOf(this.state.inputValue.toUpperCase()) >= 0)
           .forEach(item => {
             suggestions.push({
               routingrecord: this.props.local.mapConfig.routing[5],
-              label: item.descrizione,
+              label: item.codice + ' ' + item.descrizione,
               codice: item.codice,
             });
           });
